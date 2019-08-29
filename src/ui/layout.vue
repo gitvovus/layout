@@ -11,19 +11,21 @@
   <div class="main">
     <div class="wrapper">
       <div class="views">
-        <div class="view-wrapper">
-          <div id="view-0" class="view on-top" @click="expandView">
+        <div class="view-slot">
+          <div id="view-0" class="view" @click="expand">
             <div class="row"></div>
             <div class="col"></div>
+            <div class="fit"></div>
             <div class="col"></div>
           </div>
         </div>
-        <div class="view-wrapper"><div id="view-1" class="view" @click="expandView"></div></div>
-        <div class="view-wrapper"><div id="view-2" class="view" @click="expandView"></div></div>
+        <div class="view-slot"><div id="view-1" class="view" @click="expand"></div></div>
+        <div class="view-slot"><div id="view-2" class="view" @click="expand"></div></div>
       </div>
       <div class="view">
         <div class="row"></div>
         <div class="col"></div>
+        <div class="fit"></div>
         <div class="col"></div>
         <div class="col"></div>
       </div>
@@ -31,6 +33,7 @@
     <div class="tools">
       <div class="row"></div>
       <div class="col"></div>
+      <div class="fit"></div>
       <div class="col"></div>
       <div class="col"></div>
     </div>
@@ -42,58 +45,19 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-function transitionStart(e: TransitionEvent) {
-  // console.log((e.target as HTMLElement).id, 'transition start:', e);
-}
-
-function transitionEnd(e: TransitionEvent) {
-  // console.log((e.target as HTMLElement).id, 'transition end:', e);
-}
+import { expandView } from '@/modules/animations';
 
 @Component
 export default class Layout extends Vue {
   private map!: Array<{ view: HTMLElement }>;
+  private wrapper!: HTMLElement;
 
   private mounted() {
-    for (let i = 0; i < 3; ++i) {
-      const view = document.getElementById(`view-${i}`) as HTMLElement;
-      view.addEventListener('transitionstart', transitionStart);
-      view.addEventListener('transitionend', transitionEnd);
-    }
+    this.wrapper = this.$el.getElementsByClassName('wrapper')[0] as HTMLElement;
   }
 
-  private expandView(e: Event) {
-    const el = e.target as HTMLElement;
-
-    let target: HTMLElement;
-    if (el.classList.contains('expanded')) {
-      // from wrapper to parent
-      target = el.parentElement!;
-    } else {
-      // from parent to wrapper
-      target = this.$el.getElementsByClassName('wrapper')[0] as HTMLElement;
-    }
-
-    const targetRect = target.getBoundingClientRect();
-
-    const rect = el.parentElement!.getBoundingClientRect();
-    if (!el.classList.contains(`expand-${el.id}`)) {
-      const style = document.createElement('style');
-      style.className = `expand-${el.id}`;
-      style.innerText = `
-        .expand-${el.id} {
-          position: absolute;
-          left: ${rect.left - targetRect.left}px;
-          top: ${rect.top - targetRect.top}px;
-          right: ${targetRect.left + targetRect.width - rect.left - rect.width}px;
-          bottom: ${targetRect.top + targetRect.height - rect.top - rect.height}px;
-        }
-      `;
-      style.setAttribute('type', 'text/css');
-      document.head.appendChild(style);
-      el.classList.add(style.className);
-      el.classList.toggle('expanded');
-    }
+  private expand(e: Event) {
+    expandView(e.target as HTMLElement, this.wrapper, 0.3);
   }
 }
 </script>
@@ -145,7 +109,7 @@ $alpha: 1;
   min-width: 0;
   min-height: 0;
 }
-.view-wrapper {
+.view-slot {
   flex: 1 1 0;
   display: flex;
   margin: $margin;
@@ -157,22 +121,17 @@ $alpha: 1;
   flex: 3 3 0;
   margin: $margin;
   border: $border rgba(red, $alpha);
+  background-color: transparent;
   overflow: hidden;
+  transition: border 2s, background-color 2s;  
 }
-.on-top {
-  z-index: 1;
-}
-.expanded {
-  position: absolute;
+.view.expanded {
   border: $border rgba(lime, $alpha);
-  background-color: rgba(green, 0.1);
+  background-color: rgba(black, 0.5);
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
-  width: auto;
-  height: auto;
-  transition: all 1s;
 }
 .tools {
   margin: $margin;
@@ -215,6 +174,15 @@ div::after {
   background-color: rgba(black, 0.5);
   &::after {
     content: "250";
+  }
+}
+.fit {
+  height: 50px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: rgba(black, 0.5);
+  &::after {
+    content: "fit";
   }
 }
 .spacer {
