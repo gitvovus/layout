@@ -28,13 +28,15 @@
 
 <script lang="ts">
 import { Observer } from 'mobx-vue';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 
 import * as img from '@/lib/images';
 import { Application } from '@/modules/application';
 
-const s = 10;
-const l = 0xa0;
+const s = 20;
+const l = 0x88;
 const d = 0x80;
 const lite: img.RGBA = [l, l, l, 0xff];
 const dark: img.RGBA = [d, d, d, 0xff];
@@ -62,22 +64,20 @@ export default class App extends Vue {
   visibility: hidden;
 }
 
+.show.floating {
+  visibility: visible;
+}
+
 .effect .floating-panel {
-  transform: scale(0.7);
+  transform: scale(0.5);
   opacity: 0;
   transition: all 0.3s;
 }
 
 .show.effect .floating-panel {
-  visibility: visible;
   transform: scale(1);
   opacity: 1;
 }
-
-.show.effect.floating {
-  visibility: visible;
-}
-
 
 .app-bar {
   position: absolute;

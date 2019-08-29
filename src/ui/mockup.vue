@@ -27,7 +27,9 @@
 
 <script lang="ts">
 import { Observer } from 'mobx-vue';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 import { Application } from '@/modules/application';
 
 @Observer
@@ -58,7 +60,7 @@ export default class Mockup extends Vue {
   box-shadow: $menu-shadow;
   color: white;
   font-size: 16px;
-  z-index: 10;
+  z-index: $z-app;
 }
 .m-main {
   flex: 1 1 0;
@@ -86,15 +88,15 @@ export default class Mockup extends Vue {
 .m-2d {
   width: 100%;
   height: 100%;
-  border: 2px solid white;
+  background-color: rgba(black, 0.125);
 }
 .m-3d {
   width: 100%;
   height: 100%;
-  border: 2px solid red;
+  background-color: rgba(white, 0.125);
 }
 .m-tools {
-  width: 300px;
+  width: 250px;
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;

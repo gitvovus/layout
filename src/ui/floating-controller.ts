@@ -41,7 +41,7 @@ export class Controller {
       pick: this.nwPick,
       drag: this.nwDrag,
       drop: this.nwDrop,
-    },
+    };
     this.nn = {
       el: grid.children[1] as HTMLElement,
       pick: this.nnPick,

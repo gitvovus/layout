@@ -11,18 +11,21 @@
   <div class="l-main">
     <div class="l-views">
       <div class="l-view">
-        <div class="l-long"></div>
-        <div class="l-col"></div>
-        <div class="l-col"></div>
+        <div class="l-row"></div>
         <div class="l-col"></div>
         <div class="l-col"></div>
       </div>
-      <div class="l-view">
-      </div>
+      <div class="l-view"></div>
+      <div class="l-view"></div>
+    </div>
+    <div class="l-view">
+      <div class="l-row"></div>
+      <div class="l-col"></div>
+      <div class="l-col"></div>
+      <div class="l-col"></div>
     </div>
     <div class="l-tools">
       <div class="l-row"></div>
-      <div class="l-col"></div>
       <div class="l-col"></div>
       <div class="l-col"></div>
       <div class="l-col"></div>
@@ -32,7 +35,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
 @Component
 export default class Layout extends Vue {}
@@ -41,7 +45,7 @@ export default class Layout extends Vue {}
 <style lang="scss">
 $l-margin: 1px;
 $l-border: 4px solid;
-$l-alpha: 0.75;
+$l-alpha: 0.5;
 
 .l-root {
   position: absolute;
@@ -77,13 +81,8 @@ $l-alpha: 0.75;
   min-width: 0;
   min-height: 0;
 }
-@media (min-aspect-ratio: 4/3) {
-  .l-views {
-    flex-direction: row;
-  }
-}
 .l-view {
-  flex: 1 1 0;
+  flex: 3 3 0;
   margin: $l-margin;
   border: $l-border rgba(red, $l-alpha);
   overflow: hidden;
@@ -91,8 +90,7 @@ $l-alpha: 0.75;
 .l-tools {
   margin: $l-margin;
   border: $l-border rgba(red, $l-alpha);
-  min-width: 200px;
-  max-width: 300px;
+  width: 250px;
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -113,33 +111,23 @@ div::after {
   }
 }
 .l-row {
-  width: 250px;
+  width: 900px;
   height: 50px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: rgba(black, 0.5);
+  &::after {
+    content: "900";
+  }
+}
+.l-col {
+  width: 50px;
+  height: 250px;
   margin: 5px;
   border-radius: 5px;
   background-color: rgba(black, 0.5);
   &::after {
     content: "250";
-  }
-}
-.l-long {
-  width: 1000px;
-  height: 50px;
-  margin: 5px;
-  border-radius: 5px;
-  background-color: rgba(black, 0.5);
-  &::after {
-    content: "1000";
-  }
-}
-.l-col {
-  width: 50px;
-  height: 150px;
-  margin: 5px;
-  border-radius: 5px;
-  background-color: rgba(black, 0.5);
-  &::after {
-    content: "150";
   }
 }
 .l-spacer {

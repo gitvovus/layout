@@ -17,7 +17,9 @@
 <script lang="ts">
 import { reaction } from 'mobx';
 import { Observer } from 'mobx-vue';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 import { Controller } from '@/ui/floating-controller';
 
 @Observer
