@@ -35,7 +35,7 @@ import { Prop } from 'vue-property-decorator';
 import * as img from '@/lib/images';
 import { Application } from '@/modules/application';
 
-const s = 20;
+const s = 10;
 const l = 0x88;
 const d = 0x80;
 const lite: img.RGBA = [l, l, l, 0xff];

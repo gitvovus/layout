@@ -67,3 +67,12 @@ $w-splitter: 1px solid #a0a0a0;
 .sw-resize { cursor: sw-resize; }
 .ss-resize { cursor: s-resize; }
 .se-resize { cursor: se-resize; }
+
+.expanded {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
