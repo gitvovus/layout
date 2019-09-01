@@ -6,7 +6,7 @@ import { Controls } from '@/modules/controls';
 import { View2d } from '@/modules/view-2d';
 
 export class Application {
-  @observable public page = 0;
+  @observable public page = 2;
   @observable public align = 0; // 0: center, -1: left, 1: right
   @observable public show = false;
   @observable public test = true;

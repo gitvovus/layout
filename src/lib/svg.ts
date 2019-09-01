@@ -36,11 +36,11 @@ export interface Attributes {
 }
 
 export class Item {
-  public readonly symbol = Symbol();
+  public readonly key = Symbol();
   public readonly tag: string;
   @observable public readonly attributes: Attributes = {};
   @observable public text?: string;
-  @observable.shallow public readonly items: Item[] = [];
+  @observable public readonly items: Item[] = [];
   public parent?: Item;
 
   private el?: SVGElement;
@@ -148,12 +148,12 @@ export class Item {
   public mount(el: SVGElement) {
     this.unmount();
     this.el = el;
-    this.events.forEach((events, event) => events.forEach(listener => this.el!.addEventListener(event, listener)));
+    this.events.forEach((listeners, event) => listeners.forEach(listener => this.el!.addEventListener(event, listener)));
   }
 
   public unmount() {
     if (this.el) {
-      this.events.forEach((events, event) => events.forEach(listener => this.el!.removeEventListener(event, listener)));
+      this.events.forEach((listeners, event) => listeners.forEach(listener => this.el!.removeEventListener(event, listener)));
       this.el = undefined;
     }
   }

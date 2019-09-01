@@ -18,13 +18,17 @@
         <div class="view-slot">
           <view-2d :model="model.view2d">
             <div class="anchor right bottom">
-              <ui-button no-focus tabindex="-1" style="{ margin: 0; padding: 0; }" @click="model.view2d.toggleExpanded()">
-                <div class="icon fullscreen"></div>
+              <ui-button no-focus tabindex="-1" class="icon-wrapper" @click="model.view2d.toggleExpanded()">
+                <div class="icon expand"></div>
               </ui-button>
             </div>
           </view-2d>
         </div>
-        <div class="view-slot"><div class="view" @click="toggleExpanded"></div></div>
+        <div class="view-slot">
+          <div class="view" @click="toggleExpanded">
+            <img src="@/assets/less.svg"/>
+          </div>
+        </div>
       </div>
       <div class="view-3d">
         <div class="row"></div>
@@ -34,7 +38,9 @@
         <div class="col"></div>
       </div>
       <div class="m-toggle-views">
-        <btn-toggle dark no-focus v-model="model.views" :check="false" :uncheck="true">{{(model.views ? '&lt;' : '&gt;')}}</btn-toggle>
+        <ui-button dark no-focus tabindex="-1" class="no-margin round icon-wrapper" :toggle="[false, true]" v-model="model.views">
+          <div :class="['icon', model.views ? 'less' : 'more']"></div>
+        </ui-button>
       </div>
     </div>
     <div class="tools">
@@ -79,23 +85,49 @@ export default class Mockup extends Vue {
 <style lang="scss">
 @import '@/style/_vars.scss';
 
+.ui-btn.no-margin {
+  margin: 0;
+}
+
+.ui-btn.icon-wrapper {
+  width: 24px;
+  height: 24px;
+  margin: 3px;
+  padding: 3px;
+  &:hover {
+    padding: 1px;
+  }
+  &:hover:active {
+    padding: 2px;
+  }
+}
+
 .icon {
-  display: inline-block;
+  width: 100%;
+  height: 100%;
   vertical-align: middle;
-  width: 16px;
-  height: 16px;
-  margin: 2px;
   background-color: white;
   mask-position: center;
   mask-repeat: no-repeat;
+  transform: rotate(0);
+  transition: transform 0.3s;
 }
 
-.fullscreen {
-  mask-image: url('~@/assets/fullscreen.svg');
+.expand {
+  mask-image: url('~@/assets/expand.svg');
+}
+
+.less {
+  mask-image: url('~@/assets/less.svg');
+}
+
+.more {
+  mask-image: url('~@/assets/less.svg');
+  transform: rotate(180deg);
 }
 
 .m-dark {
-  background-color: #404040;
+  background-color: $bg-dark;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
@@ -104,7 +136,7 @@ export default class Mockup extends Vue {
   padding: 20px;
 }
 .m-lite {
-  background-color: #e0e0e0;
+  background-color: $bg-lite;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
@@ -113,9 +145,8 @@ export default class Mockup extends Vue {
   padding: 20px;
 }
 .m-toggle-views {
-  background-color: #404040;
+  background-color: $bg-dark;
   border-radius: 50vh;
-  box-shadow: 0 0 5px rgba(black, 0.5);
   position: absolute;
   margin: 5px;
   left: 0;

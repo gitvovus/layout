@@ -7,14 +7,13 @@
     filter: url(#shadow-3d);
   }
   .handle:hover:not([disabled]) {
-    fill: red;
     filter: url(#highlight-3d);
   }
   .handle:focus:not([disabled]) {
     fill: green;
   }
   .handle:active:not([disabled]) {
-    fill: #4080c0;
+    fill: red;
   }
 </style>
 <defs>
@@ -66,6 +65,11 @@
     "/>
 </defs>
 <g id="scene">
+  <path d="M-200 0h400M0 -200v400" stroke="white"/>
+  <circle cx="-100" cy="0" r="5" stroke="none" fill="red"/>
+  <circle cx="100" cy="0" r="5" stroke="none" fill="red"/>
+  <circle cx="0" cy="-100" r="5" stroke="none" fill="red"/>
+  <circle cx="0" cy="100" r="5" stroke="none" fill="red"/>
   <use href="#compass-ring"/>
   <use id="azimuth" href="#compass-arrow" class="handle"/>
 </g>

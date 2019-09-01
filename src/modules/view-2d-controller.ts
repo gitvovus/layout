@@ -2,124 +2,158 @@ import { action, computed, observable, reaction } from 'mobx';
 import * as std from '@/lib/std';
 import * as svg from '@/lib/svg';
 import * as utils from '@/lib/utils';
+import { Camera } from '@/modules/view-2d-camera';
 
-function toSvgMatrix(matrix: std.Matrix2x3) {
+function toSvgTransform(matrix: std.Matrix2x3) {
   const m = matrix.elements;
-  return `matrix(${m[0]} ${m[1]} ${m[2]} ${m[3]} ${m[4]} ${m[5]})`;
+  return `matrix(${m.join(' ')})`;
 }
 
 export class Controller {
   @observable public width = 0;
   @observable public height = 0;
-  @observable public offsetX = 0;
-  @observable public offsetY = 0;
-  @observable public scale = 1;
+  @observable public referenceWidth = 1;
+  @observable public referenceHeight = 1;
 
   private el!: HTMLElement;
   private root!: svg.Item;
   private scene!: svg.Item;
+  private camera: Camera;
 
   private picked = { x: 0, y: 0 };
   private dragging = false;
   private readonly disposers: Array<() => void> = [];
 
-  public constructor(model: svg.Item) {
-    this.root = model;
-    this.scene = model.find('scene')!;
+  public constructor(root: svg.Item, camera: Camera) {
+    this.root = root;
+    this.scene = root.find('scene')!;
+    this.camera = camera;
   }
 
-  @computed public get transform() {
-    return std.Matrix2x3.translation(this.offsetX, this.offsetY).multiply(std.Matrix2x3.scale(this.scale));
+  @action public reset = () => {
+    this.camera.scale = new std.Vector2(1, 1);
+    this.camera.position = new std.Vector2(0, 0);
+  }
+
+  @action public setReferenceSize(width: number, height: number) {
+    this.referenceWidth = width;
+    this.referenceHeight = height;
   }
 
   @computed public get viewBox() {
-    return `0 0 ${this.width} ${this.height}`;
+    return `${-this.width / 2} ${-this.height / 2} ${this.width} ${this.height}`;
   }
 
   @computed public get viewTransform() {
-    return std.Matrix2x3.translation(this.width / 2, this.height / 2);
+    return std.Matrix2x3.translation(new std.Vector2(this.width / 2, this.height / 2));
   }
 
   public mount(el: HTMLElement) {
     this.el = el;
     this.disposers.push(
-      utils.addElementEventListener(this.el, 'pointerdown', this.pick),
-      utils.addElementEventListener(this.el, 'pointermove', this.drag),
-      utils.addElementEventListener(this.el, 'pointerup', this.drop),
-      utils.addElementEventListener(this.el, 'wheel', this.wheel),
-      utils.addWindowEventListener('resize', this.resize),
+      // utils.addElementEventListener(this.el, 'pointerdown', this.pick),
+      // utils.addElementEventListener(this.el, 'pointermove', this.drag),
+      // utils.addElementEventListener(this.el, 'pointerup', this.drop),
+      // utils.addElementEventListener(this.el, 'wheel', this.wheel),
+      this.trackResize(this.updateViewport),
       reaction(
-        () => [this.viewBox, this.transform],
-        () => this.update(),
+        () => [this.referenceWidth, this.referenceHeight],
+        this.updateViewport,
+        { fireImmediately: true },
+      ),
+      reaction(
+        () => this.camera.transform,
+        this.updateScene,
         { fireImmediately: true },
       ),
     );
-    this.resize();
   }
 
   public unmount() {
+    this.el = undefined!;
     this.disposers.forEach(disposer => disposer());
     this.disposers.length = 0;
   }
 
-  @action public reset = () => {
-    this.scale = 1;
-    this.offsetX = 0;
-    this.offsetY = 0;
-  }
+  // @action public zoom(x: number, y: number, k: number) {
+  //   const dx = (x - this.offsetX) / this.scale;
+  //   const dy = (y - this.offsetY) / this.scale;
+  //   this.scale = std.clamp(this.scale * k, 0.25, 4);
+  //   this.move(x - dx * this.scale, y - dy * this.scale);
+  // }
 
-  @action public zoom(x: number, y: number, k: number) {
-    const dx = (x - this.offsetX) / this.scale;
-    const dy = (y - this.offsetY) / this.scale;
-    this.scale = std.clamp(this.scale * k, 0.25, 4);
-    this.move(x - dx * this.scale, y - dy * this.scale);
-  }
+  // @action public move(x: number, y: number) {
+  //   this.offsetX = x;
+  //   this.offsetY = y;
+  // }
 
-  @action public move(x: number, y: number) {
-    this.offsetX = x;
-    this.offsetY = y;
-  }
-
-  @action public resize = () => {
-    this.width = this.el.clientWidth;
-    this.height = this.el.clientHeight;
-  }
-
-  private update() {
-    this.root.attributes.viewBox = this.viewBox;
-    this.root.attributes.width = this.width;
-    this.root.attributes.height = this.height;
-    this.scene.attributes.transform = toSvgMatrix(this.transform.multiply(this.viewTransform));
-  }
-
-  private pick = (e: PointerEvent) => {
-    if (e.buttons & 1) {
-      e.stopPropagation();
-      const [offsetX, offsetY] = utils.currentTargetOffset(e);
-      this.picked.x = offsetX - this.offsetX;
-      this.picked.y = offsetY - this.offsetY;
-      this.dragging = true;
-      this.el.setPointerCapture(e.pointerId);
+  private updateViewport = () => {
+    const width = this.el.clientWidth;
+    const height = this.el.clientHeight;
+    if (width !== this.width || height !== this.height) {
+      this.width = width;
+      this.height = height;
+      if (width === 0 || height === 0) {
+        return;
+      }
+      const widthScale = width / this.referenceWidth;
+      const heightScale = height / this.referenceHeight;
+      let w, h;
+      if (widthScale < heightScale) {
+        w = this.referenceWidth;
+        h = this.referenceHeight * widthScale / heightScale;
+      } else {
+        w = this.referenceWidth * widthScale / heightScale;
+        h = this.referenceHeight;
+      }
+      this.root.attributes.viewBox = `${-w / 2} ${-h / 2} ${w} ${h}`;
     }
   }
 
-  private drag = (e: PointerEvent) => {
-    if (this.dragging) {
-      const [offsetX, offsetY] = utils.currentTargetOffset(e);
-      this.move(offsetX - this.picked.x, offsetY - this.picked.y);
-    }
+  private updateScene = () => {
+    this.scene.attributes.transform = toSvgTransform(this.camera.transform);
   }
 
-  private drop = (e: PointerEvent) => {
-    if (!(e.buttons & 1)) {
-      this.dragging = false;
-      this.el.releasePointerCapture(e.pointerId);
-    }
-  }
+  // private pick = (e: PointerEvent) => {
+  //   if (e.buttons & 1) {
+  //     e.stopPropagation();
+  //     const [offsetX, offsetY] = utils.currentTargetOffset(e);
+  //     this.picked.x = offsetX - this.offsetX;
+  //     this.picked.y = offsetY - this.offsetY;
+  //     this.dragging = true;
+  //     this.el.setPointerCapture(e.pointerId);
+  //   }
+  // }
 
-  private wheel = (e: WheelEvent) => {
-    const k = Math.sign(e.deltaY) < 0 ? 1.1 : 1 / 1.1;
-    const [offsetX, offsetY] = utils.currentTargetOffset(e);
-    this.zoom(offsetX, offsetY, k);
+  // private drag = (e: PointerEvent) => {
+  //   if (this.dragging) {
+  //     const [offsetX, offsetY] = utils.currentTargetOffset(e);
+  //     this.move(offsetX - this.picked.x, offsetY - this.picked.y);
+  //   }
+  // }
+
+  // private drop = (e: PointerEvent) => {
+  //   if (!(e.buttons & 1)) {
+  //     this.dragging = false;
+  //     this.el.releasePointerCapture(e.pointerId);
+  //   }
+  // }
+
+  // private wheel = (e: WheelEvent) => {
+  //   const k = Math.sign(e.deltaY) < 0 ? 1.1 : 1 / 1.1;
+  //   const [offsetX, offsetY] = utils.currentTargetOffset(e);
+  //   this.zoom(offsetX, offsetY, k);
+  // }
+
+  private trackResize = (callback: () => void) => {
+    let track = 0;
+    const frameHandler = () => {
+      callback();
+      track = window.requestAnimationFrame(frameHandler);
+    };
+    track = window.requestAnimationFrame(frameHandler);
+    return () => {
+      window.cancelAnimationFrame(track);
+    };
   }
 }
