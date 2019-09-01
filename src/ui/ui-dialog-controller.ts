@@ -15,7 +15,6 @@ export class Controller {
   @observable public minWidth = 400;
   @observable public minHeight = 250;
 
-  private el!: HTMLElement;
   private cc!: Handler;
   private nw!: Handler;
   private nn!: Handler;
@@ -28,8 +27,7 @@ export class Controller {
   private captured = { x: 0, y: 0 };
 
   public mount(el: HTMLElement) {
-    this.el = el;
-    const grid = this.el.firstChild as HTMLElement;
+    const grid = el.firstChild as HTMLElement;
     this.cc = {
       el: grid.children[4] as HTMLElement,
       pick: this.ccPick,

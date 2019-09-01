@@ -1,11 +1,11 @@
 <template>
-<div class="floating" :style="{ left: `${controller.left}px`, top: `${controller.top}px`, width: `${controller.width}px`, height: `${controller.height}px` }">
-  <div class="floating-panel">
+<div class="dialog" :style="{ left: `${controller.left}px`, top: `${controller.top}px`, width: `${controller.width}px`, height: `${controller.height}px` }">
+  <div class="dialog-grid">
     <div class="nw-resize"></div>
     <div class="nn-resize"></div>
     <div class="ne-resize"></div>
     <div class="ww-resize"></div>
-    <div class="floating-content"><slot/></div>
+    <div class="dialog-content"><slot/></div>
     <div class="ee-resize"></div>
     <div class="sw-resize"></div>
     <div class="ss-resize"></div>
@@ -20,11 +20,11 @@ import { Observer } from 'mobx-vue';
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
-import { Controller } from '@/ui/floating-controller';
+import { Controller } from '@/ui/ui-dialog-controller';
 
 @Observer
 @Component
-export default class Floating extends Vue {
+export default class UiDialog extends Vue {
   @Prop() private left!: number;
   @Prop() private top!: number;
   @Prop() private width!: number;
@@ -68,14 +68,18 @@ export default class Floating extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/vars.scss';
+@import '@/style/_vars.scss';
 
-.floating {
-  position: fixed;
+.dialog {
   border-radius: $w-radius;
+  position: fixed;
+  visibility: hidden;
   z-index: $z-window;
+  &.show {
+    visibility: visible;
+  }
 }
-.floating-panel {
+.dialog-grid {
   display: grid;
   position: absolute;
   left: 0;
@@ -86,7 +90,7 @@ export default class Floating extends Vue {
   grid-template-columns: $w-resize * 2 auto $w-resize * 2;
   grid-template-rows: $w-resize * 2 auto $w-resize * 2;
 }
-.floating-content {
+.dialog-content {
   box-shadow: $w-shadow;
   z-index: 1;
   margin: -$w-resize;
@@ -94,4 +98,24 @@ export default class Floating extends Vue {
   overflow: auto;
   cursor: auto;
 }
+
+.effect .dialog-content {
+  transform: scale(0.5);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.show.effect .dialog-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.nw-resize { cursor: nw-resize; }
+.nn-resize { cursor: n-resize; }
+.ne-resize { cursor: ne-resize; }
+.ww-resize { cursor: w-resize; }
+.ee-resize { cursor: e-resize; }
+.sw-resize { cursor: sw-resize; }
+.ss-resize { cursor: s-resize; }
+.se-resize { cursor: se-resize; }
 </style>

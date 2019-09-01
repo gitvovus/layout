@@ -1,0 +1,154 @@
+@import '@/style/_vars.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: $font;
+  font-size: $font-base;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+// standard dialog content layout
+.w-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  background-color: white;
+  opacity: 0.9;
+}
+
+.w-header, .w-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: $w-margin;
+}
+
+.w-header {
+  padding: $w-margin / 2 $w-margin $w-margin;
+  border-bottom: $w-splitter;
+}
+
+.w-footer {
+  padding: $w-margin $w-margin $w-margin / 2;
+  border-top: $w-splitter;
+}
+
+.w-content {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: auto;
+  pointer-events: auto;
+  padding: 0 $w-margin;
+}
+
+// main page layout
+.root {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  padding: 5px;
+  background-color: $bg-dark;
+  box-shadow: $header-shadow;
+  color: white;
+  font-size: 16px;
+  z-index: $z-app;
+}
+
+.main {
+  flex: 1 1 0;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
+.wrapper {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
+.views {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  transition: flex 0.3s;
+  &.hidden {
+    flex: 0 0 0;
+  }
+}
+
+.view-slot {
+  flex: 1 1 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.view {
+  background-color: rgba(black, 0.25);
+  flex: 1 1 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.view.expanded {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.view-3d {
+  position: relative;
+  flex: 3 3 0;
+  overflow: hidden;
+}
+
+.tools {
+  width: 250px;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: $bg-lite;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: none;
+}
+
+.spacer {
+  flex-grow: 1;
+}

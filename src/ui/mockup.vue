@@ -1,24 +1,32 @@
 <template>
-<div class="m-root">
-  <div class="m-header">
+<div class="root">
+  <div class="header">
     <btn-toggle dark class="m-margin" v-for="i in 6" :key="i" v-model="button" :check="i-1">{{i-1}}</btn-toggle>
     <btn-toggle dark class="m-margin" v-model="test" :check="true" :uncheck="false">Test</btn-toggle>
   </div>
-  <div class="m-main">
-    <div class="m-wrapper">
-      <div class="m-views" :class="{ hidden: !model.views }">
-        <div class="m-view-slot">
-          <div class="m-view" @click="toggleExpanded">
+  <div class="main">
+    <div class="wrapper" id="views-wrapper">
+      <div class="views" :class="{ hidden: !model.views }">
+        <div class="view-slot">
+          <div class="view" @click="toggleExpanded">
             <div class="row"></div>
             <div class="col"></div>
             <div class="fit"></div>
             <div class="col"></div>
           </div>
         </div>
-        <div class="m-view-slot"><div class="m-view" @click="toggleExpanded"></div></div>
-        <div class="m-view-slot"><div class="m-view" @click="toggleExpanded"></div></div>
+        <div class="view-slot">
+          <view-2d :model="model.view2d">
+            <div class="anchor right bottom">
+              <ui-button no-focus tabindex="-1" style="{ margin: 0; padding: 0; }" @click="model.view2d.toggleExpanded()">
+                <div class="icon fullscreen"></div>
+              </ui-button>
+            </div>
+          </view-2d>
+        </div>
+        <div class="view-slot"><div class="view" @click="toggleExpanded"></div></div>
       </div>
-      <div class="m-view-3d">
+      <div class="view-3d">
         <div class="row"></div>
         <div class="col"></div>
         <div class="fit"></div>
@@ -29,7 +37,7 @@
         <btn-toggle dark no-focus v-model="model.views" :check="false" :uncheck="true">{{(model.views ? '&lt;' : '&gt;')}}</btn-toggle>
       </div>
     </div>
-    <div class="m-tools">
+    <div class="tools">
       <div class="m-dark">
         <btn-toggle dark no-focus tabindex="-1" class="m-padding" v-for="i in 6" :key="i+100" v-model="model.dark" :check="i-1" >Dark #{{i-1}}</btn-toggle>
       </div>
@@ -59,7 +67,7 @@ export default class Mockup extends Vue {
   private wrapper!: HTMLElement;
 
   private mounted() {
-    this.wrapper = this.$el.getElementsByClassName('m-wrapper')[0] as HTMLElement;
+    this.wrapper = this.$el.getElementsByClassName('wrapper')[0] as HTMLElement;
   }
 
   private toggleExpanded(e: Event) {
@@ -69,81 +77,23 @@ export default class Mockup extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/vars.scss';
+@import '@/style/_vars.scss';
 
-.m-root {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  background-color: white;
+  mask-position: center;
+  mask-repeat: no-repeat;
 }
-.m-header {
-  display: flex;
-  padding: 5px;
-  background-color: #404040;
-  box-shadow: $menu-shadow;
-  color: white;
-  font-size: 16px;
-  z-index: $z-app;
+
+.fullscreen {
+  mask-image: url('~@/assets/fullscreen.svg');
 }
-.m-main {
-  flex: 1 1 0;
-  display: flex;
-  min-width: 0;
-  min-height: 0;
-}
-.m-wrapper {
-  position: relative;
-  flex: 1 1 0;
-  display: flex;
-  min-width: 0;
-  min-height: 0;
-}
-.m-views {
-  flex: 1 1 0;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  min-height: 0;
-  transition: flex 0.3s;
-}
-.m-views.hidden {
-  flex: 0 0 0;
-}
-.m-view-slot {
-  flex: 1 1 0;
-  display: flex;
-  overflow: hidden;
-}
-.m-view {
-  position: relative;
-  flex: 1 1 0;
-  overflow: hidden;
-  background-color: rgba(black, 0.5);
-}
-.m-view.expanded {
-  position: absolute;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-}
-.m-view-3d {
-  position: relative;
-  flex: 3 3 0;
-  overflow: hidden;
-}
-.m-tools {
-  width: 250px;
-  min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: silver;
-}
+
 .m-dark {
   background-color: #404040;
   flex: 1 1 auto;
@@ -173,10 +123,19 @@ export default class Mockup extends Vue {
   z-index: 2;
 }
 .m-margin {
-  margin: 5px;
+  margin: 0 5px;
 }
 .m-padding {
   margin: 5px;
   padding: 15px 20px;
+}
+.anchor {
+  position: absolute;
+}
+.right {
+  right: 0;
+}
+.bottom {
+  bottom: 0;
 }
 </style>

@@ -1,27 +1,28 @@
 <template>
 <div class="app" :style="{ backgroundImage: `url(${bg})` }">
+  <controls v-if="model.page === 0" :model="model.controls"/>
   <layout v-if="model.page === 1"/>
   <mockup v-if="model.page === 2" :model="model"/>
-  <floating class="effect" :class="{ show: model.show }" :width="600" :height="700">
+  <ui-dialog class="effect" :class="{ show: model.show }" :width="600" :height="700">
     <div class="w-panel">
       <div class="w-header">Header</div>
       <div class="w-content"><lorem/></div>
       <div class="w-footer">Footer</div>
     </div>
-  </floating>
+  </ui-dialog>
   <div class="app-bar">
-    <div class="spacer" :collapsed="model.align === 1"></div>
+    <div class="spacer" :collapsed="model.align === -1"></div>
     <div class="app-buttons">
-      <btn-toggle no-focus tabindex="-1" class="btn-margin" v-model="model.align" :check="1" :uncheck="0"> &lt; </btn-toggle>
+      <btn-toggle no-focus tabindex="-1" class="btn-margin" v-model="model.align" :check="-1" :uncheck="0"> &lt; </btn-toggle>
       <btn-toggle class="btn-margin" v-model="model.test" :check="true" :uncheck="false"> Test </btn-toggle>
       <btn-toggle class="btn-margin" v-model="model.show" :check="true" :uncheck="false"> Dialog </btn-toggle>
       <span class="separator"/>
       <div class="text">Page:</div>
       <btn-toggle class="btn-margin" v-for="i in 3" :key="i" v-model="model.page" :check="i-1"> {{i-1}} </btn-toggle>
       <span class="separator"/>
-      <btn-toggle no-focus tabindex="-1" class="btn-margin" v-model="model.align" :check="2" :uncheck="0"> &gt; </btn-toggle>
+      <btn-toggle no-focus tabindex="-1" class="btn-margin" v-model="model.align" :check="1" :uncheck="0"> &gt; </btn-toggle>
     </div>
-    <div class="spacer" :collapsed="model.align === 2"></div>
+    <div class="spacer" :collapsed="model.align === 1"></div>
   </div>
 </div>
 </template>
@@ -35,7 +36,7 @@ import { Prop } from 'vue-property-decorator';
 import * as img from '@/lib/images';
 import { Application } from '@/modules/application';
 
-const s = 10;
+const s = 50;
 const l = 0x88;
 const d = 0x80;
 const lite: img.RGBA = [l, l, l, 0xff];
@@ -58,26 +59,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/vars.scss';
-
-.floating {
-  visibility: hidden;
-}
-
-.show.floating {
-  visibility: visible;
-}
-
-.effect .floating-panel {
-  transform: scale(0.5);
-  opacity: 0;
-  transition: all 0.3s;
-}
-
-.show.effect .floating-panel {
-  transform: scale(1);
-  opacity: 1;
-}
+@import '@/style/_vars.scss';
 
 .app-bar {
   position: absolute;
