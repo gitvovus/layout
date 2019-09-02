@@ -1,77 +1,67 @@
 <template>
-<div class="c-root">
-  <div class="c-panel c-dark">
-    <div>
-      <div><br>Radio (index): {{model.index}}</div>
-      <ui-button
-        dark
-        class="round"
-        v-for="(item, i) in model.group" :key="i+100"
-        v-model="model.index"
-        :toggle="[i]"
-      >{{`#${i}`}}</ui-button>
-      <div><br>Radio (object): { name: {{model.selectedItem.name}}, value: {{model.selectedItem.value}} }</div>
-      <ui-button
-        dark
-        class="round"
-        v-for="(item, i) in model.items" :key="i+200"
-        v-model="model.selectedItem"
-        :toggle="[model.items[i]]"
-      >{{`#${i}`}}</ui-button>
-      <div><br>Checkbox: [ <div class="c-item" v-for="(item, i) in model.group" :key="i+300">{{item}}&nbsp;</div> ]</div>
-      <ui-button
-        dark
-        class="round"
-        v-for="(item, i) in model.group" :key="i+400"
-        v-model="model.group[i]"
-        toggle
-      >{{`#${i}`}}</ui-button>
-      <div><br>Push:</div>
-      <ui-button
-        dark
-        class="round outline"
-        @click="model.ok"
-      >Ok</ui-button>
-      <ui-button
-        dark
-        class="round outline"
-        @click="model.cancel"
-      >Cancel</ui-button>
-    </div>
+<div :class="['c-root', dark !== undefined ? 'c-dark' : 'c-lite']">
+  <div>
+    <div><br>Radio (index): {{model.index}}</div>
+    <ui-button
+      :dark="dark"
+      class="round"
+      v-for="(item, i) in model.group" :key="i+100"
+      v-model="model.index"
+      :toggle="[i]"
+    >{{`#${i}`}}</ui-button>
+    <div><br>Radio (object): { name: {{model.selectedItem.name}}, value: {{model.selectedItem.value}} }</div>
+    <ui-button
+      :dark="dark"
+      class="round"
+      v-for="(item, i) in model.items" :key="i+200"
+      v-model="model.selectedItem"
+      :toggle="[model.items[i]]"
+    >{{`#${i}`}}</ui-button>
+    <div><br>Checkbox: [ <div class="c-item" v-for="(item, i) in model.group" :key="i+300">{{item}}&nbsp;</div> ]</div>
+    <ui-button
+      :dark="dark"
+      class="round"
+      v-for="(item, i) in model.group" :key="i+400"
+      v-model="model.group[i]"
+      toggle
+    >{{`#${i}`}}</ui-button>
+    <div><br>Push:</div>
+    <ui-button
+      :dark="dark"
+      class="round outline"
+      @click="model.ok"
+    >Ok</ui-button>
+    <ui-button
+      :dark="dark"
+      class="round outline"
+      @click="model.cancel"
+    >Cancel</ui-button>
   </div>
-  <div class="c-panel c-lite">
-    <div>
-      <div><br>Radio (index): {{model.index}}</div>
+  <div>
+    <div class="expand-header">
+      <div>Expand/collapse:</div>
       <ui-button
-        class="round"
-        v-for="(item, i) in model.group" :key="i+100"
-        v-model="model.index"
-        :toggle="[i]"
-      >{{`#${i}`}}</ui-button>
-      <div><br>Radio (object): { name: {{model.selectedItem.name}}, value: {{model.selectedItem.value}} }</div>
-      <ui-button
-        class="round"
-        v-for="(item, i) in model.items" :key="i+200"
-        v-model="model.selectedItem"
-        :toggle="[model.items[i]]"
-      >{{`#${i}`}}</ui-button>
-      <div><br>Checkbox: [ <div class="c-item" v-for="(item, i) in model.group" :key="i+300">{{item}}&nbsp;</div> ]</div>
-      <ui-button
-        class="round"
-        v-for="(item, i) in model.group" :key="i+400"
-        v-model="model.group[i]"
-        :toggle="[true, false]"
-      >{{`#${i}`}}</ui-button>
-      <div><br>Push:</div>
-      <ui-button
-        class="round outline"
-        @click="model.ok"
-      >Ok</ui-button>
-      <ui-button
-        class="round outline"
-        @click="model.cancel"
-      >Cancel</ui-button>
+        :dark="dark"
+        class="round icon-wrapper" @click="model.expanded = !model.expanded">
+        <div :class="['icon', model.expanded ? 'collapse' : 'expand']"></div>
+      </ui-button>
     </div>
+    <div :class="['expansible', { expanded: model.expanded }]">
+      <lorem :p="2" :class="['expansible-content', dark !== undefined ? 'dark' : 'lite']"/>
+    </div>
+    <template v-for="i in 2">
+      <div class="expand-header" :key="100+i">
+        <div>Expand (radio) {{i-1}}:</div>
+        <ui-button
+          :dark="dark"
+          class="round icon-wrapper" v-model="model.expandedGroup" :toggle="[i-1, undefined]">
+          <div :class="['icon', model.expandedGroup === i-1 ? 'collapse' : 'expand']"></div>
+        </ui-button>
+      </div>
+      <div :class="['expansible', { expanded: model.expandedGroup === i-1 }]" :key="200+i">
+        <lorem :p="2" :class="['expansible-content', dark !== undefined ? 'dark' : 'lite']"/>
+      </div>
+    </template>
   </div>
 </div>
 </template>
@@ -88,6 +78,7 @@ import { Controls as Model } from '@/modules/controls';
 @Component
 export default class Controls extends Vue {
   @Prop() private model!: Model;
+  @Prop() private dark: '' | undefined;
 }
 </script>
 
@@ -95,20 +86,14 @@ export default class Controls extends Vue {
 @import '@/style/_vars.scss';
 
 .c-root {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: row;
-}
-.c-panel {
-  flex: 1 1 0;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding-left: 150px;
+  padding-left: 50px;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 .c-dark {
   background-color: $bg-dark;
@@ -125,6 +110,46 @@ export default class Controls extends Vue {
   padding: 8px 12px;
 }
 .c-item {
+  display: inline-block;
+}
+.expansible {
+  margin: 0 5px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s;
+  &.expanded {
+    max-height: 100%;
+  }
+}
+.expansible-content {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  &.dark {
+    border-color: rgba(white, 0.1);
+  }
+  &.lite {
+    border-color: rgba(black, 0.1);
+  }
+}
+
+.icon {
+  &.expand {
+    mask-image: url('~@/assets/less.svg');
+    transform: rotate(-90deg);
+  }
+  &.collapse {
+    mask-image: url('~@/assets/less.svg');
+    transform: rotate(90deg);
+  }
+}
+.expand-header {
+  display: flex;
+  align-items: center;
+}
+.inline-block {
   display: inline-block;
 }
 </style>

@@ -1,10 +1,15 @@
 import { observable } from 'mobx';
 
 export class Controls {
+  // buttons
   @observable public index = 0;
   @observable public group = [false, false, false, false];
   @observable public items = [...Array(4)].map((item, i) => ({ name: `item #${i}`, value: i }));
   @observable public selectedItem = this.items[0];
+
+  // expand
+  @observable public expanded = false;
+  @observable public expandedGroup?: number = undefined;
 
   public ok() {
     console.log('ok');

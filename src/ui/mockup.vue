@@ -19,7 +19,7 @@
           <view-2d :model="model.view2d">
             <div class="anchor right bottom">
               <ui-button no-focus tabindex="-1" class="icon-wrapper" @click="model.view2d.toggleExpanded()">
-                <div class="icon expand"></div>
+                <div class="icon icon-expand"></div>
               </ui-button>
             </div>
           </view-2d>
@@ -38,8 +38,8 @@
         <div class="col"></div>
       </div>
       <div class="m-toggle-views">
-        <ui-button dark no-focus tabindex="-1" class="no-margin round icon-wrapper" :toggle="[false, true]" v-model="model.views">
-          <div :class="['icon', model.views ? 'less' : 'more']"></div>
+        <ui-button dark no-focus tabindex="-1" class="round icon-wrapper" :toggle="[false, true]" v-model="model.views">
+          <div :class="['icon', 'icon-less', { more: !model.views }]"></div>
         </ui-button>
       </div>
     </div>
@@ -85,14 +85,9 @@ export default class Mockup extends Vue {
 <style lang="scss">
 @import '@/style/_vars.scss';
 
-.ui-btn.no-margin {
-  margin: 0;
-}
-
 .ui-btn.icon-wrapper {
   width: 24px;
   height: 24px;
-  margin: 3px;
   padding: 3px;
   &:hover {
     padding: 1px;
@@ -113,16 +108,11 @@ export default class Mockup extends Vue {
   transition: transform 0.3s;
 }
 
-.expand {
+.icon-expand {
   mask-image: url('~@/assets/expand.svg');
 }
 
-.less {
-  mask-image: url('~@/assets/less.svg');
-}
-
 .more {
-  mask-image: url('~@/assets/less.svg');
   transform: rotate(180deg);
 }
 

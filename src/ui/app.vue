@@ -1,6 +1,9 @@
 <template>
 <div class="app" :style="{ backgroundImage: `url(${bg})` }">
-  <controls v-if="model.page === 0" :model="model.controls"/>
+  <div class="controls-wrapper" v-if="model.page === 0">
+    <controls :model="model.controls" dark/>
+    <controls :model="model.controls"/>
+  </div>
   <layout v-if="model.page === 1"/>
   <mockup v-if="model.page === 2" :model="model"/>
   <ui-dialog class="effect" :class="{ show: model.show }" :width="600" :height="700">
@@ -95,5 +98,14 @@ export default class App extends Vue {
 }
 .spacer[collapsed] {
   flex: 0 0 auto;
+}
+.controls-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
 }
 </style>
