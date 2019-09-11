@@ -8,6 +8,7 @@ export class View2d {
   public readonly root = svg.fromSource(source)!;
 
   private el!: HTMLElement;
+  private wrapper!: HTMLElement;
   private camera = new Camera();
   private controller = new Controller(this.root, this.camera);
 
@@ -17,15 +18,26 @@ export class View2d {
 
   public mount(el: HTMLElement) {
     this.el = el;
+    let parent = el.parentElement;
+    while (parent !== null) {
+      if (parent.classList.contains('wrapper')) {
+        this.wrapper = parent;
+        break;
+      }
+      parent = parent.parentElement;
+    }
     this.controller.mount(el);
   }
 
   public unmount() {
     this.el = undefined!;
+    this.wrapper = undefined!;
     this.controller.unmount();
   }
 
   public toggleExpanded() {
-    toggleExpanded(this.el, document.getElementById('views-wrapper') as HTMLElement, 0.3);
+    if (this.wrapper) {
+      toggleExpanded(this.el, this.wrapper, 0.3);
+    }
   }
 }

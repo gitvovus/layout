@@ -90,24 +90,27 @@ export class Controller {
   private updateViewport = () => {
     const width = this.el.clientWidth;
     const height = this.el.clientHeight;
-    if (width !== this.width || height !== this.height) {
-      this.width = width;
-      this.height = height;
-      if (width === 0 || height === 0) {
-        return;
-      }
-      const widthScale = width / this.referenceWidth;
-      const heightScale = height / this.referenceHeight;
-      let w, h;
-      if (widthScale < heightScale) {
-        w = this.referenceWidth;
-        h = this.referenceHeight * widthScale / heightScale;
-      } else {
-        w = this.referenceWidth * widthScale / heightScale;
-        h = this.referenceHeight;
-      }
-      this.root.attributes.viewBox = `${-w / 2} ${-h / 2} ${w} ${h}`;
+    if (width === this.width && height === this.height) {
+      return;
     }
+
+    this.width = width;
+    this.height = height;
+    if (width === 0 || height === 0) {
+      return;
+    }
+
+    const widthScale = width / this.referenceWidth;
+    const heightScale = height / this.referenceHeight;
+    let w, h;
+    if (widthScale < heightScale) {
+      w = this.referenceWidth;
+      h = this.referenceHeight * widthScale / heightScale;
+    } else {
+      w = this.referenceWidth * widthScale / heightScale;
+      h = this.referenceHeight;
+    }
+    this.root.attributes.viewBox = `${-w / 2} ${-h / 2} ${w} ${h}`;
   }
 
   private updateScene = () => {
@@ -151,9 +154,7 @@ export class Controller {
       callback();
       track = window.requestAnimationFrame(frameHandler);
     };
-    track = window.requestAnimationFrame(frameHandler);
-    return () => {
-      window.cancelAnimationFrame(track);
-    };
+    frameHandler();
+    return () => window.cancelAnimationFrame(track);
   }
 }

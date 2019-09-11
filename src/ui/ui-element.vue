@@ -1,7 +1,7 @@
 <template>
-  <v-component v-if="model.tag !== '#text'" :is="model.tag" v-bind="model.attributes">
+  <component v-if="model.tag !== '#text'" :is="model.tag" v-bind="model.attributes">
     <ui-element v-for="(item, index) in model.items" :key="item.symbol" :model="model.items[index]"/>
-  </v-component>
+  </component>
   <ui-text v-else :model="model"/>
 </template>
 

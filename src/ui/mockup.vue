@@ -1,11 +1,11 @@
 <template>
 <div class="root">
   <div class="header">
-    <btn-toggle dark class="m-margin" v-for="i in 6" :key="i" v-model="button" :check="i-1">{{i-1}}</btn-toggle>
-    <btn-toggle dark class="m-margin" v-model="test" :check="true" :uncheck="false">Test</btn-toggle>
+    <ui-button class="pretty-dark m-menu" v-for="i in 6" :key="i" v-model="button" :toggle="[i-1]">{{i-1}}</ui-button>
+    <ui-button class="pretty-dark m-menu" v-model="test" toggle>Test</ui-button>
   </div>
   <div class="main">
-    <div class="wrapper" id="views-wrapper">
+    <div class="wrapper">
       <div class="views" :class="{ hidden: !model.views }">
         <div class="view-slot">
           <div class="view" @click="toggleExpanded">
@@ -38,17 +38,17 @@
         <div class="col"></div>
       </div>
       <div class="m-toggle-views">
-        <ui-button dark no-focus tabindex="-1" class="round icon-wrapper" :toggle="[false, true]" v-model="model.views">
-          <div :class="['icon', 'icon-less', { more: !model.views }]"></div>
+        <ui-button no-focus tabindex="-1" class="round icon-wrapper" toggle v-model="model.views">
+          <div :class="['icon icon-less', { rotated: !model.views }]"></div>
         </ui-button>
       </div>
     </div>
     <div class="tools">
       <div class="m-dark">
-        <btn-toggle dark no-focus tabindex="-1" class="m-padding" v-for="i in 6" :key="i+100" v-model="model.dark" :check="i-1" >Dark #{{i-1}}</btn-toggle>
+        <ui-button no-focus tabindex="-1" class="pretty-dark m-side" v-for="i in 6" :key="i+100" v-model="model.dark" :toggle="[i-1]">Dark #{{i-1}}</ui-button>
       </div>
       <div class="m-lite">
-        <btn-toggle class="m-padding" v-for="i in 6" :key="i+200" v-model="model.lite" :check="i-1">Lite #{{i-1}}</btn-toggle>
+        <ui-button class="pretty-lite m-side" v-for="i in 6" :key="i+200" v-model="model.lite" :toggle="[i-1]">Lite #{{i-1}}</ui-button>
       </div>
     </div>
   </div>
@@ -83,9 +83,10 @@ export default class Mockup extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/style/_icons.scss';
 @import '@/style/_vars.scss';
 
-.ui-btn.icon-wrapper {
+.button.icon-wrapper {
   width: 24px;
   height: 24px;
   padding: 3px;
@@ -108,11 +109,7 @@ export default class Mockup extends Vue {
   transition: transform 0.3s;
 }
 
-.icon-expand {
-  mask-image: url('~@/assets/expand.svg');
-}
-
-.more {
+.icon.rotated {
   transform: rotate(180deg);
 }
 
@@ -143,10 +140,12 @@ export default class Mockup extends Vue {
   bottom: 0;
   z-index: 2;
 }
-.m-margin {
+.button.m-menu {
+  border-radius: 50vh;
   margin: 0 5px;
 }
-.m-padding {
+.button.m-side {
+  border-radius: 50vh;
   margin: 5px;
   padding: 15px 20px;
 }

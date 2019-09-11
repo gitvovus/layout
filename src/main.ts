@@ -1,8 +1,8 @@
 import Vue, { VueConstructor } from 'vue';
 import '@/style/main.scss';
 
-import BtnToggle from '@/ui/btn-toggle.vue';
 import Controls from '@/ui/controls.vue';
+import Grid from '@/ui/grid.vue';
 import Layout from '@/ui/layout.vue';
 import Lorem from '@/ui/lorem.vue';
 import Mockup from '@/ui/mockup.vue';
@@ -18,8 +18,8 @@ import { Application } from '@/modules/application';
 Vue.config.productionTip = false;
 
 (<Array<[string, VueConstructor]>> [
-  ['btn-toggle', BtnToggle],
   ['controls', Controls],
+  ['grid', Grid],
   ['layout', Layout],
   ['lorem', Lorem],
   ['mockup', Mockup],

@@ -6,7 +6,8 @@
   </div>
   <layout v-if="model.page === 1"/>
   <mockup v-if="model.page === 2" :model="model"/>
-  <ui-dialog class="effect" :class="{ show: model.show }" :width="600" :height="700">
+  <grid v-if="model.page === 3" :model="model.grid"/>
+  <ui-dialog :class="['effect', { show: model.show }]" :width="600" :height="700">
     <div class="w-panel">
       <div class="w-header">Header</div>
       <div class="w-content"><lorem/></div>
@@ -16,14 +17,13 @@
   <div class="app-bar">
     <div class="spacer" :collapsed="model.align === -1"></div>
     <div class="app-buttons">
-      <btn-toggle no-focus tabindex="-1" class="btn-margin" v-model="model.align" :check="-1" :uncheck="0"> &lt; </btn-toggle>
-      <btn-toggle class="btn-margin" v-model="model.test" :check="true" :uncheck="false"> Test </btn-toggle>
-      <btn-toggle class="btn-margin" v-model="model.show" :check="true" :uncheck="false"> Dialog </btn-toggle>
+      <ui-button no-focus tabindex="-1" class="round pretty-lite" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
+      <ui-button class="round pretty-lite" toggle v-model="model.show">Dialog</ui-button>
       <span class="separator"/>
       <div class="text">Page:</div>
-      <btn-toggle class="btn-margin" v-for="i in 3" :key="i" v-model="model.page" :check="i-1"> {{i-1}} </btn-toggle>
+      <ui-button class="round pretty-lite" v-for="i in 4" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
       <span class="separator"/>
-      <btn-toggle no-focus tabindex="-1" class="btn-margin" v-model="model.align" :check="1" :uncheck="0"> &gt; </btn-toggle>
+      <ui-button no-focus tabindex="-1" class="round pretty-lite" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
     </div>
     <div class="spacer" :collapsed="model.align === 1"></div>
   </div>
@@ -81,9 +81,6 @@ export default class App extends Vue {
   box-shadow: 0 0 8px rgba(black, 0.5);
   pointer-events: auto;
 }
-.btn-margin {
-  margin: 5px;
-}
 .separator {
   width: 1px;
   background-color: #c0c0c0;
@@ -91,13 +88,6 @@ export default class App extends Vue {
 }
 .text {
   margin: auto;
-}
-.spacer {
-  flex: 1 1 0;
-  transition: flex 0.2s ease;
-}
-.spacer[collapsed] {
-  flex: 0 0 auto;
 }
 .controls-wrapper {
   position: absolute;

@@ -1,61 +1,56 @@
 <template>
-<div :class="['c-root', dark !== undefined ? 'c-dark' : 'c-lite']">
+<div :class="['c-root', dark === '' ? 'c-dark' : 'c-lite']">
   <div>
     <div><br>Radio (index): {{model.index}}</div>
     <ui-button
-      :dark="dark"
-      class="round"
+      :class="['round', tint]"
       v-for="(item, i) in model.group" :key="i+100"
       v-model="model.index"
       :toggle="[i]"
     >{{`#${i}`}}</ui-button>
     <div><br>Radio (object): { name: {{model.selectedItem.name}}, value: {{model.selectedItem.value}} }</div>
     <ui-button
-      :dark="dark"
-      class="round"
+      :class="['round', tint]"
       v-for="(item, i) in model.items" :key="i+200"
       v-model="model.selectedItem"
       :toggle="[model.items[i]]"
     >{{`#${i}`}}</ui-button>
     <div><br>Checkbox: [ <div class="c-item" v-for="(item, i) in model.group" :key="i+300">{{item}}&nbsp;</div> ]</div>
     <ui-button
-      :dark="dark"
-      class="round"
+      :class="['round', tint]"
       v-for="(item, i) in model.group" :key="i+400"
       v-model="model.group[i]"
       toggle
     >{{`#${i}`}}</ui-button>
     <div><br>Push:</div>
+    <ui-button @click="model.unstyled()">Unstyled</ui-button>
     <ui-button
-      :dark="dark"
-      class="round outline"
-      @click="model.ok"
+      :class="['round outline', tint]"
+      @click="model.ok()"
     >Ok</ui-button>
     <ui-button
-      :dark="dark"
-      class="round outline"
-      @click="model.cancel"
+      :class="['round outline', tint]"
+      @click="model.cancel()"
     >Cancel</ui-button>
+    clicked: {{model.message}}
   </div>
   <div>
     <div class="expand-header">
       <div>Expand/collapse:</div>
       <ui-button
-        :dark="dark"
-        class="round icon-wrapper" @click="model.expanded = !model.expanded">
-        <div :class="['icon', model.expanded ? 'collapse' : 'expand']"></div>
+        :class="['round outline icon-wrapper', tint]" @click="model.expanded = !model.expanded">
+        <div :class="['icon icon-less', model.expanded ? 'collapse' : 'expand']"></div>
       </ui-button>
     </div>
     <div :class="['expansible', { expanded: model.expanded }]">
       <lorem :p="2" :class="['expansible-content', dark !== undefined ? 'dark' : 'lite']"/>
     </div>
     <template v-for="i in 2">
-      <div class="expand-header" :key="100+i">
+      <div class="expand-header" :key="i">
         <div>Expand (radio) {{i-1}}:</div>
         <ui-button
-          :dark="dark"
-          class="round icon-wrapper" v-model="model.expandedGroup" :toggle="[i-1, undefined]">
-          <div :class="['icon', model.expandedGroup === i-1 ? 'collapse' : 'expand']"></div>
+          :class="['round outline icon-wrapper', tint]" v-model="model.expandedGroup" :toggle="[i-1, undefined]">
+          <div :class="['icon icon-less', model.expandedGroup === i-1 ? 'collapse' : 'expand']"></div>
         </ui-button>
       </div>
       <div :class="['expansible', { expanded: model.expandedGroup === i-1 }]" :key="200+i">
@@ -79,6 +74,10 @@ import { Controls as Model } from '@/modules/controls';
 export default class Controls extends Vue {
   @Prop() private model!: Model;
   @Prop() private dark: '' | undefined;
+
+  public get tint() {
+    return this.dark === '' ? 'dark' : 'lite';
+  }
 }
 </script>
 
@@ -102,12 +101,6 @@ export default class Controls extends Vue {
 .c-lite {
   background-color: $bg-lite;
   color: $text-dark;
-}
-.c-margin {
-  margin: 5px;
-}
-.c-padding {
-  padding: 8px 12px;
 }
 .c-item {
   display: inline-block;
@@ -137,19 +130,14 @@ export default class Controls extends Vue {
 
 .icon {
   &.expand {
-    mask-image: url('~@/assets/less.svg');
     transform: rotate(-90deg);
   }
   &.collapse {
-    mask-image: url('~@/assets/less.svg');
     transform: rotate(90deg);
   }
 }
 .expand-header {
   display: flex;
   align-items: center;
-}
-.inline-block {
-  display: inline-block;
 }
 </style>
