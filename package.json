@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "mobx": "^5.13.0",
-    "mobx-vue": "^2.0.9",
+    "mobx-vue": "^2.0.10",
     "vue": "^2.6.10",
     "vue-class-component": "^7.1.0",
     "vue-property-decorator": "^8.2.2"

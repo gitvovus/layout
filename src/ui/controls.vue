@@ -1,61 +1,59 @@
 <template>
 <div :class="['c-root', dark === '' ? 'c-dark' : 'c-lite']">
   <div>
-    <div><br>Radio (index): {{model.index}}</div>
-    <ui-button
+    <div>Radio (index): {{model.index}}</div>
+    <ui-button v-for="(item, i) in model.group" :key="i+100"
       :class="['round', tint]"
-      v-for="(item, i) in model.group" :key="i+100"
-      v-model="model.index"
       :toggle="[i]"
+      v-model="model.index"
     >{{`#${i}`}}</ui-button>
     <div><br>Radio (object): { name: {{model.selectedItem.name}}, value: {{model.selectedItem.value}} }</div>
-    <ui-button
+    <ui-button v-for="(item, i) in model.items" :key="i+200"
       :class="['round', tint]"
-      v-for="(item, i) in model.items" :key="i+200"
-      v-model="model.selectedItem"
       :toggle="[model.items[i]]"
+      v-model="model.selectedItem"
     >{{`#${i}`}}</ui-button>
     <div><br>Checkbox: [ <div class="c-item" v-for="(item, i) in model.group" :key="i+300">{{item}}&nbsp;</div> ]</div>
-    <ui-button
+    <ui-button v-for="(item, i) in model.group" :key="i+300"
       :class="['round', tint]"
-      v-for="(item, i) in model.group" :key="i+400"
-      v-model="model.group[i]"
       toggle
+      v-model="model.group[i]"
     >{{`#${i}`}}</ui-button>
     <div><br>Push:</div>
     <ui-button @click="model.unstyled()">Unstyled</ui-button>
-    <ui-button
-      :class="['round outline', tint]"
-      @click="model.ok()"
-    >Ok</ui-button>
-    <ui-button
-      :class="['round outline', tint]"
-      @click="model.cancel()"
-    >Cancel</ui-button>
+    <ui-button :class="['round outline', tint]" @click="model.ok()">Ok</ui-button>
+    <ui-button :class="['round outline', tint]" @click="model.cancel()">Cancel</ui-button>
     clicked: {{model.message}}
+  </div>
+  <div>
+    <ui-button :class="['round', tint]" toggle v-model="model.popup">Popup</ui-button>
+    <div class="popup-anchor" v-if="dark !== undefined" tabindex="-1">
+      <ui-popup :class="['popup-sample content', tint]" v-model="model.popup">
+        <input type="text" v-model="model.text"/>
+        <lorem :p="2"/>
+      </ui-popup>
+    </div>
   </div>
   <div>
     <div class="expand-header">
       <div>Expand/collapse:</div>
-      <ui-button
-        :class="['round outline icon-wrapper', tint]" @click="model.expanded = !model.expanded">
+      <ui-button :class="['round outline icon-wrapper', tint]" @click="model.expanded = !model.expanded">
         <div :class="['icon icon-less', model.expanded ? 'collapse' : 'expand']"></div>
       </ui-button>
     </div>
-    <div :class="['expansible', { expanded: model.expanded }]">
-      <lorem :p="2" :class="['expansible-content', dark !== undefined ? 'dark' : 'lite']"/>
-    </div>
-    <template v-for="i in 2">
+    <ui-accordion :expanded="model.expanded">
+      <lorem :p="2" :class="['content', tint]"/>
+    </ui-accordion>
+    <template v-for="(dummy, i) in 2">
       <div class="expand-header" :key="i">
-        <div>Expand (radio) {{i-1}}:</div>
-        <ui-button
-          :class="['round outline icon-wrapper', tint]" v-model="model.expandedGroup" :toggle="[i-1, undefined]">
-          <div :class="['icon icon-less', model.expandedGroup === i-1 ? 'collapse' : 'expand']"></div>
+        <div>Expand (radio) {{i}}:</div>
+        <ui-button :class="['round outline icon-wrapper', tint]" :toggle="[i, undefined]" v-model="model.expandedGroup">
+          <div :class="['icon icon-less', model.expandedGroup === i ? 'collapse' : 'expand']"></div>
         </ui-button>
       </div>
-      <div :class="['expansible', { expanded: model.expandedGroup === i-1 }]" :key="200+i">
-        <lorem :p="2" :class="['expansible-content', dark !== undefined ? 'dark' : 'lite']"/>
-      </div>
+      <ui-accordion :expanded="model.expandedGroup === i" :key="200+i">
+        <lorem :p="2" :class="['content', tint]"/>
+      </ui-accordion>
     </template>
   </div>
 </div>
@@ -90,7 +88,7 @@ export default class Controls extends Vue {
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding-left: 50px;
+  padding: 10px 10px 10px 20px;
   max-height: 100vh;
   overflow-y: auto;
 }
@@ -105,29 +103,22 @@ export default class Controls extends Vue {
 .c-item {
   display: inline-block;
 }
-.expansible {
-  margin: 0 5px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s;
-  &.expanded {
-    max-height: 100%;
-  }
+
+.popup-anchor {
+  position: relative;
+  width: 0;
+  height: 0;
 }
-.expansible-content {
-  margin: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  border-width: 1px;
-  border-style: solid;
-  &.dark {
-    border-color: rgba(white, 0.1);
-  }
-  &.lite {
-    border-color: rgba(black, 0.1);
-  }
+.popup-sample {
+  width: 500px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
+.expand-header {
+  display: flex;
+  align-items: center;
+}
 .icon {
   &.expand {
     transform: rotate(-90deg);
@@ -136,8 +127,19 @@ export default class Controls extends Vue {
     transform: rotate(90deg);
   }
 }
-.expand-header {
-  display: flex;
-  align-items: center;
+.content {
+  margin: 10px 0;
+  padding: 0 10px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  &.dark {
+    background-color: rgba(black, 0.05);
+    border-color: rgba(white, 0.1);
+  }
+  &.lite {
+    background-color: rgba(white, 0.1);
+    border-color: rgba(black, 0.1);
+  }
 }
 </style>

@@ -8,6 +8,10 @@ export class Controls {
   @observable public group = [false, true, false, false];
   @observable public message = 'nothing';
 
+  // popup
+  @observable public popup = false;
+  @observable public text = '---';
+
   // expand
   @observable public expanded = false;
   @observable public expandedGroup?: number = undefined;

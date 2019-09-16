@@ -102,7 +102,7 @@ export default class UiDialog extends Vue {
 .effect .dialog-content {
   transform: scale(0.5);
   opacity: 0;
-  transition: all 0.3s;
+  transition: all $transition;
 }
 
 .show.effect .dialog-content {

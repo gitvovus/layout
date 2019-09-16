@@ -2,6 +2,8 @@ $font: Verdana, sans-serif;
 $font-base: 14px;
 $font-menu: 16px;
 
+$transition: 0.25s;
+
 $bg-dark: #404040;
 $bg-lite: #c0c0c0;
 
@@ -18,6 +20,7 @@ $z-app: 20;
 $z-window: 10;
 
 $header-shadow: 0 0 5px rgba(black, 0.5);
+$popup-shadow: 0 0 10px rgba(black, 0.5);
 
 $tools-width: 250px;
 

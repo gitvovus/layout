@@ -151,7 +151,7 @@ html, body {
 
 .spacer {
   flex: 1 1 0;
-  transition: flex 0.3s;
+  transition: flex $transition;
   &[collapsed] {
     flex: 0 0 auto;
   }
