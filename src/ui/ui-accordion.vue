@@ -20,6 +20,10 @@ export default class UiAccordion extends Vue {
     const el = this.$el as HTMLElement;
     el.style.maxHeight = expand ? el.scrollHeight + 'px' : null;
   }
+
+  private mounted() {
+    this.expand(this.expanded);
+  }
 }
 </script>
 

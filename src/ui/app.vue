@@ -17,13 +17,13 @@
   <div class="app-bar">
     <div class="spacer" :collapsed="model.align === -1"></div>
     <div class="app-buttons">
-      <ui-button no-focus tabindex="-1" class="round pretty-lite" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
-      <ui-button class="round pretty-lite" toggle v-model="model.show">Dialog</ui-button>
+      <ui-button no-focus tabindex="-1" class="round pretty lite" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
+      <ui-button class="round pretty lite" toggle v-model="model.show">Dialog</ui-button>
       <span class="separator"/>
       <div class="text">Page:</div>
-      <ui-button class="round pretty-lite" v-for="i in 4" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
+      <ui-button class="round pretty lite" v-for="i in 4" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
       <span class="separator"/>
-      <ui-button no-focus tabindex="-1" class="round pretty-lite" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
+      <ui-button no-focus tabindex="-1" class="round pretty lite" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
     </div>
     <div class="spacer" :collapsed="model.align === 1"></div>
   </div>

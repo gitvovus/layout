@@ -1,8 +1,8 @@
 <template>
 <div class="root">
   <div class="header">
-    <ui-button class="pretty-dark m-menu" v-for="i in 6" :key="i" v-model="button" :toggle="[i-1]">{{i-1}}</ui-button>
-    <ui-button class="pretty-dark m-menu" v-model="test" toggle>Test</ui-button>
+    <ui-button class="pretty dark m-menu" v-for="i in 6" :key="i" v-model="button" :toggle="[i-1]">{{i-1}}</ui-button>
+    <ui-button class="pretty dark m-menu" v-model="test" toggle>Test</ui-button>
   </div>
   <div class="main">
     <div class="wrapper">
@@ -45,10 +45,10 @@
     </div>
     <div class="tools">
       <div class="m-dark">
-        <ui-button no-focus tabindex="-1" class="pretty-dark m-side" v-for="i in 6" :key="i+100" v-model="model.dark" :toggle="[i-1]">Dark #{{i-1}}</ui-button>
+        <ui-button no-focus tabindex="-1" class="pretty dark m-side" v-for="i in 6" :key="i+100" v-model="model.dark" :toggle="[i-1]">Dark #{{i-1}}</ui-button>
       </div>
       <div class="m-lite">
-        <ui-button class="pretty-lite m-side" v-for="i in 6" :key="i+200" v-model="model.lite" :toggle="[i-1]">Lite #{{i-1}}</ui-button>
+        <ui-button class="pretty lite m-side" v-for="i in 6" :key="i+200" v-model="model.lite" :toggle="[i-1]">Lite #{{i-1}}</ui-button>
       </div>
     </div>
   </div>

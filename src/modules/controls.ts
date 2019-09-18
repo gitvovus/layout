@@ -10,7 +10,7 @@ export class Controls {
 
   // popup
   @observable public popup = false;
-  @observable public text = '---';
+  @observable public text = 'text';
 
   // expand
   @observable public expanded = false;

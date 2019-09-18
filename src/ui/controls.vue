@@ -9,7 +9,7 @@
     >{{`#${i}`}}</ui-button>
     <div><br>Radio (object): { name: {{model.selectedItem.name}}, value: {{model.selectedItem.value}} }</div>
     <ui-button v-for="(item, i) in model.items" :key="i+200"
-      :class="['round', tint]"
+      :class="['round pretty', tint]"
       :toggle="[model.items[i]]"
       v-model="model.selectedItem"
     >{{`#${i}`}}</ui-button>
@@ -26,7 +26,7 @@
     clicked: {{model.message}}
   </div>
   <div>
-    <ui-button :class="['round', tint]" toggle v-model="model.popup">Popup</ui-button>
+    <ui-button :class="['round', tint, { 'no-events': model.popup }]" toggle v-model="model.popup">Popup</ui-button>
     <div class="popup-anchor" v-if="dark !== undefined" tabindex="-1">
       <ui-popup :class="['popup-sample content', tint]" v-model="model.popup">
         <input type="text" v-model="model.text"/>
@@ -114,6 +114,12 @@ export default class Controls extends Vue {
   max-height: 500px;
   overflow-y: auto;
 }
+.popup-input {
+  margin: 10px;
+}
+.no-events {
+  pointer-events: none;
+}
 
 .expand-header {
   display: flex;
@@ -129,7 +135,7 @@ export default class Controls extends Vue {
 }
 .content {
   margin: 10px 0;
-  padding: 0 10px;
+  padding: 10px;
   border-radius: 5px;
   border-width: 1px;
   border-style: solid;

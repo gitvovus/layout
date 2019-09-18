@@ -1,10 +1,11 @@
 <template>
-<div :class="['popup']" @blur="hide" tabindex="-1">
+<div :class="['popup', { show: value }]" @focusout="focusout" tabindex="-1">
   <slot/>
 </div>
 </template>
 
 <script lang="ts">
+// related useful information:
 // https://www.freecodecamp.org/news/mostly-css-drop-down-combo-boxes-4ff4bb182ff7/
 import { Observer } from 'mobx-vue';
 import Vue from 'vue';
@@ -17,16 +18,22 @@ export default class UiPopup extends Vue {
   @Prop() private value!: boolean;
 
   @Watch('value')
-  private focus(show: boolean) {
+  private show(show: boolean) {
     if (show) {
-      (this.$el.parentElement as HTMLElement).focus();
-      // Vue.nextTick(() => (this.$el as HTMLElement).focus());
+      Vue.nextTick(() => (this.$el as HTMLElement).focus());
     }
   }
 
-  private hide() {
-    // console.log(document.activeElement!.tagName);
-    // this.$emit('input', false);
+  private focusout(e: FocusEvent) {
+    const el = this.$el as HTMLElement;
+    let focused = e.relatedTarget as HTMLElement | null;
+    while (focused) {
+      if (focused === el) {
+        return;
+      }
+      focused = focused.parentElement;
+    }
+    this.$emit('input', false);
   }
 }
 </script>
@@ -49,13 +56,13 @@ export default class UiPopup extends Vue {
   &.show {
     display: block;
   }
-  &:focus-within {
-    display: block;
-  }
+  // &:focus-within {
+  //   display: block;
+  // }
 }
 
-.popup-anchor:focus-within .popup {
-  display: block;
-}
+// .popup-anchor:focus-within .popup {
+//   display: block;
+// }
 
 </style>
