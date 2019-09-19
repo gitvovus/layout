@@ -26,32 +26,40 @@
     clicked: {{model.message}}
   </div>
   <div>
-    <ui-button :class="['round', tint, { 'no-events': model.popup }]" toggle v-model="model.popup">Popup</ui-button>
+    <ui-button :class="['round outline', tint, { 'no-events': model.popup }]" toggle v-model="model.popup">Popup</ui-button>
     <div class="popup-anchor" v-if="dark !== undefined" tabindex="-1">
       <ui-popup :class="['popup-sample content', tint]" v-model="model.popup">
         <input type="text" v-model="model.text"/>
-        <lorem :p="2"/>
+        <lorem :p="1"/>
       </ui-popup>
     </div>
   </div>
   <div>
     <div class="expand-header">
-      <div>Expand/collapse:</div>
+      Expand:
       <ui-button :class="['round outline icon-wrapper', tint]" @click="model.expanded = !model.expanded">
         <div :class="['icon icon-less', model.expanded ? 'collapse' : 'expand']"></div>
       </ui-button>
+      paragraphs:
+      <ui-button
+        v-for="(item, i) in model.paragraphs"
+        :key="i"
+        :class="['round', tint]"
+        :toggle="[i]"
+        v-model="model.selectedParagraphs"
+      >{{model.paragraphs[i]}}</ui-button>
     </div>
     <ui-accordion :expanded="model.expanded">
-      <lorem :p="2" :class="['content', tint]"/>
+      <lorem :p="model.paragraphs[model.selectedParagraphs]" :class="['content', tint]"/>
     </ui-accordion>
     <template v-for="(dummy, i) in 2">
       <div class="expand-header" :key="i">
-        <div>Expand (radio) {{i}}:</div>
+        <div>Expand (radio #{{i}}):</div>
         <ui-button :class="['round outline icon-wrapper', tint]" :toggle="[i, undefined]" v-model="model.expandedGroup">
           <div :class="['icon icon-less', model.expandedGroup === i ? 'collapse' : 'expand']"></div>
         </ui-button>
       </div>
-      <ui-accordion :expanded="model.expandedGroup === i" :key="200+i">
+      <ui-accordion :expanded="model.expandedGroup === i" :key="i+100">
         <lorem :p="2" :class="['content', tint]"/>
       </ui-accordion>
     </template>
@@ -90,6 +98,7 @@ export default class Controls extends Vue {
   flex-direction: column;
   padding: 10px 10px 10px 20px;
   max-height: 100vh;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 .c-dark {

@@ -13,7 +13,9 @@ export class Controls {
   @observable public text = 'text';
 
   // expand
-  @observable public expanded = false;
+  @observable public expanded = true;
+  public paragraphs = [1, 2, 4, 8];
+  @observable public selectedParagraphs = 0;
   @observable public expandedGroup?: number = undefined;
 
   @action public unstyled() {

@@ -1,6 +1,8 @@
 <template>
 <div class="accordion">
-  <slot/>
+  <div>
+    <slot/>
+  </div>
 </div>
 </template>
 
@@ -14,15 +16,33 @@ import { Prop, Watch } from 'vue-property-decorator';
 @Component
 export default class UiAccordion extends Vue {
   @Prop() private expanded!: boolean;
+  private trackResizeDisposer!: () => void;
+
+  private mounted() {
+    this.trackResizeDisposer = this.trackResize();
+  }
+
+  private beforeDestroy() {
+    this.trackResizeDisposer();
+  }
+
+  private trackResize() {
+    let id = 0;
+    const frameHandler = () => {
+      id = requestAnimationFrame(frameHandler);
+      this.expand(this.expanded);
+    };
+    frameHandler();
+    return () => cancelAnimationFrame(id);
+  }
 
   @Watch('expanded')
   private expand(expand: boolean) {
     const el = this.$el as HTMLElement;
-    el.style.maxHeight = expand ? el.scrollHeight + 'px' : null;
-  }
-
-  private mounted() {
-    this.expand(this.expanded);
+    const height = expand ? (el.firstChild as HTMLElement).scrollHeight + 'px' : '';
+    if (el.style.height !== height) {
+      el.style.height = height;
+    }
   }
 }
 </script>
@@ -31,8 +51,8 @@ export default class UiAccordion extends Vue {
 @import '@/style/_vars.scss';
 
 .accordion {
-  max-height: 0;
+  height: 0;
   overflow: hidden;
-  transition: max-height $transition;
+  transition: height $transition;
 }
 </style>
