@@ -56,13 +56,5 @@ export default class UiPopup extends Vue {
   &.show {
     display: block;
   }
-  // &:focus-within {
-  //   display: block;
-  // }
 }
-
-// .popup-anchor:focus-within .popup {
-//   display: block;
-// }
-
 </style>

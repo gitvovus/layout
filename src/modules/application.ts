@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 import Vue from 'vue';
-import App from '@/ui/app.vue';
+import App from '@/views/app.vue';
 
 import { Controls } from '@/modules/controls';
 import { Grid } from '@/modules/grid';

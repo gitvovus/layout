@@ -1,19 +1,19 @@
 import Vue, { VueConstructor } from 'vue';
 import '@/style/main.scss';
 
-import Controls from '@/ui/controls.vue';
-import Grid from '@/ui/grid.vue';
-import Layout from '@/ui/layout.vue';
-import Lorem from '@/ui/lorem.vue';
-import Mockup from '@/ui/mockup.vue';
-import View2d from '@/ui/view-2d.vue';
+import Controls from '@/views/controls.vue';
+import Grid from '@/views/grid.vue';
+import Layout from '@/views/layout.vue';
+import Lorem from '@/views/lorem.vue';
+import Mockup from '@/views/mockup.vue';
+import View2d from '@/views/view-2d.vue';
 
-import UiAccordion from '@/ui/ui-accordion.vue';
-import UiButton from '@/ui/ui-button.vue';
-import UiDialog from '@/ui/ui-dialog.vue';
-import UiElement from '@/ui/ui-element.vue';
-import UiPopup from '@/ui/ui-popup.vue';
-import UiText from '@/ui/ui-text.vue';
+import UiAccordion from '@/ui/accordion.vue';
+import UiButton from '@/ui/button.vue';
+import UiDialog from '@/ui/dialog.vue';
+import UiElement from '@/ui/element.vue';
+import UiPopup from '@/ui/popup.vue';
+import UiText from '@/ui/text.vue';
 
 import { Application } from '@/modules/application';
 
