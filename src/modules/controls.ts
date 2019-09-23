@@ -2,6 +2,7 @@ import { action, observable } from 'mobx';
 
 export class Controls {
   // buttons
+  @observable public buttons = false;
   @observable public index = 3;
   @observable public items = [...Array(4)].map((item, i) => ({ name: `item #${i}`, value: i }));
   @observable public selectedItem = this.items[2];
@@ -13,7 +14,7 @@ export class Controls {
   @observable public text = 'text';
 
   // expand
-  @observable public expanded = true;
+  @observable public expanded = false;
   public paragraphs = [1, 2, 4, 8];
   @observable public selectedParagraphs = 0;
   @observable public expandedGroup?: number = undefined;

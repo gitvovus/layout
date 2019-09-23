@@ -1,30 +1,38 @@
 <template>
 <div :class="['c-root', dark === '' ? 'c-dark' : 'c-lite']">
-  <div>
-    <div>Radio (index): {{model.index}}</div>
-    <ui-button v-for="(item, i) in model.group" :key="i+100"
-      :class="['round', tint]"
-      :toggle="[i]"
-      v-model="model.index"
-    >{{`#${i}`}}</ui-button>
-    <div><br>Radio (object): { name: {{model.selectedItem.name}}, value: {{model.selectedItem.value}} }</div>
-    <ui-button v-for="(item, i) in model.items" :key="i+200"
-      :class="['round pretty', tint]"
-      :toggle="[model.items[i]]"
-      v-model="model.selectedItem"
-    >{{`#${i}`}}</ui-button>
-    <div><br>Checkbox: [ <div class="c-item" v-for="(item, i) in model.group" :key="i+300">{{item}}&nbsp;</div> ]</div>
-    <ui-button v-for="(item, i) in model.group" :key="i+300"
-      :class="['round', tint]"
-      toggle
-      v-model="model.group[i]"
-    >{{`#${i}`}}</ui-button>
-    <div><br>Push:</div>
-    <ui-button @click="model.unstyled()">Unstyled</ui-button>
-    <ui-button :class="['round outline', tint]" @click="model.ok()">Ok</ui-button>
-    <ui-button :class="['round outline', tint]" @click="model.cancel()">Cancel</ui-button>
-    clicked: {{model.message}}
+  <div class="expand-header">
+    Buttons:
+    <ui-button :class="['round outline icon-wrapper', tint]" @click="model.buttons = !model.buttons">
+      <div :class="['icon icon-less', model.buttons ? 'collapse' : 'expand']"></div>
+    </ui-button>
   </div>
+  <ui-accordion :expanded="model.buttons">
+    <div>
+      <div>Radio (index): {{model.index}}</div>
+      <ui-button v-for="(item, i) in model.group" :key="i+100"
+        :class="['round', tint]"
+        :toggle="[i]"
+        v-model="model.index"
+      >{{`#${i}`}}</ui-button>
+      <div><br>Radio (object): { name: {{model.selectedItem.name}}, value: {{model.selectedItem.value}} }</div>
+      <ui-button v-for="(item, i) in model.items" :key="i+200"
+        :class="['round pretty', tint]"
+        :toggle="[model.items[i]]"
+        v-model="model.selectedItem"
+      >{{`#${i}`}}</ui-button>
+      <div><br>Checkbox: [ <div class="c-item" v-for="(item, i) in model.group" :key="i+300">{{item}}&nbsp;</div> ]</div>
+      <ui-button v-for="(item, i) in model.group" :key="i+300"
+        :class="['round', tint]"
+        toggle
+        v-model="model.group[i]"
+      >{{`#${i}`}}</ui-button>
+      <div><br>Push:</div>
+      <ui-button @click="model.unstyled()">Unstyled</ui-button>
+      <ui-button :class="['round outline', tint]" @click="model.ok()">Ok</ui-button>
+      <ui-button :class="['round outline', tint]" @click="model.cancel()">Cancel</ui-button>
+      clicked: {{model.message}}
+    </div>
+  </ui-accordion>
   <div>
     <ui-button :class="['round outline', tint, { 'no-events': model.popup }]" toggle v-model="model.popup">Popup</ui-button>
     <div class="popup-anchor" v-if="dark !== undefined" tabindex="-1">
@@ -34,36 +42,34 @@
       </ui-popup>
     </div>
   </div>
-  <div>
-    <div class="expand-header">
-      Expand:
-      <ui-button :class="['round outline icon-wrapper', tint]" @click="model.expanded = !model.expanded">
-        <div :class="['icon icon-less', model.expanded ? 'collapse' : 'expand']"></div>
-      </ui-button>
-      paragraphs:
-      <ui-button
-        v-for="(item, i) in model.paragraphs"
-        :key="i"
-        :class="['round', tint]"
-        :toggle="[i]"
-        v-model="model.selectedParagraphs"
-      >{{model.paragraphs[i]}}</ui-button>
-    </div>
-    <ui-accordion :expanded="model.expanded">
-      <lorem :p="model.paragraphs[model.selectedParagraphs]" :class="['content', tint]"/>
-    </ui-accordion>
-    <template v-for="(dummy, i) in 2">
-      <div class="expand-header" :key="i">
-        <div>Expand (radio #{{i}}):</div>
-        <ui-button :class="['round outline icon-wrapper', tint]" :toggle="[i, undefined]" v-model="model.expandedGroup">
-          <div :class="['icon icon-less', model.expandedGroup === i ? 'collapse' : 'expand']"></div>
-        </ui-button>
-      </div>
-      <ui-accordion :expanded="model.expandedGroup === i" :key="i+100">
-        <lorem :p="2" :class="['content', tint]"/>
-      </ui-accordion>
-    </template>
+  <div class="expand-header">
+    Expand:
+    <ui-button :class="['round outline icon-wrapper', tint]" @click="model.expanded = !model.expanded">
+      <div :class="['icon icon-less', model.expanded ? 'collapse' : 'expand']"></div>
+    </ui-button>
+    paragraphs:
+    <ui-button
+      v-for="(item, i) in model.paragraphs"
+      :key="i"
+      :class="['round', tint]"
+      :toggle="[i]"
+      v-model="model.selectedParagraphs"
+    >{{model.paragraphs[i]}}</ui-button>
   </div>
+  <ui-accordion :expanded="model.expanded">
+    <lorem :p="model.paragraphs[model.selectedParagraphs]" :class="['content', tint]"/>
+  </ui-accordion>
+  <template v-for="(dummy, i) in 2">
+    <div class="expand-header" :key="i">
+      <div>Expand (radio #{{i}}):</div>
+      <ui-button :class="['round outline icon-wrapper', tint]" :toggle="[i, undefined]" v-model="model.expandedGroup">
+        <div :class="['icon icon-less', model.expandedGroup === i ? 'collapse' : 'expand']"></div>
+      </ui-button>
+    </div>
+    <ui-accordion :expanded="model.expandedGroup === i" :key="i+100">
+      <lorem :p="2" :class="['content', tint]"/>
+    </ui-accordion>
+  </template>
 </div>
 </template>
 
