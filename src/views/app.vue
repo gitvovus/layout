@@ -17,13 +17,13 @@
   <div class="app-bar">
     <div class="spacer" :collapsed="model.align === -1"></div>
     <div class="app-buttons">
-      <ui-button no-focus tabindex="-1" class="round pretty lite" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
-      <ui-button class="round pretty lite" toggle v-model="model.show">Dialog</ui-button>
+      <ui-button no-focus tabindex="-1" class="round pretty light" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
+      <ui-button class="round pretty light" toggle v-model="model.show">Dialog</ui-button>
       <span class="separator"/>
       <div class="text">Page:</div>
-      <ui-button class="round pretty lite" v-for="i in 4" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
+      <ui-button class="round pretty light" v-for="i in 4" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
       <span class="separator"/>
-      <ui-button no-focus tabindex="-1" class="round pretty lite" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
+      <ui-button no-focus tabindex="-1" class="round pretty light" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
     </div>
     <div class="spacer" :collapsed="model.align === 1"></div>
   </div>
@@ -42,14 +42,14 @@ import { Application } from '@/modules/application';
 const s = 50;
 const l = 0x88;
 const d = 0x80;
-const lite: img.RGBA = [l, l, l, 0xff];
+const light: img.RGBA = [l, l, l, 0xff];
 const dark: img.RGBA = [d, d, d, 0xff];
 
 @Observer
 @Component
 export default class App extends Vue {
   @Prop() private model!: Application;
-  private bg = img.fromImageData(img.generate(s * 2, s * 2, (x, y) => ((x - x % s) / s & 1) === ((y - y % s) / s & 1) ? lite : dark));
+  private bg = img.fromImageData(img.generate(s * 2, s * 2, (x, y) => ((x - x % s) / s & 1) === ((y - y % s) / s & 1) ? light : dark));
 
   private mounted() {
     this.model.mount(this.$el);

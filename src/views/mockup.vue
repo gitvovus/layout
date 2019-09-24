@@ -1,8 +1,8 @@
 <template>
 <div class="root">
   <div class="header">
-    <ui-button class="pretty dark m-menu" v-for="i in 6" :key="i" v-model="button" :toggle="[i-1]">{{i-1}}</ui-button>
-    <ui-button class="pretty dark m-menu" v-model="test" toggle>Test</ui-button>
+    <ui-button class="pretty dark round m-menu" v-for="i in 6" :key="i" v-model="button" :toggle="[i-1]">{{i-1}}</ui-button>
+    <ui-button class="pretty dark round m-menu" v-model="test" toggle>Test</ui-button>
   </div>
   <div class="main">
     <div class="wrapper">
@@ -19,7 +19,7 @@
           <view-2d :model="model.view2d">
             <div class="anchor right bottom">
               <ui-button no-focus tabindex="-1" class="icon-wrapper" @click="model.view2d.toggleExpanded()">
-                <div class="icon icon-expand"></div>
+                <div class="icon dark icon-expand"></div>
               </ui-button>
             </div>
           </view-2d>
@@ -39,16 +39,16 @@
       </div>
       <div class="m-toggle-views">
         <ui-button no-focus tabindex="-1" class="round icon-wrapper" toggle v-model="model.views">
-          <div :class="['icon icon-less', { rotated: !model.views }]"></div>
+          <div :class="['icon dark icon-less', { rotated: !model.views }]"></div>
         </ui-button>
       </div>
     </div>
     <div class="tools">
       <div class="m-dark">
-        <ui-button no-focus tabindex="-1" class="pretty dark m-side" v-for="i in 6" :key="i+100" v-model="model.dark" :toggle="[i-1]">Dark #{{i-1}}</ui-button>
+        <ui-button no-focus tabindex="-1" class="pretty dark round m-side" v-for="i in 6" :key="i+100" v-model="model.dark" :toggle="[i-1]">Dark #{{i-1}}</ui-button>
       </div>
-      <div class="m-lite">
-        <ui-button class="pretty lite m-side" v-for="i in 6" :key="i+200" v-model="model.lite" :toggle="[i-1]">Lite #{{i-1}}</ui-button>
+      <div class="m-light">
+        <ui-button class="pretty light round m-side" v-for="i in 6" :key="i+200" v-model="model.light" :toggle="[i-1]">Light #{{i-1}}</ui-button>
       </div>
     </div>
   </div>
@@ -102,11 +102,10 @@ export default class Mockup extends Vue {
   width: 100%;
   height: 100%;
   vertical-align: middle;
-  background-color: white;
   mask-position: center;
   mask-repeat: no-repeat;
   transform: rotate(0);
-  transition: transform 0.3s;
+  transition: transform $transition;
 }
 
 .icon.rotated {
@@ -122,8 +121,8 @@ export default class Mockup extends Vue {
   justify-content: center;
   padding: 20px;
 }
-.m-lite {
-  background-color: $bg-lite;
+.m-light {
+  background-color: $bg-light;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
@@ -141,11 +140,9 @@ export default class Mockup extends Vue {
   z-index: 2;
 }
 .button.m-menu {
-  border-radius: 50vh;
   margin: 0 5px;
 }
 .button.m-side {
-  border-radius: 50vh;
   margin: 5px;
   padding: 15px 20px;
 }

@@ -131,7 +131,7 @@ export default class UiButton extends Vue {
   &.dark {
     @include tint(white);
   }
-  &.lite {
+  &.light {
     @include tint(black);
   }
   &.pretty.dark {
@@ -144,7 +144,7 @@ export default class UiButton extends Vue {
       $alpha-border-active: 0.25,
     );
   }
-  &.pretty.lite {
+  &.pretty.light {
     @include pretty(
       $primary: black,
       $alpha-border-focus-checked: 1,

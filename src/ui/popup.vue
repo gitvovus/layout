@@ -50,8 +50,8 @@ export default class UiPopup extends Vue {
   &.dark {
     background-color: $bg-dark;
   }
-  &.lite {
-    background-color: $bg-lite;
+  &.light {
+    background-color: $bg-light;
   }
   &.show {
     display: block;

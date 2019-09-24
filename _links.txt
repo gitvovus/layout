@@ -1,0 +1,2 @@
+bootstrap reference code, variables:
+https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss

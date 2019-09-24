@@ -1,9 +1,9 @@
 <template>
-<div :class="['c-root', dark === '' ? 'c-dark' : 'c-lite']">
+<div :class="['c-root', dark === '' ? 'c-dark' : 'c-light']">
   <div class="expand-header">
     Buttons:
     <ui-button :class="['round outline icon-wrapper', tint]" @click="model.buttons = !model.buttons">
-      <div :class="['icon icon-less', model.buttons ? 'collapse' : 'expand']"></div>
+      <div :class="['icon icon-less', tint, model.buttons ? 'collapse' : 'expand']"></div>
     </ui-button>
   </div>
   <ui-accordion :expanded="model.buttons">
@@ -37,15 +37,24 @@
     <ui-button :class="['round outline', tint, { 'no-events': model.popup }]" toggle v-model="model.popup">Popup</ui-button>
     <div class="popup-anchor" v-if="dark !== undefined" tabindex="-1">
       <ui-popup :class="['popup-sample content', tint]" v-model="model.popup">
-        <input type="text" v-model="model.text"/>
-        <lorem :p="1"/>
+        <div class="expand-header">
+          <input type="text" v-model="model.text"/>
+          <ui-button
+            v-for="(item, i) in model.paragraphs"
+            :key="i"
+            :class="['round', tint]"
+            :toggle="[i]"
+            v-model="model.selectedParagraphs"
+          >{{model.paragraphs[i]}}</ui-button>
+        </div>
+        <lorem :p="model.paragraphs[model.selectedParagraphs]"/>
       </ui-popup>
     </div>
   </div>
   <div class="expand-header">
     Expand:
     <ui-button :class="['round outline icon-wrapper', tint]" @click="model.expanded = !model.expanded">
-      <div :class="['icon icon-less', model.expanded ? 'collapse' : 'expand']"></div>
+      <div :class="['icon icon-less', tint, model.expanded ? 'collapse' : 'expand']"></div>
     </ui-button>
     paragraphs:
     <ui-button
@@ -63,7 +72,7 @@
     <div class="expand-header" :key="i">
       <div>Expand (radio #{{i}}):</div>
       <ui-button :class="['round outline icon-wrapper', tint]" :toggle="[i, undefined]" v-model="model.expandedGroup">
-        <div :class="['icon icon-less', model.expandedGroup === i ? 'collapse' : 'expand']"></div>
+        <div :class="['icon icon-less', tint, model.expandedGroup === i ? 'collapse' : 'expand']"></div>
       </ui-button>
     </div>
     <ui-accordion :expanded="model.expandedGroup === i" :key="i+100">
@@ -88,7 +97,7 @@ export default class Controls extends Vue {
   @Prop() private dark: '' | undefined;
 
   public get tint() {
-    return this.dark === '' ? 'dark' : 'lite';
+    return this.dark === '' ? 'dark' : 'light';
   }
 }
 </script>
@@ -109,11 +118,11 @@ export default class Controls extends Vue {
 }
 .c-dark {
   background-color: $bg-dark;
-  color: $text-lite;
-}
-.c-lite {
-  background-color: $bg-lite;
   color: $text-dark;
+}
+.c-light {
+  background-color: $bg-light;
+  color: $text-light;
 }
 .c-item {
   display: inline-block;
@@ -126,8 +135,6 @@ export default class Controls extends Vue {
 }
 .popup-sample {
   width: 500px;
-  max-height: 500px;
-  overflow-y: auto;
 }
 .popup-input {
   margin: 10px;
@@ -141,6 +148,12 @@ export default class Controls extends Vue {
   align-items: center;
 }
 .icon {
+  &.dark {
+    background-color: $text-dark;
+  }
+  &.light {
+    background-color: $text-light;
+  }
   &.expand {
     transform: rotate(-90deg);
   }
@@ -158,7 +171,7 @@ export default class Controls extends Vue {
     background-color: rgba(black, 0.05);
     border-color: rgba(white, 0.1);
   }
-  &.lite {
+  &.light {
     background-color: rgba(white, 0.1);
     border-color: rgba(black, 0.1);
   }

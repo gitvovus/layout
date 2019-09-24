@@ -11,7 +11,7 @@ export class Application {
   @observable public align = 0; // -1: left, 0: center, 1: right
   @observable public show = false;
   @observable public dark = 0;
-  @observable public lite = 0;
+  @observable public light = 0;
   @observable public views = true;
 
   public readonly controls = new Controls();
