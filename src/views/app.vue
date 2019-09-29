@@ -7,7 +7,7 @@
   <layout v-if="model.page === 1"/>
   <mockup v-if="model.page === 2" :model="model"/>
   <grid v-if="model.page === 3" :model="model.grid"/>
-  <ui-dialog :class="['effect', { show: model.show }]" :width="600" :height="700">
+  <ui-dialog :class="['effect', { show: model.show }]" :width="600" :height="720">
     <div class="w-panel">
       <div class="w-header">Header</div>
       <div class="w-content"><lorem/></div>
@@ -75,7 +75,7 @@ export default class App extends Vue {
 }
 .app-buttons {
   display: flex;
-  align-content: stretch;
+  align-items: center;
   border-radius: 5px 5px 0 0;
   background-color: #e0e0e0;
   box-shadow: 0 0 8px rgba(black, 0.5);
@@ -83,11 +83,11 @@ export default class App extends Vue {
 }
 .separator {
   width: 1px;
+  height: 100%;
   background-color: #c0c0c0;
-  margin: 0 5px;
 }
 .text {
-  margin: auto;
+  margin: 0 0.5rem;
 }
 .controls-wrapper {
   position: absolute;

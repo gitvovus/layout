@@ -1,12 +1,10 @@
 <template>
-<div :class="['popup', { show: value }]" @focusout="focusout" tabindex="-1">
+<div :class="['popup', { show: value }]" @click="click" @focusout="focusout" tabindex="-1">
   <slot/>
 </div>
 </template>
 
 <script lang="ts">
-// related useful information:
-// https://www.freecodecamp.org/news/mostly-css-drop-down-combo-boxes-4ff4bb182ff7/
 import { Observer } from 'mobx-vue';
 import Vue from 'vue';
 import Component from 'vue-class-component';
@@ -20,20 +18,42 @@ export default class UiPopup extends Vue {
   @Watch('value')
   private show(show: boolean) {
     if (show) {
-      Vue.nextTick(() => (this.$el as HTMLElement).focus());
+      const el = this.$el as HTMLElement;
+      const parent = el.parentElement;
+      if (parent) {
+        const rect = parent.getBoundingClientRect();
+        el.style.left = rect.left + 'px';
+        el.style.top = rect.top + 'px';
+      }
+      Vue.nextTick(() => el.focus());
+    }
+  }
+
+  private click(e: Event) {
+    let target = e.target as HTMLElement | null;
+    while (target && target !== e.currentTarget) {
+      if (target.classList.contains('action')) {
+        this.$emit('input', false);
+        return;
+      }
+      target = target.parentElement;
     }
   }
 
   private focusout(e: FocusEvent) {
     const el = this.$el as HTMLElement;
-    let focused = e.relatedTarget as HTMLElement | null;
-    while (focused) {
-      if (focused === el) {
+    let target = e.relatedTarget as HTMLElement | null;
+    while (target) {
+      if (target === el) {
         return;
       }
-      focused = focused.parentElement;
+      target = target.parentElement;
     }
     this.$emit('input', false);
+  }
+
+  private mounted() {
+    this.show(this.value);
   }
 }
 </script>
@@ -42,7 +62,7 @@ export default class UiPopup extends Vue {
 @import '@/style/_vars.scss';
 
 .popup {
-  position: absolute;
+  position: fixed;
   display: none;
   outline: none;
   box-shadow: $popup-shadow;
