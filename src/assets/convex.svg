@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<style>
+  .contour {
+    fill: none;
+    stroke: red;
+    filter: url(#contour-shadow);
+  }
+  .convex {
+    fill: none;
+    stroke: #c0c0c0;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 5;
+  }
+  .zone {
+    fill: #fffff0;
+    stroke: none;
+    filter: url(#contour-shadow);
+  }
+</style>
+<defs>
+  <filter id="contour-shadow" x="-0.5" y="-0.5" width="2" height="2">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+    <feMerge>
+      <feMergeNode/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</defs>
+<g id="contour-root">
+  <path id="zone" class="zone"/>
+  <path id="convex" class="convex"/>
+  <path id="contour" class="contour"/>
+</g>
+</svg>

@@ -7,18 +7,28 @@
   <layout v-if="model.page === 1"/>
   <mockup v-if="model.page === 2" :model="model"/>
   <grid v-if="model.page === 3" :model="model.grid"/>
-  <ui-dialog :class="['effect', { show: model.show }]" :width="600" :height="720">
+  <ui-dialog :class="['effect', { show: model.showDialog }]" :width="600" :height="720">
     <div class="w-panel">
       <div class="w-header">Header</div>
       <div class="w-content"><lorem/></div>
       <div class="w-footer">Footer</div>
     </div>
   </ui-dialog>
+  <ui-dialog :class="['effect', { show: model.showContour }]" :width="800" :height="500">
+    <div class="w-panel">
+      <div class="w-header">Convex Hull</div>
+      <div class="w-content contour-wrapper">
+        <ui-element class="contour-root" :model="model.contour.root"/>
+      </div>
+      <div class="w-footer"></div>
+    </div>
+  </ui-dialog>
   <div class="app-bar">
     <div class="spacer" :collapsed="model.align === -1"></div>
     <div class="app-buttons">
       <ui-button no-focus tabindex="-1" class="round pretty light" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
-      <ui-button class="round pretty light" toggle v-model="model.show">Dialog</ui-button>
+      <ui-button class="round pretty light" toggle v-model="model.showDialog">Dialog</ui-button>
+      <ui-button class="round pretty light" toggle v-model="model.showContour">Contour</ui-button>
       <span class="separator"/>
       <div class="text">Page:</div>
       <ui-button class="round pretty light" v-for="i in 4" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
@@ -97,5 +107,14 @@ export default class App extends Vue {
   bottom: 0;
   display: flex;
   flex-direction: row;
+}
+.contour-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.contour-root {
+  width: 100%;
+  height: 100%;
 }
 </style>
