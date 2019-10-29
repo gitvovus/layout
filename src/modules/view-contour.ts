@@ -32,7 +32,8 @@ export class ViewContour {
     this.zonePath.attributes.d = cvx.createPath(this.zone, true);
 
     const box = cvx.bounds(this.zone);
-    this.root.attributes.viewBox = `${box.min.x - offset} ${box.min.y - offset} ${box.max.x - box.min.x + 2 * offset} ${box.max.y - box.min.y + 2 * offset}`;
+    const margin = 2 * scale;
+    this.root.attributes.viewBox = `${box.min.x - margin} ${box.min.y - margin} ${box.max.x - box.min.x + 2 * margin} ${box.max.y - box.min.y + 2 * margin}`;
   }
 }
 

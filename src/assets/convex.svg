@@ -13,8 +13,8 @@
     stroke-width: 5;
   }
   .zone {
-    fill: #fffff0;
-    stroke: none;
+    fill: none;
+    stroke: black;
     filter: url(#contour-shadow);
   }
 </style>

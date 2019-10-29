@@ -33,24 +33,22 @@ function cross(a: Point, b: Point) {
   return a.x * b.y - a.y * b.x;
 }
 
+function dot(a: Point, b: Point) {
+  return a.x * b.x + a.y * b.y;
+}
+
 export function convexHull(contour: Point[]) {
   const result: Point[] = [];
   let current = 0;
   result.push(contour[current]);
   while (current !== contour.length - 1) {
     let next = current + 1;
-    let dir = vector(contour[next], contour[current]);
-    let reset = true;
-    while (reset) {
-      reset = false;
-      for (let i = next; i < contour.length - 1; ++i) {
-        const check = vector(contour[i], contour[current]);
-        if (cross(dir, check) < -1e-4) {
-          next = i;
-          dir = check;
-          reset = true;
-          break;
-        }
+    let dir = vector(contour[current], contour[next]);
+    for (let i = next + 1; i < contour.length - 1; ++i) {
+      const check = vector(contour[current], contour[i]);
+      if (cross(dir, check) < 0) {
+        next = i;
+        dir = check;
       }
     }
     result.push(contour[next]);
@@ -61,38 +59,24 @@ export function convexHull(contour: Point[]) {
 }
 
 function distance(point: Point, linePoint: Point, lineNormal: Point) {
-  return (point.x - linePoint.x) * lineNormal.x + (point.y - linePoint.y) * lineNormal.y;
-}
-
-function findEdge(points: Point[], normal: Point) {
-  let max = points[0].x * normal.x + points[0].y * normal.y;
-  let index = 0;
-  for (let i = 1; i < points.length; ++i) {
-    const dot = points[i].x * normal.x + points[i].y * normal.y;
-    if (dot > max) {
-      max = dot;
-      index = i;
-    }
-  }
-  return points[index];
+  return dot(vector(linePoint, point), lineNormal);
 }
 
 export function cut(points: Point[], linePoint: Point, lineNormal: Point) {
-  console.log('cut: ', lineNormal.x.toFixed(2), lineNormal.y.toFixed(2));
   const result: Point[] = [];
-  let pd = distance(points[0], linePoint, lineNormal);
+  let prev = points[points.length - 1];
+  let pd = distance(prev, linePoint, lineNormal);
   let pv = pd <= 0;
   if (pv) {
-    result.push(points[0]);
+    result.push(prev);
   }
-  for (let i = 1; i < points.length; ++i) {
-    const point = points[i];
+  for (const point of points) {
     const cd = distance(point, linePoint, lineNormal);
     const cv = cd <= 0;
     if (cv !== pv) {
       const d = Math.abs(pd) + Math.abs(cd);
-      const x = (points[i - 1].x * Math.abs(cd) + point.x * Math.abs(pd)) / d;
-      const y = (points[i - 1].y * Math.abs(cd) + point.y * Math.abs(pd)) / d;
+      const x = (prev.x * Math.abs(cd) + point.x * Math.abs(pd)) / d;
+      const y = (prev.y * Math.abs(cd) + point.y * Math.abs(pd)) / d;
       result.push({ x, y });
     }
     if (cv) {
@@ -100,31 +84,40 @@ export function cut(points: Point[], linePoint: Point, lineNormal: Point) {
     }
     pv = cv;
     pd = cd;
+    prev = point;
   }
   return result;
 }
 
 export function offset(contour: Point[], offset: number, bounds: { min: Point, max: Point}) {
-  const convex = convexHull(contour);
   let result: Point[] = [
     { x: bounds.min.x, y: bounds.min.y },
     { x: bounds.max.x, y: bounds.min.y },
     { x: bounds.max.x, y: bounds.max.y },
     { x: bounds.min.x, y: bounds.max.y },
   ];
-  for (let i = 1; i < convex.length; ++i) {
-    const a = convex[i - 1];
-    const b = convex[i];
-    const dx = b.x - a.x;
-    const dy = b.y - a.y;
-    const length = Math.hypot(dx, dy);
-    if (length < 1e-4) {
-      continue;
+
+  const convex = convexHull(contour);
+  for (let i = 0; i < convex.length; ++i) {
+    const a = convex[i];
+    const prev = i === 0 ? convex[convex.length - 1] : convex[i - 1];
+    const next = i < convex.length - 1 ? convex[i + 1] : convex[0];
+    const p = vector(prev, a);
+    const n = vector(a, next);
+    const pLength = Math.hypot(p.x, p.y);
+    const nLength = Math.hypot(n.x, n.y);
+    if (pLength > 1e-4 && nLength > 1e-4) {
+      const v = { x: p.x / pLength + n.x / nLength, y: p.y / pLength + n.y / nLength };
+      const vLength = Math.hypot(v.x, v.y);
+      const normal = { x: v.y / vLength, y: -v.x / vLength };
+      const point = { x: a.x + normal.x * offset, y: a.y + normal.y * offset };
+      result = cut(result, point, normal);
     }
-    const normal = { x: dy / length, y: -dx / length };
-    const edge = findEdge(convex, normal);
-    const p = { x: edge.x + normal.x * offset, y: edge.y + normal.y * offset };
-    result = cut(result, p, normal);
+    if (nLength > 1e-4) {
+      const normal = { x: n.y / nLength, y: -n.x / nLength };
+      const point = { x: a.x + normal.x * offset, y: a.y + normal.y * offset };
+      result = cut(result, point, normal);
+    }
   }
 
   return result;

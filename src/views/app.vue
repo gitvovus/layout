@@ -16,7 +16,7 @@
   </ui-dialog>
   <ui-dialog :class="['effect', { show: model.showContour }]" :width="800" :height="500">
     <div class="w-panel">
-      <div class="w-header">Convex Hull</div>
+      <div class="w-header">Convex Hull &amp; Offset</div>
       <div class="w-content contour-wrapper">
         <ui-element class="contour-root" :model="model.contour.root"/>
       </div>
