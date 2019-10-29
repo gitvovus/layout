@@ -28,7 +28,7 @@
     <div class="app-buttons">
       <ui-button no-focus tabindex="-1" class="round pretty light" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
       <ui-button class="round pretty light" toggle v-model="model.showDialog">Dialog</ui-button>
-      <ui-button class="round pretty light" toggle v-model="model.showContour">Contour</ui-button>
+      <ui-button class="round pretty light" toggle v-model="model.showContour">Convex</ui-button>
       <span class="separator"/>
       <div class="text">Page:</div>
       <ui-button class="round pretty light" v-for="i in 4" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>

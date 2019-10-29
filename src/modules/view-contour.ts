@@ -55,3 +55,12 @@ export const sample: cvx.Point[] = [
   { x: 4, y: 20 },
   { x: 0, y: 21 },
 ];
+
+export const star: cvx.Point[] = [
+  { x: 0, y: 0 },
+  { x: 2, y: 4 },
+  { x: 6, y: 4 },
+  { x: 3, y: 6 },
+  { x: 5, y: 10 },
+  { x: 0, y: 7 },
+];

@@ -41,15 +41,26 @@ export function convexHull(contour: Point[]) {
   const result: Point[] = [];
   let current = 0;
   result.push(contour[current]);
-  while (current !== contour.length - 1) {
-    let next = current + 1;
+  while (true) {
+    let next = current < contour.length - 1 ? current + 1 : 0;
+    if (next === 0) {
+      break;
+    }
     let dir = vector(contour[current], contour[next]);
-    for (let i = next + 1; i < contour.length - 1; ++i) {
-      const check = vector(contour[current], contour[i]);
-      if (cross(dir, check) < 0) {
-        next = i;
-        dir = check;
+    let t = next < contour.length - 1 ? next + 1 : 0;
+    while (true) {
+      const test = vector(contour[current], contour[t]);
+      if (cross(dir, test) < 0) {
+        next = t;
+        dir = test;
       }
+      if (t === 0) {
+        break;
+      }
+      t = t < contour.length - 1 ? t + 1 : 0;
+    }
+    if (next === 0) {
+      break;
     }
     result.push(contour[next]);
     current = next;

@@ -5,7 +5,7 @@ import App from '@/views/app.vue';
 import { Controls } from '@/modules/controls';
 import { Grid } from '@/modules/grid';
 import { View2d } from '@/modules/view-2d';
-import { ViewContour, sample } from '@/modules/view-contour';
+import { ViewContour, sample, star } from '@/modules/view-contour';
 
 export class Application {
   @observable public page = 0;
