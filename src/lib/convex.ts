@@ -69,6 +69,10 @@ export function convexHull(contour: Point[]) {
   return result;
 }
 
+export function convex2(points: Point[]) {
+  points = points.sort((a, b) => a.y - b.y || a.x - b.x);
+}
+
 function distance(point: Point, linePoint: Point, lineNormal: Point) {
   return dot(vector(linePoint, point), lineNormal);
 }

@@ -5,15 +5,18 @@ import App from '@/views/app.vue';
 import { Controls } from '@/modules/controls';
 import { Grid } from '@/modules/grid';
 import { View2d } from '@/modules/view-2d';
-import { ViewContour, sample, star } from '@/modules/view-contour';
+import { ViewContour } from '@/modules/view-contour';
 
 export class Application {
   @observable public page = 0;
   @observable public align = 0; // -1: left, 0: center, 1: right
+  @observable public views = true;
+  @observable public dark = 0;
+  @observable public light = 0;
   @observable public showDialog = false;
 
   @observable public showContour = true;
-  public readonly contour = new ViewContour(sample);
+  public readonly contour = new ViewContour();
 
   public readonly controls = new Controls();
   public readonly grid = new Grid();

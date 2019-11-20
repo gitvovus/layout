@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg">
+<svg>
 <style>
   .contour {
     fill: none;
@@ -28,6 +28,8 @@
   </filter>
 </defs>
 <g id="contour-root">
+  <g id="points">
+  </g>
   <path id="zone" class="zone"/>
   <path id="convex" class="convex"/>
   <path id="contour" class="contour"/>
