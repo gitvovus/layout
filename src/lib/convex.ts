@@ -37,40 +37,48 @@ function dot(a: Point, b: Point) {
   return a.x * b.x + a.y * b.y;
 }
 
-export function convexHull(contour: Point[]) {
-  const result: Point[] = [];
-  let current = 0;
-  result.push(contour[current]);
-  while (true) {
-    let next = current < contour.length - 1 ? current + 1 : 0;
-    if (next === 0) {
-      break;
-    }
-    let dir = vector(contour[current], contour[next]);
-    let t = next < contour.length - 1 ? next + 1 : 0;
-    while (true) {
-      const test = vector(contour[current], contour[t]);
-      if (cross(dir, test) < 0) {
-        next = t;
-        dir = test;
-      }
-      if (t === 0) {
-        break;
-      }
-      t = t < contour.length - 1 ? t + 1 : 0;
-    }
-    if (next === 0) {
-      break;
-    }
-    result.push(contour[next]);
-    current = next;
+export function convexSort(points: Point[]) {
+  if (points.length < 3) {
+    return [...points];
   }
-
-  return result;
+  let start = 0;
+  points.forEach((point, index) => {
+    const startPoint = points[start];
+    if (point.y < startPoint.y || (point.y === startPoint.y && point.x < startPoint.x)) {
+      start = index;
+    }
+  });
+  const head = points[start];
+  const tail = [...points];
+  tail.splice(start, 1);
+  tail.sort((a, b) => cross(vector(head, b), vector(head, a)));
+  return [points[start], ...tail];
 }
 
-export function convex2(points: Point[]) {
-  points = points.sort((a, b) => a.y - b.y || a.x - b.x);
+export function convex(points: Point[]) {
+  if (points.length < 3) {
+    return [...points];
+  }
+  points = convexSort(points);
+  const result = [points[0]];
+  let last = 0;
+  let next = last + 1 < points.length ? last + 1 : 0;
+  while (next !== 0) {
+    for (let i = last - 1; i >= 0; --i) {
+      const dir = vector(result[last], points[next]);
+      const test = vector(result[i], points[next]);
+      if (cross(dir, test) > 0) {
+        last = i;
+        result.length = last + 1;
+      } else {
+        break;
+      }
+    }
+    result.push(points[next]);
+    ++last;
+    next = next + 1 < points.length ? next + 1 : 0;
+  }
+  return result;
 }
 
 function distance(point: Point, linePoint: Point, lineNormal: Point) {
@@ -104,29 +112,46 @@ export function cut(points: Point[], linePoint: Point, lineNormal: Point) {
   return result;
 }
 
-export function offset(contour: Point[], offset: number, bounds: { min: Point, max: Point}) {
+export function offset(contour: Point[], offset: number) {
+  if (contour.length === 0) {
+    return [];
+  }
+  const b = bounds(contour);
+  b.min.x -= offset;
+  b.max.x += offset;
+  b.min.y -= offset;
+  b.max.y += offset;
   let result: Point[] = [
-    { x: bounds.min.x, y: bounds.min.y },
-    { x: bounds.max.x, y: bounds.min.y },
-    { x: bounds.max.x, y: bounds.max.y },
-    { x: bounds.min.x, y: bounds.max.y },
+    { x: b.min.x, y: b.min.y },
+    { x: b.max.x, y: b.min.y },
+    { x: b.max.x, y: b.max.y },
+    { x: b.min.x, y: b.max.y },
   ];
+  if (contour.length === 1) {
+    return result;
+  }
 
-  const convex = convexHull(contour);
-  for (let i = 0; i < convex.length; ++i) {
-    const a = convex[i];
-    const prev = i === 0 ? convex[convex.length - 1] : convex[i - 1];
-    const next = i < convex.length - 1 ? convex[i + 1] : convex[0];
+  const cvx = convex(contour);
+  for (let i = 0; i < cvx.length; ++i) {
+    const a = cvx[i];
+    const prev = i === 0 ? cvx[cvx.length - 1] : cvx[i - 1];
+    const next = i < cvx.length - 1 ? cvx[i + 1] : cvx[0];
     const p = vector(prev, a);
     const n = vector(a, next);
     const pLength = Math.hypot(p.x, p.y);
     const nLength = Math.hypot(n.x, n.y);
     if (pLength > 1e-4 && nLength > 1e-4) {
-      const v = { x: p.x / pLength + n.x / nLength, y: p.y / pLength + n.y / nLength };
-      const vLength = Math.hypot(v.x, v.y);
-      const normal = { x: v.y / vLength, y: -v.x / vLength };
-      const point = { x: a.x + normal.x * offset, y: a.y + normal.y * offset };
-      result = cut(result, point, normal);
+      let v = { x: p.x / pLength + n.x / nLength, y: p.y / pLength + n.y / nLength };
+      let vLength = Math.hypot(v.x, v.y);
+      if (vLength <= 1e-4) {
+        v = { x: -p.y / pLength, y: p.x / pLength };
+        vLength = Math.hypot(v.x, v.y);
+      }
+      if (vLength > 1e-4) {
+        const normal = { x: v.y / vLength, y: -v.x / vLength };
+        const point = { x: a.x + normal.x * offset, y: a.y + normal.y * offset };
+        result = cut(result, point, normal);
+      }
     }
     if (nLength > 1e-4) {
       const normal = { x: n.y / nLength, y: -n.x / nLength };

@@ -14,11 +14,14 @@
       <div class="w-footer">Footer</div>
     </div>
   </ui-dialog>
-  <ui-dialog :class="['effect', { show: model.showContour }]" :width="800" :height="500">
+  <ui-dialog :class="['effect', { show: model.showConvex }]" :width="800" :height="500">
     <div class="w-panel">
       <div class="w-header">Convex Hull &amp; Offset</div>
-      <div class="w-content contour-wrapper">
-        <ui-element class="contour-root" :model="model.contour.root"/>
+      <div class="w-content convex-wrapper">
+        <ui-element class="convex-root" :model="model.convex.root"/>
+        <div class="convex-slider">
+          <input type="range" v-model="model.convex.pointCount" :min=0 :max="model.convex.points.length"/>
+        </div>
       </div>
       <div class="w-footer"></div>
     </div>
@@ -28,7 +31,7 @@
     <div class="app-buttons">
       <ui-button no-focus tabindex="-1" class="round pretty light" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
       <ui-button class="round pretty light" toggle v-model="model.showDialog">Dialog</ui-button>
-      <ui-button class="round pretty light" toggle v-model="model.showContour">Convex</ui-button>
+      <ui-button class="round pretty light" toggle v-model="model.showConvex">Convex</ui-button>
       <span class="separator"/>
       <div class="text">Page:</div>
       <ui-button class="round pretty light" v-for="i in 4" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
@@ -108,12 +111,19 @@ export default class App extends Vue {
   display: flex;
   flex-direction: row;
 }
-.contour-wrapper {
+.convex-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.contour-root {
+.convex-slideer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100px;
+}
+.convex-root {
   width: 100%;
   height: 100%;
 }

@@ -5,7 +5,7 @@ import App from '@/views/app.vue';
 import { Controls } from '@/modules/controls';
 import { Grid } from '@/modules/grid';
 import { View2d } from '@/modules/view-2d';
-import { ViewContour } from '@/modules/view-contour';
+import { ViewConvex } from '@/modules/view-convex';
 
 export class Application {
   @observable public page = 0;
@@ -15,8 +15,8 @@ export class Application {
   @observable public light = 0;
   @observable public showDialog = false;
 
-  @observable public showContour = true;
-  public readonly contour = new ViewContour();
+  @observable public showConvex = true;
+  public readonly convex = new ViewConvex();
 
   public readonly controls = new Controls();
   public readonly grid = new Grid();

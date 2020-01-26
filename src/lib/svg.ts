@@ -71,6 +71,11 @@ export class Item {
     }
   }
 
+  public clear() {
+    this.items.forEach(item => item.parent = undefined);
+    this.items.length = 0;
+  }
+
   public add(item: Item) {
     item.parent = this;
     this.items.push(item);

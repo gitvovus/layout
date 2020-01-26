@@ -7,20 +7,33 @@
   }
   .convex {
     fill: none;
-    stroke: #c0c0c0;
+    stroke: rgba(128, 128, 128, 0.5);
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 5;
   }
   .zone {
-    fill: none;
+    fill: rgba(255, 255, 0, 0.0625);
     stroke: black;
     filter: url(#contour-shadow);
+  }
+  .points {
+    fill: ivory;
+    filter: url(#contour-shadow);
+  }
+  .marks {
+    fill: red;
+  }
+  .sorted {
+    fill: none;
+    stroke: green;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 </style>
 <defs>
   <filter id="contour-shadow" x="-0.5" y="-0.5" width="2" height="2">
-    <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+    <feGaussianBlur in="SourceAlpha" stdDeviation="1"/>
     <feMerge>
       <feMergeNode/>
       <feMergeNode in="SourceGraphic"/>
@@ -28,9 +41,12 @@
   </filter>
 </defs>
 <g id="contour-root">
-  <g id="points">
-  </g>
   <path id="zone" class="zone"/>
+  <g id="points" class="points">
+  </g>
+  <g id="marks" class="marks">
+  </g>
+  <path id="sorted" class="sorted"/>
   <path id="convex" class="convex"/>
   <path id="contour" class="contour"/>
 </g>
