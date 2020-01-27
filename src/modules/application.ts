@@ -15,7 +15,7 @@ export class Application {
   @observable public light = 0;
   @observable public showDialog = false;
 
-  @observable public showConvex = true;
+  @observable public showConvex = false;
   public readonly convex = new ViewConvex();
 
   public readonly controls = new Controls();

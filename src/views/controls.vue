@@ -28,11 +28,12 @@
           toggle
           v-model="model.group[i]"
         >{{`#${i}`}}</ui-button>
-        <div><br>Push:</div>
-        <ui-button @click="model.unstyled()">Unstyled</ui-button>
-        <ui-button :class="['round outline', tint]" @click="model.ok()">Ok</ui-button>
-        <ui-button :class="['round outline', tint]" @click="model.cancel()">Cancel</ui-button>
-        clicked: {{model.message}}
+        <div><br>Push: {{model.message}}</div>
+        <ui-button @click="model.click('unstyled')">Unstyled</ui-button>
+        <ui-button :class="['round outline', tint]" @click="model.click('ok')">Ok</ui-button>
+        <ui-button :class="['round outline', tint]" @click="model.click('cancel')">Cancel</ui-button>
+        <ui-button :class="['round outline', tint]" @click="model.click('disabled')" disabled>Disabled</ui-button>
+        <ui-button :class="['round pretty outline', tint]" :toggle="[model.items[0]]" v-model="model.selectedItem" disabled>Disabled</ui-button>
       </div>
     </ui-accordion>
     <!-- popup -->
@@ -46,8 +47,8 @@
             add 'action' class to this element, like it is done for these buttons:
           </p>
           <div>
-            <ui-button :class="['action round outline', tint]" @click="model.ok()">Ok</ui-button>
-            <ui-button :class="['action round outline', tint]" @click="model.cancel()">Cancel</ui-button>
+            <ui-button :class="['action round outline', tint]" @click="model.click('ok')">Ok</ui-button>
+            <ui-button :class="['action round outline', tint]" @click="model.click('cancel')">Cancel</ui-button>
           </div>
           <div :class="['h-separator', tint]"></div>
           <div class="expand-header">
@@ -93,6 +94,11 @@
         <lorem :p="2" :class="['content', tint]"/>
       </ui-accordion>
     </template>
+  </div>
+  <div>
+    <!-- <ui-slider :min="model.sliderMin" :max="model.sliderMax" v-model="model.sliderValue"/>{{model.sliderValue}}<br/> -->
+    <ui-spin-box v-model="model.spinValue" :values="model.spinValues"/>{{model.spinValue}}<br/>
+    <ui-button :class="['button round outlined', tint]" @click="model.reset()">Reset</ui-button>
   </div>
 </div>
 </template>

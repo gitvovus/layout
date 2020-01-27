@@ -60,6 +60,10 @@ export default class UiButton extends Vue {
 @import '@/style/_vars.scss';
 
 @mixin tint($tint) {
+  &[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
   &.outline {
     border-color: rgba($tint, 2/16);
   }

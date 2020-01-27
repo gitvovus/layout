@@ -13,6 +13,8 @@ import UiButton from '@/ui/button.vue';
 import UiDialog from '@/ui/dialog.vue';
 import UiElement from '@/ui/element.vue';
 import UiPopup from '@/ui/popup.vue';
+import UiSlider from '@/ui/slider.vue';
+import UiSpinBox from '@/ui/spin-box.vue';
 import UiText from '@/ui/text.vue';
 
 import { Application } from '@/modules/application';
@@ -32,6 +34,8 @@ Vue.config.productionTip = false;
   ['ui-dialog', UiDialog],
   ['ui-element', UiElement],
   ['ui-popup', UiPopup],
+  ['ui-slider', UiSlider],
+  ['ui-spin-box', UiSpinBox],
   ['ui-text', UiText],
 ])
 .forEach(([name, constructor]) => Vue.component(name, constructor));
