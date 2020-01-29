@@ -97,8 +97,9 @@
   </div>
   <div>
     <!-- <ui-slider :min="model.sliderMin" :max="model.sliderMax" v-model="model.sliderValue"/>{{model.sliderValue}}<br/> -->
-    <ui-spin-box v-model="model.spinValue" :values="model.spinValues"/>{{model.spinValue}}<br/>
-    <ui-button :class="['button round outlined', tint]" @click="model.reset()">Reset</ui-button>
+    <ui-spin-box v-model="model.spinValue" :values="model.spinValues"/>
+    {{model.spinValue}}
+    <ui-button :class="['button round outline', tint]" @click="model.reset()">Reset</ui-button>
   </div>
 </div>
 </template>
