@@ -3,8 +3,12 @@
   <div class="spin-box-items">
     <input type="text" v-model="text" @keypress="onKeyPress"/>
     <div class="spin-box-buttons">
-      <ui-button class="spin-box" :disabled="upDisabled">up</ui-button>
-      <ui-button class="spin-box" :disabled="dnDisabled">dn</ui-button>
+      <ui-button no-focus tabindex="-1" class="round light outline icon-wrapper" @click="up">
+        <div class="icon light icon-up"></div>
+      </ui-button>
+      <ui-button no-focus tabindex="-1" class="round light outline icon-wrapper" @click="down">
+        <div class="icon light icon-down"></div>
+      </ui-button>
     </div>
   </div>
 </div>
@@ -50,12 +54,41 @@ export default class UiSpinBox extends Vue {
 
   private onKeyPress(e: KeyboardEvent) {
     if (e.key === 'Enter') {
-      console.log(e);
-      const num = Number.parseFloat(this.textValue);
-      if (!isNaN(num)) {
-        this.$emit('input', num)
-      } else {
-        this.textValue = this.value.toString();
+      this.apply(this.textValue);
+    }
+  }
+
+  private apply(text: string) {
+    const num = Number.parseFloat(text);
+    if (!isNaN(num)) {
+      this.$emit('input', num)
+    } else {
+      this.textValue = this.value.toString();
+    }
+  }
+
+  private up() {
+    console.log('up');
+    if (this.value < this.values[this.values.length - 1]) {
+      for (let i = 0; i < this.values.length; ++i) {
+        if (this.values[i] <= this.value) {
+          continue;
+        }
+        this.$emit('input', this.values[i]);
+        break;
+      }
+    }
+  }
+
+  private down() {
+    console.log('down');
+    if (this.value > this.values[0]) {
+      for (let i = this.values.length - 1; i >= 0; --i) {
+        if (this.values[i] >= this.value) {
+          continue;
+        }
+        this.$emit('input', this.values[i]);
+        break;
       }
     }
   }
