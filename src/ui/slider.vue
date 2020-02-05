@@ -19,8 +19,8 @@ export default class UiSlider extends Vue {
 
   private scrollHandler!: EventListener;
 
-  private input(e: any) {
-    this.$emit('input', Number.parseFloat(e.target.value));
+  private input(e: Event) {
+    this.$emit('input', Number.parseFloat((e.target as HTMLInputElement).value));
   }
 
   private mounted() {
@@ -46,18 +46,23 @@ export default class UiSlider extends Vue {
 </script>
 
 <style lang="scss">
+$slider-height: 16px;
+
 .slider {
   position: relative;
   display: inline-block;
-  min-width: 100px;
-  border: 1px solid navy;
-}
-.slider input {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  opacity: 0.5;
+  vertical-align: middle;
+  width: 100px;
+  height: $slider-height;
+  background-color: blue;
+
+  & input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    // opacity: 0;
+  }
 }
 </style>

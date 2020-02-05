@@ -19,21 +19,17 @@ export class Controls {
   @observable public selectedParagraphs = 0;
   @observable public expandedGroup?: number = undefined;
 
-  // slider
-  public sliderMin = 0;
-  public sliderMax = 10;
-  @observable public sliderValue = 5;
-
-  // spin-box
-  public spinValues = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-  @observable public spinValue = 100;
+  // slider & spin-box
+  public sliderMin = 10;
+  public sliderMax = 50;
+  public spinValues = [10, 20, 30, 40, 50];
+  @observable public spinValue = 30;
 
   @action public click(message: string) {
     this.message = message;
   }
 
   @action public reset() {
-    this.sliderValue = 5;
-    this.spinValue = 10;
+    this.spinValue = 30;
   }
 }
