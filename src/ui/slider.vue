@@ -1,5 +1,12 @@
 <template>
 <div class="slider">
+  <div class="run-track">
+    <div class="run" :style="{ width: 100 * (value - min) / (max - min) + '%' }"></div>
+    <div class="run-shadow"></div>
+  </div>
+  <div class="thumb-track">
+    <div class="thumb" :style="{ left: 100 * (value - min) / (max - min) + '%' }"></div>
+  </div>
   <input type="range" :min="min" :max="max" :value="value" @input="input"/>
 </div>
 </template>
@@ -46,7 +53,11 @@ export default class UiSlider extends Vue {
 </script>
 
 <style lang="scss">
-$slider-height: 16px;
+$slider-height: 21px;
+$track-height: 7px;
+
+$thumb-width: 11px;
+$thumb-height: 15px;
 
 .slider {
   position: relative;
@@ -54,7 +65,48 @@ $slider-height: 16px;
   vertical-align: middle;
   width: 100px;
   height: $slider-height;
-  background-color: blue;
+
+  & .run-track {
+    position: absolute;
+    left: 0;
+    top: ($slider-height - $track-height) / 2;
+    right: 0;
+    height: $track-height;
+    border-radius: 50vh;
+    overflow: hidden;
+  }
+
+  & .run {
+    height: 100%;
+    background-color: red;
+  }
+
+  & .run-shadow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50vh;
+    box-shadow: 0 0 0.4vh black inset;
+  }
+
+  & .thumb-track {
+    position: absolute;
+    left: 0;
+    right: $thumb-width;
+  }
+
+  & .thumb {
+    position: absolute;
+    top: ($slider-height - $thumb-height) / 2;
+    width: $thumb-width;
+    height: $thumb-height;
+    border-radius: 50vh;
+    background-color: silver;
+    border: 2px solid white;
+    box-shadow: 0 0 1px black;
+  }
 
   & input {
     position: absolute;
@@ -62,7 +114,7 @@ $slider-height: 16px;
     height: 100%;
     margin: 0;
     padding: 0;
-    // opacity: 0;
+    opacity: 0;
   }
 }
 </style>

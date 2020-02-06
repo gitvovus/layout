@@ -1,8 +1,8 @@
 <template>
 <div class="app" :style="{ backgroundImage: `url(${bg})` }">
   <div class="controls-wrapper" v-if="model.page === 0">
-    <controls :model="model.controls" dark/>
     <controls :model="model.controls"/>
+    <controls :model="model.controls" dark/>
   </div>
   <layout v-if="model.page === 1"/>
   <mockup v-if="model.page === 2" :model="model"/>
