@@ -8,7 +8,7 @@ import { View2d } from '@/modules/view-2d';
 import { ViewConvex } from '@/modules/view-convex';
 
 export class Application {
-  @observable public page = 0;
+  @observable public page = 2;
   @observable public align = 0; // -1: left, 0: center, 1: right
   @observable public views = true;
   @observable public dark = 0;

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-19 -19 38 38">
+  <path fill-rule="evenodd"
+    d="
+      M10 0a10 10 0 0 1 -10 10a10 10 0 0 1 -10 -10 a10 10 0 0 1 10 -10a10 10 0 0 1 10 10z
+      M8 0a8 8 0 0 0 -8 -8v16a8 8 0 0 0 8 -8z
+    "/>
+  <path d="M12 -1h6v2h-6z" transform="rotate(0)"/>
+  <path d="M12 -1h6v2h-6z" transform="rotate(45)"/>
+  <path d="M12 -1h6v2h-6z" transform="rotate(90)"/>
+  <path d="M12 -1h6v2h-6z" transform="rotate(135)"/>
+  <path d="M12 -1h6v2h-6z" transform="rotate(180)"/>
+  <path d="M12 -1h6v2h-6z" transform="rotate(225)"/>
+  <path d="M12 -1h6v2h-6z" transform="rotate(270)"/>
+  <path d="M12 -1h6v2h-6z" transform="rotate(315)"/>
+</svg>

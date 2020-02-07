@@ -26,7 +26,7 @@
         </div>
         <div class="view-slot">
           <div class="view" @click="toggleExpanded">
-            <img src="@/assets/less.svg"/>
+            <img src="@/assets/brightness.svg"/>
           </div>
         </div>
       </div>
