@@ -63,7 +63,7 @@ $thumb-height: 15px;
   position: relative;
   display: inline-block;
   vertical-align: middle;
-  width: 100px;
+  width: 100%;
   height: $slider-height;
 
   & .run-track {

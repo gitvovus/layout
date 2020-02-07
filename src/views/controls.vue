@@ -10,6 +10,12 @@
     </div>
     <ui-accordion :expanded="model.buttons">
       <div>
+        <input type="text" value="text" style="width: 100px"/>
+        <ui-button :class="['outline', tint]">focusable</ui-button>
+        <ui-button :class="['outline', tint]" no-focus tabindex="-1">non-focusable</ui-button>
+        <ui-button :class="['outline', tint]">focusable</ui-button>
+      </div>
+      <div>
         <div>Radio (index): {{model.index}}</div>
         <ui-button v-for="(item, i) in model.group" :key="i+100"
           :class="['round', tint]"
@@ -96,11 +102,11 @@
     </template>
   </div>
   <div>
-    <ui-scroller :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue"/>
-    <ui-slider :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue"/>
+    <ui-scroller :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue" style="height: 100px"/>
+    <ui-slider :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue" style="width: 100px"/>
     <ui-spin-box v-model="model.spinValue" :values="model.spinValues"/>
     {{model.spinValue}}
-    <ui-button :class="['button round outline', tint]" @click="model.reset()">Reset</ui-button>
+    <ui-button :class="['round outline', tint]" @click="model.reset()">Reset</ui-button>
   </div>
 </div>
 </template>

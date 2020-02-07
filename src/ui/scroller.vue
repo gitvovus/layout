@@ -36,8 +36,7 @@ $thumb-height: 11px;
   display: inline-block;
   vertical-align: middle;
   width: $scroller-width;
-  height: 100px;
-  background-color: gray;
+  height: 100%;
 
   & .run-track {
     position: absolute;

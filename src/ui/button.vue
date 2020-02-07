@@ -3,7 +3,7 @@
   class="button"
   :checked="checked"
   @click="click"
-  @mousedown="mouseDown"
+  @focus="focus"
 >
   <slot/>
 </button>
@@ -48,9 +48,13 @@ export default class UiButton extends Vue {
     }
   }
 
-  private mouseDown(e: Event) {
+  private focus(e: FocusEvent) {
     if (this.noFocus !== undefined) {
       e.preventDefault();
+      (this.$el as HTMLElement).blur();
+      if (e.relatedTarget && (e.relatedTarget as any).focus) {
+        (e.relatedTarget as any).focus();
+      }
     }
   }
 }
