@@ -7,7 +7,7 @@
   <div class="thumb-track">
     <div class="thumb" :style="{ bottom: 100 * (value - min) / (max - min) + '%' }"></div>
   </div>
-  <input type="range" :min="min" :max="max" :value="value" @input="input"/>
+  <input type="range" orient="vertical" :min="min" :max="max" :value="value" @input="input"/>
 </div>
 </template>
 
