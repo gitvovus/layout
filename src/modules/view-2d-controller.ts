@@ -126,7 +126,7 @@ export class Controller {
     return () => window.cancelAnimationFrame(track);
   }
 
-  private toViewBox(e: MouseEvent) {
+  private toCamera(e: MouseEvent) {
     const [ex, ey] = utils.currentTargetOffset(e);
     const nx = this.viewBox.left + this.viewBox.width * ex / this.width;
     const ny = this.viewBox.bottom + this.viewBox.height * (this.height - ey) / this.height;
@@ -136,14 +136,14 @@ export class Controller {
   private readonly pick = (e: PointerEvent) => {
     this.pickedPosition = this.camera.position;
     this.pickedTransform = this.camera.transform;
-    this.pickedPoint = this.pickedTransform.transform(this.toViewBox(e));
+    this.pickedPoint = this.pickedTransform.transform(this.toCamera(e));
     this.dragging = true;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   }
 
   @action private readonly drag = (e: PointerEvent) => {
     if (this.dragging) {
-      const point = this.pickedTransform.transform(this.toViewBox(e));
+      const point = this.pickedTransform.transform(this.toCamera(e));
       const delta = new std.Vector2(point.x - this.pickedPoint.x, point.y - this.pickedPoint.y);
       this.camera.position = new std.Vector2(this.pickedPosition.x - delta.x, this.pickedPosition.y - delta.y);
     }
@@ -159,14 +159,14 @@ export class Controller {
     const oldScale = this.camera.scale;
     const newScale = std.clamp(oldScale * k, 0.25, 4);
 
-    const test = new Camera();
-    test.position = this.camera.position;
-    test.rotation = this.camera.rotation;
-    test.scale = newScale;
+    const newCamera = new Camera();
+    newCamera.position = this.camera.position;
+    newCamera.rotation = this.camera.rotation;
+    newCamera.scale = newScale;
 
-    const viewBoxCoords = this.toViewBox(e);
-    const oldPos = this.camera.transform.transform(viewBoxCoords);
-    const newPos = test.transform.transform(viewBoxCoords);
+    const cameraPos = this.toCamera(e);
+    const oldPos = this.camera.transform.transform(cameraPos);
+    const newPos = newCamera.transform.transform(cameraPos);
 
     this.camera.position = new std.Vector2(this.camera.position.x + oldPos.x - newPos.x, this.camera.position.y + oldPos.y - newPos.y);
     this.camera.scale = newScale;
