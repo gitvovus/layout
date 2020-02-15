@@ -134,34 +134,68 @@ export default class UiButton extends Vue {
   color: inherit;
   outline: none;
   user-select: none;
-  margin: 5px;
+  margin: 5px 3px;
   padding: 8px 12px;
   transition: background-color $transition, border-color $transition, box-shadow $transition, text-shadow $transition;
-  &.dark {
-    @include tint(white);
-  }
-  &.light {
+  // &.dark {
+  //   @include tint(white);
+  // }
+  // &.light {
+  //   @include tint(black);
+  // }
+  // &.pretty.dark {
+  //   @include pretty(
+  //     $primary: white,
+  //     $alpha-border-focus-checked: 0.25,
+  //     $alpha-bg-hover-checked: 0.125,
+  //     $alpha-border-hover-checked: 0.125,
+  //     $alpha-bg-active: 0.125,
+  //     $alpha-border-active: 0.25,
+  //   );
+  // }
+  // &.pretty.light {
+  //   @include pretty(
+  //     $primary: black,
+  //     $alpha-border-focus-checked: 1,
+  //     $alpha-bg-hover-checked: 0.0625,
+  //     $alpha-border-hover-checked: 0.75,
+  //     $alpha-bg-active: 0.0625,
+  //     $alpha-border-active: 1,
+  //   );
+  // }
+}
+
+.light {
+  & .button {
     @include tint(black);
+
+    &.pretty {
+      @include pretty(
+        $primary: black,
+        $alpha-border-focus-checked: 1,
+        $alpha-bg-hover-checked: 0.0625,
+        $alpha-border-hover-checked: 0.75,
+        $alpha-bg-active: 0.0625,
+        $alpha-border-active: 1,
+      );
+    }
   }
-  &.pretty.dark {
-    @include pretty(
-      $primary: white,
-      $alpha-border-focus-checked: 0.25,
-      $alpha-bg-hover-checked: 0.125,
-      $alpha-border-hover-checked: 0.125,
-      $alpha-bg-active: 0.125,
-      $alpha-border-active: 0.25,
-    );
-  }
-  &.pretty.light {
-    @include pretty(
-      $primary: black,
-      $alpha-border-focus-checked: 1,
-      $alpha-bg-hover-checked: 0.0625,
-      $alpha-border-hover-checked: 0.75,
-      $alpha-bg-active: 0.0625,
-      $alpha-border-active: 1,
-    );
+}
+
+.dark {
+  & .button {
+    @include tint(white);
+
+    &.pretty {
+      @include pretty(
+        $primary: white,
+        $alpha-border-focus-checked: 0.25,
+        $alpha-bg-hover-checked: 0.125,
+        $alpha-border-hover-checked: 0.125,
+        $alpha-bg-active: 0.125,
+        $alpha-border-active: 0.25,
+      );
+    }
   }
 }
 </style>

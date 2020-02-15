@@ -1,14 +1,21 @@
 <template>
 <div class="app" :style="{ backgroundImage: `url(${bg})` }">
   <!-- pages -->
-  <div class="controls-wrapper" v-if="model.page === 0">
-    <controls :model="model.controls"/>
-    <controls :model="model.controls" dark/>
-  </div>
-  <svg-view v-if="model.page === 1" :model="model.svgView"/>
-  <layout v-if="model.page === 2"/>
-  <mockup v-if="model.page === 3" :model="model"/>
-  <grid v-if="model.page === 4" :model="model.grid"/>
+  <transition>
+    <div class="controls-wrapper" v-if="model.page === 1">
+      <controls class="light" :model="model.controls"/>
+      <controls class="dark" :model="model.controls" popup/>
+    </div>
+  </transition>
+  <transition>
+    <svg-view v-if="model.page === 2" :model="model.svgView"/>
+  </transition>
+  <transition>
+    <layout v-if="model.page === 3"/>
+  </transition>
+  <transition>
+    <mockup v-if="model.page === 4" :model="model"/>
+  </transition>
   <!-- simple dialog -->
   <ui-dialog :class="['effect', { show: model.showDialog }]" :width="600" :height="720">
     <div class="w-panel">
@@ -22,16 +29,16 @@
     <div class="w-panel">
       <div class="w-header">Convex Hull &amp; Offset</div>
       <div class="w-content convex-wrapper">
-        <ui-element class="convex-root" :model="model.convex.root"/>
-        <div class="convex-slider">
-          <ui-slider v-model="model.convex.pointCount" :min=0 :max="model.convex.points.length" style="width: 100px"/>
+        <ui-element :model="model.convex.root"/>
+        <div>
+          <ui-slider v-model="model.convex.pointCount" :min=0 :max="model.convex.points.length" style="width: 150px"/>
         </div>
       </div>
       <div class="w-footer"></div>
     </div>
   </ui-dialog>
   <!-- pages selection -->
-  <div class="app-bar">
+  <div class="app-bar light">
     <div class="spacer" :collapsed="model.align === -1"></div>
     <div class="app-buttons">
       <ui-button no-focus tabindex="-1" class="round pretty light" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
@@ -122,14 +129,14 @@ export default class App extends Vue {
   align-items: center;
   justify-content: center;
 }
-.convex-slideer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100px;
+
+.v-enter-active,
+.v-leave-active {
+  transition: all $transition
 }
-.convex-root {
-  width: 100%;
-  height: 100%;
-}
+
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+} 
 </style>

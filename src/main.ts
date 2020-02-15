@@ -2,7 +2,6 @@ import Vue, { VueConstructor } from 'vue';
 import '@/style/main.scss';
 
 import Controls from '@/views/controls.vue';
-import Grid from '@/views/grid.vue';
 import Layout from '@/views/layout.vue';
 import Lorem from '@/views/lorem.vue';
 import Mockup from '@/views/mockup.vue';
@@ -25,7 +24,6 @@ Vue.config.productionTip = false;
 
 (<Array<[string, VueConstructor]>> [
   ['controls', Controls],
-  ['grid', Grid],
   ['layout', Layout],
   ['lorem', Lorem],
   ['mockup', Mockup],
