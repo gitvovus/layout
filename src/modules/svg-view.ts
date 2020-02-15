@@ -12,7 +12,7 @@ export class SvgView {
   private readonly controller = new Controller(this.root, this.camera);
 
   public constructor() {
-    this.controller.setReferenceSize(2, 2);
+    this.controller.setReferenceSize(4, 4);
     this.generate(this.scene);
 
     const w = window as any;

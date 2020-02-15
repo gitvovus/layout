@@ -2,7 +2,7 @@
 <button
   class="button"
   :checked="checked"
-  @pointerdown="pointerdown"
+  @pointerdown.stop
   @click="click"
   @focus="focus"
 >
@@ -33,10 +33,6 @@ export default class UiButton extends Vue {
         return this.value === this.toggle[0];
       }
     }
-  }
-
-  private pointerdown(e: Event) {
-    e.stopPropagation();
   }
 
   private click(e: Event) {

@@ -13,6 +13,10 @@ function toSvg(matrix: std.Matrix2x3) {
   return `matrix(${matrix.elements.join(' ')})`;
 }
 
+function format(v: std.Vector2) {
+  return `${v.x.toFixed(2)} ${v.y.toFixed(2)}`;
+}
+
 export class Controller {
   @observable public width = 2;
   @observable public height = 2;
@@ -63,7 +67,7 @@ export class Controller {
         { fireImmediately: true },
       ),
       reaction(
-        () => this.camera.transform,
+        () => this.camera.inverseTransform,
         this.updateScene,
         { fireImmediately: true },
       ),
@@ -94,7 +98,7 @@ export class Controller {
     let w, h;
     if (widthScale < heightScale) {
       w = this.referenceWidth;
-      h = this.referenceHeight * widthScale / heightScale;
+      h = this.referenceHeight * heightScale / widthScale;
     } else {
       w = this.referenceWidth * widthScale / heightScale;
       h = this.referenceHeight;
@@ -109,7 +113,7 @@ export class Controller {
   }
 
   private readonly updateScene = () => {
-    this.scene.attributes.transform = toSvg(scale(1, -1).multiply(inverse(this.camera.transform)));
+    this.scene.attributes.transform = toSvg(scale(1, -1).multiply(this.camera.inverseTransform));
   }
 
   private readonly trackResize = (callback: () => void) => {
@@ -130,21 +134,19 @@ export class Controller {
   }
 
   private readonly pick = (e: PointerEvent) => {
-    this.pickedPosition = this.camera.position.clone();
-    this.pickedTransform = this.camera.transform.clone();
+    this.pickedPosition = this.camera.position;
+    this.pickedTransform = this.camera.transform;
     this.pickedPoint = this.pickedTransform.transform(this.toViewBox(e));
     this.dragging = true;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   }
 
   @action private readonly drag = (e: PointerEvent) => {
-    if (!this.dragging) {
-      return;
+    if (this.dragging) {
+      const point = this.pickedTransform.transform(this.toViewBox(e));
+      const delta = new std.Vector2(point.x - this.pickedPoint.x, point.y - this.pickedPoint.y);
+      this.camera.position = new std.Vector2(this.pickedPosition.x - delta.x, this.pickedPosition.y - delta.y);
     }
-
-    const v = this.pickedTransform.transform(this.toViewBox(e));
-    const delta = new std.Vector2(this.pickedPoint.x - v.x, this.pickedPoint.y - v.y);
-    this.camera.position = new std.Vector2(this.pickedPosition.x + delta.x, this.pickedPosition.y + delta.y);
   }
 
   private readonly drop = (e: PointerEvent) => {
@@ -158,7 +160,7 @@ export class Controller {
     const newScale = std.clamp(oldScale * k, 0.25, 4);
 
     const test = new Camera();
-    test.position = this.camera.position.clone();
+    test.position = this.camera.position;
     test.rotation = this.camera.rotation;
     test.scale = newScale;
 
