@@ -6,6 +6,7 @@ import Grid from '@/views/grid.vue';
 import Layout from '@/views/layout.vue';
 import Lorem from '@/views/lorem.vue';
 import Mockup from '@/views/mockup.vue';
+import SvgView from '@/views/svg-view.vue';
 import View2d from '@/views/view-2d.vue';
 
 import UiAccordion from '@/ui/accordion.vue';
@@ -28,6 +29,7 @@ Vue.config.productionTip = false;
   ['layout', Layout],
   ['lorem', Lorem],
   ['mockup', Mockup],
+  ['svg-view', SvgView],
   ['view-2d', View2d],
 
   ['ui-accordion', UiAccordion],

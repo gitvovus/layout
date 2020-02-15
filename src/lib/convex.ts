@@ -49,8 +49,7 @@ export function convexSort(points: Point[]) {
     }
   });
   const head = points[start];
-  const tail = [...points];
-  tail.splice(start, 1);
+  const tail = [...points.slice(1)];
   tail.sort((a, b) => cross(vector(head, b), vector(head, a)));
   return [points[start], ...tail];
 }

@@ -4,7 +4,8 @@
     <controls :model="model.controls"/>
     <controls :model="model.controls" dark/>
   </div>
-  <layout v-if="model.page === 1"/>
+  <svg-view v-if="model.page === 1" :model="model.svgView"/>
+  <!-- <layout v-if="model.page === 1"/> -->
   <mockup v-if="model.page === 2" :model="model"/>
   <grid v-if="model.page === 3" :model="model.grid"/>
   <ui-dialog :class="['effect', { show: model.showDialog }]" :width="600" :height="720">
@@ -20,7 +21,7 @@
       <div class="w-content convex-wrapper">
         <ui-element class="convex-root" :model="model.convex.root"/>
         <div class="convex-slider">
-          <input type="range" v-model="model.convex.pointCount" :min=0 :max="model.convex.points.length"/>
+          <ui-slider v-model="model.convex.pointCount" :min=0 :max="model.convex.points.length" style="width: 100px"/>
         </div>
       </div>
       <div class="w-footer"></div>
@@ -52,7 +53,7 @@ import { Prop } from 'vue-property-decorator';
 import * as img from '@/lib/images';
 import { Application } from '@/modules/application';
 
-const s = 50;
+const s = 20;
 const l = 0x88;
 const d = 0x80;
 const light: img.RGBA = [l, l, l, 0xff];
@@ -109,11 +110,11 @@ export default class App extends Vue {
   right: 0;
   bottom: 0;
   display: flex;
-  flex-direction: row;
 }
 .convex-wrapper {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }

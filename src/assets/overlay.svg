@@ -64,7 +64,7 @@
       M-5 45A5 5 0 0 0 5 45L5 20A5 5 0 0 0 -5 20z
     "/>
 </defs>
-<g id="scene">
+<g id="scene" class="scene">
   <path d="M-200 0h400M0 -200v400" stroke="white"/>
   <circle cx="-100" cy="0" r="5" stroke="none" fill="red"/>
   <circle cx="100" cy="0" r="5" stroke="none" fill="red"/>

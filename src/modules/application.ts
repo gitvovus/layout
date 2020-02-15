@@ -4,11 +4,12 @@ import App from '@/views/app.vue';
 
 import { Controls } from '@/modules/controls';
 import { Grid } from '@/modules/grid';
+import { SvgView } from '@/modules/svg-view';
 import { View2d } from '@/modules/view-2d';
 import { ViewConvex } from '@/modules/view-convex';
 
 export class Application {
-  @observable public page = 2;
+  @observable public page = 1;
   @observable public align = 0; // -1: left, 0: center, 1: right
   @observable public views = true;
   @observable public dark = 0;
@@ -19,6 +20,7 @@ export class Application {
   public readonly convex = new ViewConvex();
 
   public readonly controls = new Controls();
+  public readonly svgView = new SvgView();
   public readonly grid = new Grid();
   public readonly view2d = new View2d();
 

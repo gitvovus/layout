@@ -47,11 +47,15 @@ export class Vector2 {
   public set y(value: number) {
     this.elements[1] = value;
   }
+
+  public clone() {
+    return new Vector2(...this.elements);
+  }
 }
 
 export class Matrix2x3 {
-  public static translation(t: Vector2): Matrix2x3 {
-    return new Matrix2x3(1, 0, 0, 1, t.x, t.y);
+  public static translation(x: number, y: number): Matrix2x3 {
+    return new Matrix2x3(1, 0, 0, 1, x, y);
   }
 
   public static rotation(angle: number) {
@@ -60,8 +64,8 @@ export class Matrix2x3 {
     return new Matrix2x3(cos, sin, -sin, cos, 0, 0);
   }
 
-  public static scale(s: Vector2): Matrix2x3 {
-    return new Matrix2x3(s.x, 0, 0, s.y, 0, 0);
+  public static scale(x: number, y: number): Matrix2x3 {
+    return new Matrix2x3(x, 0, 0, y, 0, 0);
   }
 
   public static inverse(matrix: Matrix2x3): Matrix2x3 {
@@ -81,6 +85,10 @@ export class Matrix2x3 {
 
   public constructor(...elements: Matrix2x3Elements) {
     this.elements = elements;
+  }
+
+  public clone() {
+    return new Matrix2x3(...this.elements);
   }
 
   public multiply(m: Matrix2x3): Matrix2x3 {

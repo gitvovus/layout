@@ -19,7 +19,7 @@ export class ViewConvex {
   private readonly disposers: Array<() => void> = [];
 
   public constructor() {
-    this.points = cloud;
+    this.points = sample;
     this.pointCount = this.points.length - 1;
     this.disposers.push(
       reaction(
@@ -38,7 +38,7 @@ export class ViewConvex {
     const scale = 10;
     points = points.map(point => ({ x: point.x * scale, y: point.y * scale }));
 
-    const sortedPoints = cvx.convexSort(pointCount > 0 ? points.slice(0, pointCount) : []);
+    const sortedPoints = cvx.convexSort(points.slice(0, pointCount));
     const convex = cvx.convex(sortedPoints);
 
     this.pointsGroup.clear();
@@ -62,34 +62,6 @@ export class ViewConvex {
 }
 
 const sample: cvx.Point[] = [
-  { x: 0, y: 0 },
-  { x: 5, y: 0 },
-  { x: 6, y: 1 },
-  { x: 6, y: 4 },
-  { x: 5, y: 4 },
-  { x: 5, y: 8 },
-  { x: 4, y: 9 },
-  { x: 5, y: 10 },
-  { x: 4, y: 11 },
-  { x: 5, y: 12 },
-  { x: 4, y: 13 },
-  { x: 5, y: 14 },
-  { x: 4, y: 15 },
-  { x: 5, y: 16 },
-  { x: 4, y: 20 },
-  { x: 0, y: 21 },
-];
-
-const star: cvx.Point[] = [
-  { x: 0, y: 0 },
-  { x: 2, y: 4 },
-  { x: 6, y: 4 },
-  { x: 3, y: 6 },
-  { x: 5, y: 10 },
-  { x: 0, y: 7 },
-];
-
-const cloud: cvx.Point[] = [
   { x: 4, y: 0 },
   { x: 8, y: 1 },
   { x: 1, y: 2 },

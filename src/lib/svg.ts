@@ -108,6 +108,19 @@ export class Item {
     return undefined;
   }
 
+  public findByClass(name: string): Item | undefined {
+    if (this.attributes.class !== undefined && (this.attributes.class as string).split(' ').includes(name)) {
+      return this;
+    }
+    for (const item of this.items) {
+      const result = item.findByClass(name);
+      if (result) {
+        return result;
+      }
+    }
+    return undefined;
+  }
+
   public on(event: string, listener: EventListener) {
     if (!this.events.has(event)) {
       this.events.set(event, []);

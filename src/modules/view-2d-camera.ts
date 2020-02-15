@@ -2,19 +2,16 @@ import { computed, observable } from 'mobx';
 
 import * as std from '@/lib/std';
 
+const rotation = std.Matrix2x3.rotation;
+const scale = std.Matrix2x3.scale;
+const translation = std.Matrix2x3.translation;
+
 export class Camera {
   @observable public position = new std.Vector2(0, 0);
   @observable public rotation = 0;
-  @observable public scale = new std.Vector2(1, 1);
-
-  public constructor() {
-    const w = window as any;
-    w.p = (x: number, y: number) => this.position = new std.Vector2(x, y);
-    w.r = (a: number) => this.rotation = a;
-    w.s = (x: number, y: number) => this.scale = new std.Vector2(x, y);
-  }
+  @observable public scale = 1;
 
   @computed public get transform() {
-    return std.Matrix2x3.translation(this.position).multiply(std.Matrix2x3.rotation(this.rotation)).multiply(std.Matrix2x3.scale(this.scale));
+    return translation(this.position.x, this.position.y).multiply(rotation(this.rotation)).multiply(scale(this.scale, this.scale));
   }
 }

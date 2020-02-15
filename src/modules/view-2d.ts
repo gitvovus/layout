@@ -9,8 +9,8 @@ export class View2d {
 
   private el!: HTMLElement;
   private wrapper!: HTMLElement;
-  private camera = new Camera();
-  private controller = new Controller(this.root, this.camera);
+  private readonly camera = new Camera();
+  private readonly controller = new Controller(this.root, this.camera);
 
   public constructor() {
     this.controller.setReferenceSize(200, 200);
