@@ -1,13 +1,15 @@
 <template>
 <div class="app" :style="{ backgroundImage: `url(${bg})` }">
+  <!-- pages -->
   <div class="controls-wrapper" v-if="model.page === 0">
     <controls :model="model.controls"/>
     <controls :model="model.controls" dark/>
   </div>
   <svg-view v-if="model.page === 1" :model="model.svgView"/>
-  <!-- <layout v-if="model.page === 1"/> -->
-  <mockup v-if="model.page === 2" :model="model"/>
-  <grid v-if="model.page === 3" :model="model.grid"/>
+  <layout v-if="model.page === 2"/>
+  <mockup v-if="model.page === 3" :model="model"/>
+  <grid v-if="model.page === 4" :model="model.grid"/>
+  <!-- simple dialog -->
   <ui-dialog :class="['effect', { show: model.showDialog }]" :width="600" :height="720">
     <div class="w-panel">
       <div class="w-header">Header</div>
@@ -15,6 +17,7 @@
       <div class="w-footer">Footer</div>
     </div>
   </ui-dialog>
+  <!-- convex hull demo dialog -->
   <ui-dialog :class="['effect', { show: model.showConvex }]" :width="800" :height="500">
     <div class="w-panel">
       <div class="w-header">Convex Hull &amp; Offset</div>
@@ -27,6 +30,7 @@
       <div class="w-footer"></div>
     </div>
   </ui-dialog>
+  <!-- pages selection -->
   <div class="app-bar">
     <div class="spacer" :collapsed="model.align === -1"></div>
     <div class="app-buttons">
@@ -35,7 +39,7 @@
       <ui-button class="round pretty light" toggle v-model="model.showConvex">Convex</ui-button>
       <span class="separator"/>
       <div class="text">Page:</div>
-      <ui-button class="round pretty light" v-for="i in 4" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
+      <ui-button class="round pretty light" v-for="i in 5" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
       <span class="separator"/>
       <ui-button no-focus tabindex="-1" class="round pretty light" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
     </div>

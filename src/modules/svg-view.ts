@@ -21,6 +21,10 @@ export class SvgView {
     w.s = (s: number) => this.camera.scale = s;
   }
 
+  public click(e: Event) {
+    console.log('click', e);
+  }
+
   public mount(el: HTMLElement) {
     this.controller.mount(el);
   }
