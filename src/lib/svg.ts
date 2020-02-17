@@ -32,7 +32,7 @@ export function fromElement(node: Node) {
 }
 
 export interface Attributes {
-  [key: string]: string | number;
+  [key: string]: string | number | undefined;
 }
 
 export class Item {

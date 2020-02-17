@@ -6,15 +6,10 @@ import * as utils from '@/lib/utils';
 
 import { Camera } from '@/modules/view-2d-camera';
 
-const inverse = std.Matrix2x3.inverse;
 const scale = std.Matrix2x3.scale;
 
 function toSvg(matrix: std.Matrix2x3) {
   return `matrix(${matrix.elements.join(' ')})`;
-}
-
-function format(v: std.Vector2) {
-  return `${v.x.toFixed(2)} ${v.y.toFixed(2)}`;
 }
 
 export class Controller {
@@ -41,17 +36,6 @@ export class Controller {
     this.camera = camera;
   }
 
-  @action public reset = () => {
-    this.camera.position = new std.Vector2(0, 0);
-    this.camera.rotation = 0;
-    this.camera.scale = 1;
-  }
-
-  @action public setReferenceSize(width: number, height: number) {
-    this.referenceWidth = width;
-    this.referenceHeight = height;
-  }
-
   public mount(el: HTMLElement) {
     this.el = el;
     this.disposers.push(
@@ -68,7 +52,7 @@ export class Controller {
       ),
       reaction(
         () => this.camera.inverseTransform,
-        this.updateScene,
+        this.updateSceneTransform,
         { fireImmediately: true },
       ),
     );
@@ -78,6 +62,25 @@ export class Controller {
     this.el = undefined!;
     this.disposers.forEach(disposer => disposer());
     this.disposers.length = 0;
+  }
+
+  @action public reset = () => {
+    this.camera.position = new std.Vector2(0, 0);
+    this.camera.rotation = 0;
+    this.camera.scale = 1;
+  }
+
+  @action public setReferenceSize(width: number, height: number) {
+    this.referenceWidth = width;
+    this.referenceHeight = height;
+  }
+
+  public toCamera(e: MouseEvent) {
+    const { x, y } = utils.elementOffset(this.el, e);
+    return new std.Vector2(
+      this.viewBox.left + this.viewBox.width * x / this.width,
+      this.viewBox.bottom + this.viewBox.height * (this.height - y) / this.height,
+    );
   }
 
   private readonly updateViewBox = () => {
@@ -112,8 +115,8 @@ export class Controller {
     this.root.attributes.viewBox = `${-w / 2} ${-h / 2} ${w} ${h}`;
   }
 
-  private readonly updateScene = () => {
-    this.scene.attributes.transform = toSvg(scale(1, -1).multiply(this.camera.inverseTransform));
+  private readonly updateSceneTransform = (transform: std.Matrix2x3) => {
+    this.scene.attributes.transform = toSvg(scale(1, -1).multiply(transform));
   }
 
   private readonly trackResize = (callback: () => void) => {
@@ -124,13 +127,6 @@ export class Controller {
     };
     frameHandler();
     return () => window.cancelAnimationFrame(track);
-  }
-
-  private toCamera(e: MouseEvent) {
-    const [ex, ey] = utils.currentTargetOffset(e);
-    const nx = this.viewBox.left + this.viewBox.width * ex / this.width;
-    const ny = this.viewBox.bottom + this.viewBox.height * (this.height - ey) / this.height;
-    return new std.Vector2(nx, ny);
   }
 
   private readonly pick = (e: PointerEvent) => {

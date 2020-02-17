@@ -1,5 +1,6 @@
 import { computed, observable, reaction } from 'mobx';
 
+import { Point } from '@/lib/std';
 import * as cvx from '@/lib/convex';
 import * as svg from '@/lib/svg';
 import source from '!!raw-loader!@/assets/convex.svg';
@@ -7,7 +8,7 @@ import source from '!!raw-loader!@/assets/convex.svg';
 export class ViewConvex {
   public readonly root = svg.fromSource(source)!;
 
-  @observable public points: cvx.Point[] = [];
+  @observable public points: Point[] = [];
   @observable public pointCount = 0;
 
   private readonly pointsGroup = this.root.find('points')!;
@@ -34,7 +35,7 @@ export class ViewConvex {
     return this.points.length;
   }
 
-  public compute(points: cvx.Point[], pointCount: number) {
+  public compute(points: Point[], pointCount: number) {
     const scale = 10;
     points = points.map(point => ({ x: point.x * scale, y: point.y * scale }));
 
@@ -61,7 +62,7 @@ export class ViewConvex {
   }
 }
 
-const sample: cvx.Point[] = [
+const sample: Point[] = [
   { x: 4, y: 0 },
   { x: 8, y: 1 },
   { x: 1, y: 2 },

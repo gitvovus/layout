@@ -1,7 +1,4 @@
-export interface Point {
-  x: number;
-  y: number;
-}
+import { Point } from '@/lib/std';
 
 export function bounds(points: Point[]): { min: Point, max: Point } {
   if (points.length === 0) {

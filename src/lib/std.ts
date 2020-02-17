@@ -22,6 +22,11 @@ export function smoothStep(a: number, b: number, x: number): number {
   return t * t * (3 - 2 * t);
 }
 
+export interface Point {
+  x: number;
+  y: number;
+}
+
 export type Vector2Elements = [number, number];
 export type Matrix2x3Elements = [number, number, number, number, number, number];
 

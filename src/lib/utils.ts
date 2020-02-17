@@ -32,3 +32,8 @@ export function currentTargetOffset(e: MouseEvent): [number, number] {
   const rect = (e.currentTarget as Element).getBoundingClientRect();
   return [e.clientX - rect.left, e.clientY - rect.top];
 }
+
+export function elementOffset(el: Element, e: MouseEvent): { x: number, y: number } {
+  const rect = el.getBoundingClientRect();
+  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+}
