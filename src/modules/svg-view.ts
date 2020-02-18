@@ -1,8 +1,5 @@
-import { action } from 'mobx';
-
 import * as std from '@/lib/std';
 import * as svg from '@/lib/svg';
-import * as utils from '@/lib/utils';
 import { Camera } from '@/modules/view-2d-camera';
 import { Controller } from '@/modules/view-2d-controller';
 import { Contour } from '@/modules/svg/contour';
@@ -59,18 +56,18 @@ export class SvgView {
     const contour = new Contour(
       { name: 'test-contour', fill: 'red', stroke: 'white', 'stroke-width': 0.01 },
       [
-        { x: 0.5, y: 0.1 },
+        { x: 0.4, y: 0.1 },
         { x: 0.1, y: 0.1 },
-        { x: 0.1, y: 0.5 },
-        { x: -0.1, y: 0.5 },
+        { x: 0.1, y: 0.4 },
+        { x: -0.1, y: 0.4 },
         { x: -0.1, y: 0.1 },
-        { x: -0.5, y: 0.1 },
-        { x: -0.5, y: -0.1 },
+        { x: -0.4, y: 0.1 },
+        { x: -0.4, y: -0.1 },
         { x: -0.1, y: -0.1 },
-        { x: -0.1, y: -0.5 },
-        { x: 0.1, y: -0.5 },
+        { x: -0.1, y: -0.4 },
+        { x: 0.1, y: -0.4 },
         { x: 0.1, y: -0.1 },
-        { x: 0.5, y: -0.1 },
+        { x: 0.4, y: -0.1 },
       ],
     );
 

@@ -18,7 +18,7 @@ export class Application {
   @observable public showConvex = false;
   public readonly convex = new ViewConvex();
 
-  public readonly controls = new Controls();
+  public readonly controls = [new Controls(), new Controls()];
   public readonly svgView = new SvgView();
   public readonly view2d = new View2d();
 

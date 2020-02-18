@@ -3,8 +3,8 @@
   <!-- pages -->
   <transition>
     <div class="controls-wrapper" v-if="model.page === 1">
-      <controls class="light" :model="model.controls"/>
-      <controls class="dark" :model="model.controls" popup/>
+      <controls class="light" :model="model.controls[0]"/>
+      <controls class="dark" :model="model.controls[1]"/>
     </div>
   </transition>
   <transition>
@@ -46,7 +46,7 @@
       <ui-button class="round pretty light" toggle v-model="model.showConvex">Convex</ui-button>
       <span class="separator"/>
       <div class="text">Page:</div>
-      <ui-button class="round pretty light" v-for="i in 5" :key="i" v-model="model.page" :toggle="[i-1]">{{i-1}}</ui-button>
+      <ui-button class="round pretty light" v-for="(dummy, i) in 5" :key="i" v-model="model.page" :toggle="[i]">{{i}}</ui-button>
       <span class="separator"/>
       <ui-button no-focus tabindex="-1" class="round pretty light" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
     </div>
@@ -130,13 +130,12 @@ export default class App extends Vue {
   justify-content: center;
 }
 
-.v-enter-active,
-.v-leave-active {
-  transition: all $transition
-}
-
 .v-enter,
 .v-leave-to {
   opacity: 0;
 } 
+.v-enter-active,
+.v-leave-active {
+  transition: opacity $page-transition;
+}
 </style>

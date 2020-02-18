@@ -29,7 +29,7 @@
           v-model="model.selectedItem"
         >{{`#${i}`}}</ui-button>
         <div><br>Checkbox: [ <span v-for="(item, i) in model.group" :key="i+300">{{item}}&nbsp;</span> ]</div>
-        <ui-button v-for="(item, i) in model.group" :key="i+300"
+        <ui-button v-for="(item, i) in model.group" :key="i+400"
           class="round"
           toggle
           v-model="model.group[i]"
@@ -44,8 +44,8 @@
     </ui-accordion>
     <!-- popup -->
     <div>
-      <ui-button :class="['round outline', { 'no-events': model.popup }]" toggle v-model="model.popup">Popup</ui-button>
-      <div class="popup-anchor" v-show="popup !== undefined">
+      <ui-button class="round outline" :disabled="model.popup" toggle v-model="model.popup">Popup</ui-button>
+      <div class="popup-anchor">
         <ui-popup class="popup-sample content" v-model="model.popup">
           <p>
             Popup is persistent until it loses focus.
@@ -96,18 +96,18 @@
           <div :class="['icon icon-less', model.expandedGroup === i ? 'collapse' : 'expand']"></div>
         </ui-button>
       </div>
-      <ui-accordion :expanded="model.expandedGroup === i" :key="i+100">
+      <ui-accordion :expanded="model.expandedGroup === i" :key="i+500">
         <lorem :p="2" class="content"/>
       </ui-accordion>
     </template>
   </div>
-  <div>
+  <p>
     <ui-scroller :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue" style="height: 100px"/>
     <ui-slider :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue" style="width: 100px"/>
     <ui-spin-box v-model="model.spinValue" :values="model.spinValues"/>
     {{model.spinValue}}
     <ui-button class="round outline" @click="model.reset()">Reset</ui-button>
-  </div>
+  </p>
 </div>
 </template>
 
@@ -123,7 +123,6 @@ import { Controls as Model } from '@/modules/controls';
 @Component
 export default class Controls extends Vue {
   @Prop() private model!: Model;
-  @Prop() private popup: '' | undefined;
 }
 </script>
 
@@ -138,9 +137,6 @@ export default class Controls extends Vue {
 }
 .popup-sample {
   width: 50%;
-}
-.no-events {
-  pointer-events: none;
 }
 .expand-header {
   display: flex;

@@ -20,7 +20,7 @@ export class Contour extends svg.Item {
     return chunks.join('');
   }
 
-  @observable public offset: { x: number, y: number } = observable({ x: 0, y: 0 });
+  @observable public offset: Point = observable({ x: 0, y: 0 });
   private pointsValue: Point[] = [];
   private disposers: Array<() => void> = [];
 

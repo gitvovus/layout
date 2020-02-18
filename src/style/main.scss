@@ -112,7 +112,7 @@ svg {
   flex-direction: column;
   min-width: 0;
   min-height: 0;
-  transition: flex 0.3s;
+  transition: flex $transition;
   &.hidden {
     flex: 0 0 0;
   }
