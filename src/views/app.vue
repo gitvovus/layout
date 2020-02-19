@@ -29,7 +29,7 @@
       <div class="w-panel">
         <div class="w-header">Convex Hull &amp; Offset</div>
         <div class="w-content convex-wrapper">
-          <ui-element :model="model.convex.root" />
+          <ui-svg-element :model="model.convex.root" />
           <div>
             <ui-slider v-model="model.convex.pointCount" :min="0" :max="model.convex.points.length" style="width: 150px" />
           </div>

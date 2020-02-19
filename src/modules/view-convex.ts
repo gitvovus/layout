@@ -70,9 +70,10 @@ export class ViewConvex {
 
     const box = cvx.bounds(points);
     const margin = 2 * scale;
-    this.root.attributes.viewBox = `${box.min.x - margin} ${box.min.y - margin} ${box.max.x - box.min.x + 2 * margin} ${box.max
-      .y -
-      box.min.y +
-      2 * margin}`;
+    box.min.x -= margin;
+    box.min.y -= margin;
+    box.max.x += margin;
+    box.max.y += margin;
+    this.root.attributes.viewBox = `${box.min.x} ${box.min.y} ${box.max.x - box.min.x} ${box.max.y - box.min.y}`;
   }
 }

@@ -1,7 +1,8 @@
 import * as std from '@/lib/std';
 import * as svg from '@/lib/svg';
-import { Camera } from '@/modules/view-2d-camera';
-import { Controller } from '@/modules/view-2d-controller';
+
+import { Camera } from '@/modules/svg/camera';
+import { Controller } from '@/modules/svg/controller';
 import { Contour } from '@/modules/svg/contour';
 import source from '!!raw-loader!@/assets/scene.svg';
 
@@ -9,6 +10,7 @@ export class SvgView {
   public readonly root = svg.fromSource(source)!;
 
   private readonly scene = this.root.findByClass('scene')!;
+  private readonly contours = new svg.Item('g');
   private readonly camera = new Camera();
   private readonly controller = new Controller(this.root, this.camera);
 
@@ -42,9 +44,9 @@ export class SvgView {
 
   private generate(scene: svg.Item) {
     // static scene items
-    [-2, 2].forEach(cy => [-2, 2].forEach(cx => scene.items.push(new svg.Item('circle', { cx, cy, r: 0.1, fill: 'black' }))));
+    [-2, 2].forEach(cy => [-2, 2].forEach(cx => scene.add(new svg.Item('circle', { cx, cy, r: 0.1, fill: 'black' }))));
     [-1, 0, 1].forEach(i =>
-      scene.items.push(
+      scene.add(
         new svg.Item('path', {
           d: `M-2 ${i}h4`,
           stroke: 'black',
@@ -57,42 +59,44 @@ export class SvgView {
         }),
       ),
     );
-    scene.items.push(
+    scene.add(
       new svg.Item('path', { d: 'M1 0l-0.2 -0.1v0.2z', fill: 'darkred' }),
       new svg.Item('path', { d: 'M0 1l-0.1 -0.2h0.2z', fill: 'darkgreen' }),
+      this.contours,
     );
 
     // dynamic scene items
-    const contour = new Contour(
-      {
-        name: 'test-contour',
-        fill: 'red',
-        stroke: 'white',
-        'stroke-width': 0.01,
-      },
-      [
-        { x: 0.4, y: 0.1 },
-        { x: 0.1, y: 0.1 },
-        { x: 0.1, y: 0.4 },
-        { x: -0.1, y: 0.4 },
-        { x: -0.1, y: 0.1 },
-        { x: -0.4, y: 0.1 },
-        { x: -0.4, y: -0.1 },
-        { x: -0.1, y: -0.1 },
-        { x: -0.1, y: -0.4 },
-        { x: 0.1, y: -0.4 },
-        { x: 0.1, y: -0.1 },
-        { x: 0.4, y: -0.1 },
-      ],
-    );
+    const points: std.Point[] = [
+      { x: 0.4, y: 0.1 },
+      { x: 0.1, y: 0.1 },
+      { x: 0.1, y: 0.4 },
+      { x: -0.1, y: 0.4 },
+      { x: -0.1, y: 0.1 },
+      { x: -0.4, y: 0.1 },
+      { x: -0.4, y: -0.1 },
+      { x: -0.1, y: -0.1 },
+      { x: -0.1, y: -0.4 },
+      { x: 0.1, y: -0.4 },
+      { x: 0.1, y: -0.1 },
+      { x: 0.4, y: -0.1 },
+    ];
 
-    contour.on('pointerdown', this.pick as EventListener);
-    contour.on('pointermove', this.drag as EventListener);
-    contour.on('pointerup', this.drop as EventListener);
-    contour.on('dblclick', this.dblclick as EventListener);
+    [
+      { name: 'red', fill: 'red', x: -0.25, y: -0.1 },
+      { name: 'green', fill: 'green', x: 0, y: 0 },
+      { name: 'blue', fill: 'blue', x: 0.25, y: 0.1 },
+    ].forEach(({ name, fill, x, y }) => {
+      const contour = new Contour({ name, fill, stroke: 'white', 'stroke-width': 0 }, points);
+      contour.offset = { x, y };
 
-    scene.items.push(contour);
-    this.pickableItems.push(contour);
+      contour.on('dblclick', this.dblclick as EventListener);
+      contour.on('pointerdown', this.pick as EventListener);
+      contour.on('pointermove', this.drag as EventListener);
+      contour.on('pointerup', this.drop as EventListener);
+
+      this.contours.add(contour);
+      this.pickableItems.push(contour);
+    });
   }
 
   private readonly pick = (e: PointerEvent) => {
@@ -102,12 +106,17 @@ export class SvgView {
     this.pickedItem = this.pickableItems.find(item => item.element === e.target) as Contour;
     this.pickedPosition = this.camera.transform.transform(this.controller.toCamera(e));
     this.pickedOffset = { ...this.pickedItem.offset };
+    this.pickedItem.attributes['stroke-width'] = 0.01;
+    this.pickedItem.index = -1;
     this.dragging = true;
   };
 
   private readonly drag = (e: PointerEvent) => {
     if (this.dragging) {
       e.stopPropagation();
+      if (!this.pickedItem.element!.hasPointerCapture(e.pointerId)) {
+        this.pickedItem.element!.setPointerCapture(e.pointerId);
+      }
       const { x, y } = this.camera.transform.transform(this.controller.toCamera(e));
       const deltaX = x - this.pickedPosition.x;
       const deltaY = y - this.pickedPosition.y;
@@ -122,6 +131,7 @@ export class SvgView {
     if (this.dragging) {
       e.stopPropagation();
       (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+      this.pickedItem.attributes['stroke-width'] = 0;
       this.dragging = false;
     }
   };

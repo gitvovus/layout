@@ -1,5 +1,7 @@
 import { observable } from 'mobx';
 
+import { clamp } from '@/lib/std';
+
 export interface Attributes {
   [key: string]: string | number | undefined;
 }
@@ -31,7 +33,7 @@ export class Item {
   }
 
   public get index() {
-    return this.parent ? this.parent.items.indexOf(this) : -1;
+    return this.parent ? this.parent.items.indexOf(this) : 0;
   }
 
   public set index(toIndex: number) {
@@ -45,9 +47,11 @@ export class Item {
     this.items.length = 0;
   }
 
-  public add(item: Item) {
-    item.parent = this;
-    this.items.push(item);
+  public add(...items: Item[]) {
+    items.forEach(item => {
+      item.parent = this;
+      this.items.push(item);
+    });
   }
 
   public remove(item: Item) {
@@ -58,6 +62,13 @@ export class Item {
 
   public move(item: Item, toIndex: number) {
     const index = this.items.indexOf(item);
+    if (index === -1) {
+      return;
+    }
+    if (toIndex < 0) {
+      toIndex = this.items.length + toIndex;
+    }
+    toIndex = clamp(toIndex, 0, this.items.length - 1);
     if (index !== toIndex) {
       this.items.splice(index, 1);
       this.items.splice(toIndex, 0, item);

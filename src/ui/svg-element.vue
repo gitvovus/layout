@@ -1,8 +1,8 @@
 <template>
   <component v-if="model.tag !== '#text'" :is="model.tag" v-bind="model.attributes">
-    <ui-element v-for="(item, index) in model.items" :key="item.symbol" :model="model.items[index]" />
+    <ui-svg-element v-for="(item, index) in model.items" :key="item.key" :model="model.items[index]" />
   </component>
-  <ui-text v-else :model="model" />
+  <ui-svg-text v-else :model="model" />
 </template>
 
 <script lang="ts">
@@ -12,7 +12,7 @@ import { Item } from '@/lib/svg';
 
 @Observer
 @Component
-export default class UiElement extends Vue {
+export default class UiSvgElement extends Vue {
   @Prop() private model!: Item;
 
   private mounted() {

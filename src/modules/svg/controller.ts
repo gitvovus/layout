@@ -4,7 +4,7 @@ import * as std from '@/lib/std';
 import * as svg from '@/lib/svg';
 import * as utils from '@/lib/utils';
 
-import { Camera } from '@/modules/view-2d-camera';
+import { Camera } from '@/modules/svg/camera';
 
 const scale = std.Matrix2x3.scale;
 
@@ -58,11 +58,15 @@ export class Controller {
     this.disposers.length = 0;
   }
 
-  @action public reset = () => {
+  public get element() {
+    return this.el;
+  }
+
+  @action public reset() {
     this.camera.position = new std.Vector2(0, 0);
     this.camera.rotation = 0;
     this.camera.scale = 1;
-  };
+  }
 
   @action public setReferenceSize(width: number, height: number) {
     this.referenceWidth = width;
@@ -145,7 +149,7 @@ export class Controller {
   };
 
   @action private readonly wheel = (e: WheelEvent) => {
-    const k = e.deltaY < 0 ? 1 / 1.1 : 1.1;
+    const k = e.deltaY < 0 ? 4 / 5 : 5 / 4;
     const oldScale = this.camera.scale;
     const newScale = std.clamp(oldScale * k, 0.25, 4);
 

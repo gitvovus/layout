@@ -1,6 +1,6 @@
 <template>
   <div class="svg-view">
-    <ui-element class="overlay" tabindex="0" :model="model.root" />
+    <ui-svg-element class="overlay" tabindex="0" :model="model.root" />
     <slot />
   </div>
 </template>

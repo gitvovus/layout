@@ -6,7 +6,7 @@ import { Item } from '@/lib/svg';
 
 @Observer
 @Component
-export default class UiText extends Vue {
+export default class UiSvgText extends Vue {
   @Prop() private model!: Item;
 
   private render(h: any) {

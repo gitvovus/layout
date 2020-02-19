@@ -1,7 +1,7 @@
 import * as svg from '@/lib/svg';
 import { toggleExpanded } from '@/modules/animations';
-import { Camera } from '@/modules/view-2d-camera';
-import { Controller } from '@/modules/view-2d-controller';
+import { Camera } from '@/modules/svg/camera';
+import { Controller } from '@/modules/svg/controller';
 import source from '!!raw-loader!@/assets/overlay.svg';
 
 export class View2d {
