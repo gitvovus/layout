@@ -1,0 +1,31 @@
+---- bootstrap reference code, variables:
+https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
+
+
+---- css drop-down tips & tricks:
+https://www.freecodecamp.org/news/mostly-css-drop-down-combo-boxes-4ff4bb182ff7/
+
+
+---- svg:
+https://www.w3.org/TR/SVG/Overview.html
+https://www.w3.org/TR/SVG/paths.html
+https://www.w3.org/Graphics/SVG/IG/resources/svgprimer.html
+
+
+---- composition API:
+https://vue-composition-api-rfc.netlify.com/api.html
+https://vueschool.io/articles/vuejs-tutorials/exciting-new-features-in-vue-3/
+
+
+---- template type safety:
+https://vuejs.github.io/vetur/vti.html
+
+
+---- tslint -> eslint migration:
+https://code.visualstudio.com/api/advanced-topics/tslint-eslint-migration
+https://github.com/vuejs/vue-cli/releases
+
+
+---- eslint, prettier:
+https://eslint.org/docs/user-guide/configuring
+https://glebbahmutov.com/blog/configure-prettier-in-vscode/

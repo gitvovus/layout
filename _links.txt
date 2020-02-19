@@ -1,5 +1,0 @@
-bootstrap reference code, variables:
-https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
-
-css drop-down tips & tricks:
-https://www.freecodecamp.org/news/mostly-css-drop-down-combo-boxes-4ff4bb182ff7/
