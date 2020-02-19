@@ -5,6 +5,19 @@ import * as cvx from '@/lib/convex';
 import * as svg from '@/lib/svg';
 import source from '!!raw-loader!@/assets/convex.svg';
 
+const sample: Point[] = [
+  { x: 4, y: 0 },
+  { x: 8, y: 1 },
+  { x: 1, y: 2 },
+  { x: 3, y: 3 },
+  { x: 0, y: 4 },
+  { x: 5, y: 5 },
+  { x: 6, y: 6 },
+  { x: 9, y: 7 },
+  { x: 7, y: 8 },
+  { x: 2, y: 9 },
+];
+
 export class ViewConvex {
   public readonly root = svg.fromSource(source)!;
 
@@ -50,27 +63,16 @@ export class ViewConvex {
     sortedPoints.forEach(point => {
       this.marksGroup.add(new svg.Item('circle', { cx: point.x, cy: point.y, r: 2 }));
     });
-    this.sortedGroup.attributes.d = cvx.createPath(sortedPoints, false);
-    this.convexPath.attributes.d = cvx.createPath(convex, true);
+    this.sortedGroup.attributes.d = cvx.createData(sortedPoints, false, 2);
+    this.convexPath.attributes.d = cvx.createData(convex, true, 2);
     const zone = cvx.offset(convex, scale);
-    this.zonePath.attributes.d = cvx.createPath(zone, true);
+    this.zonePath.attributes.d = cvx.createData(zone, true, 2);
 
     const box = cvx.bounds(points);
     const margin = 2 * scale;
-    this.root.attributes.viewBox =
-      `${box.min.x - margin} ${box.min.y - margin} ${box.max.x - box.min.x + 2 * margin} ${box.max.y - box.min.y + 2 * margin}`;
+    this.root.attributes.viewBox = `${box.min.x - margin} ${box.min.y - margin} ${box.max.x - box.min.x + 2 * margin} ${box.max
+      .y -
+      box.min.y +
+      2 * margin}`;
   }
 }
-
-const sample: Point[] = [
-  { x: 4, y: 0 },
-  { x: 8, y: 1 },
-  { x: 1, y: 2 },
-  { x: 3, y: 3 },
-  { x: 0, y: 4 },
-  { x: 5, y: 5 },
-  { x: 6, y: 6 },
-  { x: 9, y: 7 },
-  { x: 7, y: 8 },
-  { x: 2, y: 9 },
-];

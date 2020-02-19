@@ -25,13 +25,11 @@ export class Application {
   private vue!: Vue;
 
   public run() {
-    this.vue = new Vue({ render: (h) => h(App, { props: { model: this } }) });
+    this.vue = new Vue({ render: h => h(App, { props: { model: this } }) });
     this.vue.$mount('#app');
   }
 
-  public mount(el: Element) {
-  }
+  public mount(el: Element) {}
 
-  public unmount() {
-  }
+  public unmount() {}
 }

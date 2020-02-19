@@ -34,7 +34,7 @@ export class Contour extends svg.Item {
     this.disposers.push(
       reaction(
         () => [this.offset.x, this.offset.y],
-        () => this.attributes.transform = `translate(${this.offset.x} ${this.offset.y})`,
+        () => (this.attributes.transform = `translate(${this.offset.x} ${this.offset.y})`),
         { fireImmediately: true },
       ),
     );

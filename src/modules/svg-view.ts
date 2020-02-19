@@ -15,7 +15,7 @@ export class SvgView {
   private pickableItems: Contour[] = [];
   private pickedItem!: Contour;
   private pickedPosition!: std.Vector2;
-  private pickedOffset!: { x: number, y: number };
+  private pickedOffset!: { x: number; y: number };
   private dragging = false;
 
   public constructor() {
@@ -23,9 +23,9 @@ export class SvgView {
     this.generate(this.scene);
 
     const w = window as any;
-    w.p = (x: number, y: number) => this.camera.position = new std.Vector2(x, y);
-    w.r = (a: number) => this.camera.rotation = a;
-    w.s = (s: number) => this.camera.scale = s;
+    w.p = (x: number, y: number) => (this.camera.position = new std.Vector2(x, y));
+    w.r = (a: number) => (this.camera.rotation = a);
+    w.s = (s: number) => (this.camera.scale = s);
   }
 
   public dispose() {
@@ -43,10 +43,20 @@ export class SvgView {
   private generate(scene: svg.Item) {
     // static scene items
     [-2, 2].forEach(cy => [-2, 2].forEach(cx => scene.items.push(new svg.Item('circle', { cx, cy, r: 0.1, fill: 'black' }))));
-    [-1, 0, 1].forEach(i => scene.items.push(
-      new svg.Item('path', { d: `M-2 ${i}h4`, stroke: 'black', 'stroke-width': 0.005 }),
-      new svg.Item('path', { d: `M${i} -2v4`, stroke: 'black', 'stroke-width': 0.005 }),
-    ));
+    [-1, 0, 1].forEach(i =>
+      scene.items.push(
+        new svg.Item('path', {
+          d: `M-2 ${i}h4`,
+          stroke: 'black',
+          'stroke-width': 0.005,
+        }),
+        new svg.Item('path', {
+          d: `M${i} -2v4`,
+          stroke: 'black',
+          'stroke-width': 0.005,
+        }),
+      ),
+    );
     scene.items.push(
       new svg.Item('path', { d: 'M1 0l-0.2 -0.1v0.2z', fill: 'darkred' }),
       new svg.Item('path', { d: 'M0 1l-0.1 -0.2h0.2z', fill: 'darkgreen' }),
@@ -54,7 +64,12 @@ export class SvgView {
 
     // dynamic scene items
     const contour = new Contour(
-      { name: 'test-contour', fill: 'red', stroke: 'white', 'stroke-width': 0.01 },
+      {
+        name: 'test-contour',
+        fill: 'red',
+        stroke: 'white',
+        'stroke-width': 0.01,
+      },
       [
         { x: 0.4, y: 0.1 },
         { x: 0.1, y: 0.1 },
@@ -88,7 +103,7 @@ export class SvgView {
     this.pickedPosition = this.camera.transform.transform(this.controller.toCamera(e));
     this.pickedOffset = { ...this.pickedItem.offset };
     this.dragging = true;
-  }
+  };
 
   private readonly drag = (e: PointerEvent) => {
     if (this.dragging) {
@@ -96,9 +111,12 @@ export class SvgView {
       const { x, y } = this.camera.transform.transform(this.controller.toCamera(e));
       const deltaX = x - this.pickedPosition.x;
       const deltaY = y - this.pickedPosition.y;
-      this.pickedItem.offset = { x: this.pickedOffset.x + deltaX, y: this.pickedOffset.y + deltaY };
+      this.pickedItem.offset = {
+        x: this.pickedOffset.x + deltaX,
+        y: this.pickedOffset.y + deltaY,
+      };
     }
-  }
+  };
 
   private readonly drop = (e: PointerEvent) => {
     if (this.dragging) {
@@ -106,11 +124,11 @@ export class SvgView {
       (e.target as HTMLElement).releasePointerCapture(e.pointerId);
       this.dragging = false;
     }
-  }
+  };
 
   private readonly dblclick = (e: PointerEvent) => {
     e.stopPropagation();
     const item = this.pickableItems.find(item => item.element === e.target) as Contour;
     item.offset = { x: 0, y: 0 };
-  }
+  };
 }

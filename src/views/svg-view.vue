@@ -1,8 +1,8 @@
 <template>
-<div class="svg-view">
-  <ui-element class="overlay" tabindex="0" :model="model.root"/>
-  <slot/>
-</div>
+  <div class="svg-view">
+    <ui-element class="overlay" tabindex="0" :model="model.root" />
+    <slot />
+  </div>
 </template>
 
 <script lang="ts">

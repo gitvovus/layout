@@ -20,10 +20,14 @@ export class Camera {
   }
 
   @computed public get transform() {
-    return translation(this.positionValue.x, this.positionValue.y).multiply(rotation(this.rotation)).multiply(scale(this.scale, this.scale));
+    return translation(this.positionValue.x, this.positionValue.y)
+      .multiply(rotation(this.rotation))
+      .multiply(scale(this.scale, this.scale));
   }
 
   @computed public get inverseTransform() {
-    return scale(1 / this.scale, 1 / this.scale).multiply(rotation(-this.rotation)).multiply(translation(-this.positionValue.x, -this.positionValue.y));
+    return scale(1 / this.scale, 1 / this.scale)
+      .multiply(rotation(-this.rotation))
+      .multiply(translation(-this.positionValue.x, -this.positionValue.y));
   }
 }

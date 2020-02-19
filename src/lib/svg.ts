@@ -1,36 +1,5 @@
 import { observable } from 'mobx';
 
-export function fromSource(text: string) {
-  const parser = new DOMParser();
-  const document = parser.parseFromString(text, 'image/svg+xml');
-  return fromElement(document.documentElement);
-}
-
-export function fromElement(node: Node) {
-  if (node.nodeType === node.TEXT_NODE) {
-
-    const text = (node.nodeValue || '').trim();
-    return text.length > 0 ? new Item(node.nodeName, text) : undefined;
-
-  } else if (node instanceof Element) {
-
-    const attributes: Attributes = {};
-    for (const attr of node.attributes) {
-      attributes[attr.name] = attr.value;
-    }
-    const item = new Item(node.nodeName, attributes);
-    for (const child of node.childNodes) {
-      const childItem = fromElement(child);
-      if (childItem) {
-        item.add(childItem);
-      }
-    }
-    return item;
-  }
-
-  return undefined;
-}
-
 export interface Attributes {
   [key: string]: string | number | undefined;
 }
@@ -72,7 +41,7 @@ export class Item {
   }
 
   public clear() {
-    this.items.forEach(item => item.parent = undefined);
+    this.items.forEach(item => (item.parent = undefined));
     this.items.length = 0;
   }
 
@@ -175,4 +144,32 @@ export class Item {
       this.el = undefined;
     }
   }
+}
+
+export function fromElement(node: Node) {
+  if (node.nodeType === node.TEXT_NODE) {
+    const text = (node.nodeValue || '').trim();
+    return text.length > 0 ? new Item(node.nodeName, text) : undefined;
+  } else if (node instanceof Element) {
+    const attributes: Attributes = {};
+    for (const attr of node.attributes) {
+      attributes[attr.name] = attr.value;
+    }
+    const item = new Item(node.nodeName, attributes);
+    for (const child of node.childNodes) {
+      const childItem = fromElement(child);
+      if (childItem) {
+        item.add(childItem);
+      }
+    }
+    return item;
+  }
+
+  return undefined;
+}
+
+export function fromSource(text: string) {
+  const parser = new DOMParser();
+  const document = parser.parseFromString(text, 'image/svg+xml');
+  return fromElement(document.documentElement);
 }

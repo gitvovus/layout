@@ -59,12 +59,10 @@ export function fromImageBitmap(data: ImageBitmap) {
  * @param f function, accepting single argument.
  * @returns ImageData with black pixels below function graph, and white pixels above graph.
  */
-export function plot(
-  width: number, height: number,
-  x0: number, y0: number, x1: number, y1: number, f: (x: number) => number) {
+export function plot(width: number, height: number, x0: number, y0: number, x1: number, y1: number, f: (x: number) => number) {
   return generate(width, height, (x, y) => {
-    const a = x0 + (x + 0.5) * (x1 - x0) / width;
-    const b = height - (f(a) - y0) * height / (y1 - y0);
+    const a = x0 + ((x + 0.5) * (x1 - x0)) / width;
+    const b = height - ((f(a) - y0) * height) / (y1 - y0);
     return y > b ? [0, 0, 0, 255] : [255, 255, 255, 255];
   });
 }
@@ -78,27 +76,35 @@ export function plot(
  * @returns [r, g, b]
  */
 export function hsv2rgb(h: number, s: number, v: number): [number, number, number] {
-  let r: number = 0;
-  let g: number = 0;
-  let b: number = 0;
+  let r = 0;
+  let g = 0;
+  let b = 0;
   const i = Math.floor(h * 6);
   const f = h * 6 - i;
   const p = v * (1 - s);
   const q = v * (1 - f * s);
   const t = v * (1 - (1 - f) * s);
   switch (i % 6) {
-    case 0: r = v, g = t, b = p; break;
-    case 1: r = q, g = v, b = p; break;
-    case 2: r = p, g = v, b = t; break;
-    case 3: r = p, g = q, b = v; break;
-    case 4: r = t, g = p, b = v; break;
-    case 5: r = v, g = p, b = q; break;
+    case 0:
+      (r = v), (g = t), (b = p);
+      break;
+    case 1:
+      (r = q), (g = v), (b = p);
+      break;
+    case 2:
+      (r = p), (g = v), (b = t);
+      break;
+    case 3:
+      (r = p), (g = q), (b = v);
+      break;
+    case 4:
+      (r = t), (g = p), (b = v);
+      break;
+    case 5:
+      (r = v), (g = p), (b = q);
+      break;
   }
-  return [
-    Math.round(r * 255),
-    Math.round(g * 255),
-    Math.round(b * 255),
-  ];
+  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 }
 
 /**
@@ -135,11 +141,6 @@ export function cubic(x: number, f: (x: number) => number) {
  * @returns calculated value.
  */
 export function bicubic(x: number, y: number, f: (x: number, y: number) => number) {
-  const p = [
-    cubic(x, x => f(x, -1)),
-    cubic(x, x => f(x, 0)),
-    cubic(x, x => f(x, 1)),
-    cubic(x, x => f(x, 2)),
-  ];
+  const p = [cubic(x, x => f(x, -1)), cubic(x, x => f(x, 0)), cubic(x, x => f(x, 1)), cubic(x, x => f(x, 2))];
   return cubic(y, x => p[x + 1]);
 }

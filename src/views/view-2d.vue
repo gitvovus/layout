@@ -1,8 +1,8 @@
 <template>
-<div class="view">
-  <ui-element class="overlay" tabindex="0" :model="model.root"/>
-  <slot/>
-</div>
+  <div class="view">
+    <ui-element class="overlay" tabindex="0" :model="model.root" />
+    <slot />
+  </div>
 </template>
 
 <script lang="ts">

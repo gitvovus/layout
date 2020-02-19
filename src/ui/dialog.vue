@@ -1,17 +1,25 @@
 <template>
-<div class="dialog" :style="{ left: `${controller.left}px`, top: `${controller.top}px`, width: `${controller.width}px`, height: `${controller.height}px` }">
-  <div class="dialog-grid">
-    <div class="nw-resize"></div>
-    <div class="nn-resize"></div>
-    <div class="ne-resize"></div>
-    <div class="ww-resize"></div>
-    <div class="dialog-content"><slot/></div>
-    <div class="ee-resize"></div>
-    <div class="sw-resize"></div>
-    <div class="ss-resize"></div>
-    <div class="se-resize"></div>
+  <div
+    class="dialog"
+    :style="{
+      left: `${controller.left}px`,
+      top: `${controller.top}px`,
+      width: `${controller.width}px`,
+      height: `${controller.height}px`,
+    }"
+  >
+    <div class="dialog-grid">
+      <div class="nw-resize"></div>
+      <div class="nn-resize"></div>
+      <div class="ne-resize"></div>
+      <div class="ww-resize"></div>
+      <div class="dialog-content"><slot /></div>
+      <div class="ee-resize"></div>
+      <div class="sw-resize"></div>
+      <div class="ss-resize"></div>
+      <div class="se-resize"></div>
+    </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
@@ -49,7 +57,7 @@ export default class UiDialog extends Vue {
     if (this.height !== undefined) {
       this.controller.height = this.height;
     }
-    this.controller.mount(<HTMLElement> this.$el);
+    this.controller.mount(this.$el as HTMLElement);
     this.disposers = [
       reaction(
         () => [this.controller.width, this.controller.height],
@@ -110,12 +118,28 @@ export default class UiDialog extends Vue {
   opacity: 1;
 }
 
-.nw-resize { cursor: nw-resize; }
-.nn-resize { cursor: n-resize; }
-.ne-resize { cursor: ne-resize; }
-.ww-resize { cursor: w-resize; }
-.ee-resize { cursor: e-resize; }
-.sw-resize { cursor: sw-resize; }
-.ss-resize { cursor: s-resize; }
-.se-resize { cursor: se-resize; }
+.nw-resize {
+  cursor: nw-resize;
+}
+.nn-resize {
+  cursor: n-resize;
+}
+.ne-resize {
+  cursor: ne-resize;
+}
+.ww-resize {
+  cursor: w-resize;
+}
+.ee-resize {
+  cursor: e-resize;
+}
+.sw-resize {
+  cursor: sw-resize;
+}
+.ss-resize {
+  cursor: s-resize;
+}
+.se-resize {
+  cursor: se-resize;
+}
 </style>

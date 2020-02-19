@@ -1,13 +1,7 @@
 <template>
-<button
-  class="button"
-  :checked="checked"
-  @pointerdown.stop
-  @click="click"
-  @focus="focus"
->
-  <slot/>
-</button>
+  <button class="button" :checked="checked" @pointerdown.stop @click="click" @focus="focus">
+    <slot />
+  </button>
 </template>
 
 <script lang="ts">
@@ -95,7 +89,7 @@ export default class UiButton extends Vue {
   $alpha-bg-hover-checked,
   $alpha-border-hover-checked,
   $alpha-bg-active,
-  $alpha-border-active,
+  $alpha-border-active
 ) {
   color: $primary;
   $inverse: invert($primary);
@@ -150,7 +144,7 @@ export default class UiButton extends Vue {
         $alpha-bg-hover-checked: 0.0625,
         $alpha-border-hover-checked: 0.75,
         $alpha-bg-active: 0.0625,
-        $alpha-border-active: 1,
+        $alpha-border-active: 1
       );
     }
   }
@@ -167,7 +161,7 @@ export default class UiButton extends Vue {
         $alpha-bg-hover-checked: 0.125,
         $alpha-border-hover-checked: 0.125,
         $alpha-bg-active: 0.125,
-        $alpha-border-active: 0.25,
+        $alpha-border-active: 0.25
       );
     }
   }

@@ -1,14 +1,14 @@
 <template>
-<div class="scroller">
-  <div class="run-track">
-    <div class="run" :style="{ height: 100 * (value - min) / (max - min) + '%' }"></div>
-    <div class="run-shadow"></div>
+  <div class="scroller">
+    <div class="run-track">
+      <div class="run" :style="{ height: (100 * (value - min)) / (max - min) + '%' }"></div>
+      <div class="run-shadow"></div>
+    </div>
+    <div class="thumb-track">
+      <div class="thumb" :style="{ bottom: (100 * (value - min)) / (max - min) + '%' }"></div>
+    </div>
+    <input type="range" orient="vertical" :min="min" :max="max" :value="value" @input="input" />
   </div>
-  <div class="thumb-track">
-    <div class="thumb" :style="{ bottom: 100 * (value - min) / (max - min) + '%' }"></div>
-  </div>
-  <input type="range" orient="vertical" :min="min" :max="max" :value="value" @input="input"/>
-</div>
 </template>
 
 <script lang="ts">

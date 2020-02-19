@@ -1,14 +1,14 @@
 <template>
-<div class="slider">
-  <div class="run-track">
-    <div class="run" :style="{ width: 100 * (value - min) / (max - min) + '%' }"></div>
-    <div class="run-shadow"></div>
+  <div class="slider">
+    <div class="run-track">
+      <div class="run" :style="{ width: (100 * (value - min)) / (max - min) + '%' }"></div>
+      <div class="run-shadow"></div>
+    </div>
+    <div class="thumb-track">
+      <div class="thumb" :style="{ left: (100 * (value - min)) / (max - min) + '%' }"></div>
+    </div>
+    <input type="range" :min="min" :max="max" :value="value" @input="input" />
   </div>
-  <div class="thumb-track">
-    <div class="thumb" :style="{ left: 100 * (value - min) / (max - min) + '%' }"></div>
-  </div>
-  <input type="range" :min="min" :max="max" :value="value" @input="input"/>
-</div>
 </template>
 
 <script lang="ts">

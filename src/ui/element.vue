@@ -1,8 +1,8 @@
 <template>
   <component v-if="model.tag !== '#text'" :is="model.tag" v-bind="model.attributes">
-    <ui-element v-for="(item, index) in model.items" :key="item.symbol" :model="model.items[index]"/>
+    <ui-element v-for="(item, index) in model.items" :key="item.symbol" :model="model.items[index]" />
   </component>
-  <ui-text v-else :model="model"/>
+  <ui-text v-else :model="model" />
 </template>
 
 <script lang="ts">
@@ -16,7 +16,7 @@ export default class UiElement extends Vue {
   @Prop() private model!: Item;
 
   private mounted() {
-    this.model.mount(<SVGElement> this.$el);
+    this.model.mount(this.$el as SVGElement);
   }
 
   private beforeDestroy() {

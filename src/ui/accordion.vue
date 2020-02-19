@@ -1,9 +1,9 @@
 <template>
-<div class="accordion">
-  <div>
-    <slot/>
+  <div class="accordion">
+    <div>
+      <slot />
+    </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">

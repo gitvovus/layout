@@ -1,21 +1,21 @@
 <template>
-<div class="spin-box">
-  <div class="container">
-    <div class="items">
-      <input type="text" v-model="text" @keypress="onKeyPress"/>
-      <div class="buttons">
-        <ui-button no-focus tabindex="-1" class="light" @click="up">
-          <div class="icon icon-up"></div>
-        </ui-button>
-        <ui-button no-focus tabindex="-1" class="light" @click="down">
-          <div class="icon icon-down"></div>
-        </ui-button>
+  <div class="spin-box">
+    <div class="container">
+      <div class="items">
+        <input type="text" v-model="text" @keypress="onKeyPress" />
+        <div class="buttons">
+          <ui-button no-focus tabindex="-1" class="light" @click="up">
+            <div class="icon icon-up"></div>
+          </ui-button>
+          <ui-button no-focus tabindex="-1" class="light" @click="down">
+            <div class="icon icon-down"></div>
+          </ui-button>
+        </div>
+        <div class="mark">%</div>
       </div>
-      <div class="mark">%</div>
+      <div class="label">Zoom level</div>
     </div>
-    <div class="label">Zoom level</div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
@@ -98,7 +98,7 @@ export default class UiSpinBox extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/style/_vars.scss";
+@import '@/style/_vars.scss';
 
 .spin-box {
   display: inline-block;
@@ -122,7 +122,7 @@ export default class UiSpinBox extends Vue {
     border-radius: 50vh;
   }
 
-  & input[type="text"] {
+  & input[type='text'] {
     background: none;
     border: none;
     outline: none;

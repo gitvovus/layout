@@ -45,16 +45,10 @@ export class Controller {
       utils.onElementEvent(this.el, 'pointerup', this.drop),
       utils.onElementEvent(this.el, 'wheel', this.wheel),
       this.trackResize(this.updateViewBox),
-      reaction(
-        () => [this.referenceWidth, this.referenceHeight],
-        this.updateViewBox,
-        { fireImmediately: true },
-      ),
-      reaction(
-        () => this.camera.inverseTransform,
-        this.updateSceneTransform,
-        { fireImmediately: true },
-      ),
+      reaction(() => [this.referenceWidth, this.referenceHeight], this.updateViewBox, { fireImmediately: true }),
+      reaction(() => this.camera.inverseTransform, this.updateSceneTransform, {
+        fireImmediately: true,
+      }),
     );
   }
 
@@ -68,7 +62,7 @@ export class Controller {
     this.camera.position = new std.Vector2(0, 0);
     this.camera.rotation = 0;
     this.camera.scale = 1;
-  }
+  };
 
   @action public setReferenceSize(width: number, height: number) {
     this.referenceWidth = width;
@@ -78,8 +72,8 @@ export class Controller {
   public toCamera(e: MouseEvent) {
     const { x, y } = utils.elementOffset(this.el, e);
     return new std.Vector2(
-      this.viewBox.left + this.viewBox.width * x / this.width,
-      this.viewBox.bottom + this.viewBox.height * (this.height - y) / this.height,
+      this.viewBox.left + (this.viewBox.width * x) / this.width,
+      this.viewBox.bottom + (this.viewBox.height * (this.height - y)) / this.height,
     );
   }
 
@@ -101,9 +95,9 @@ export class Controller {
     let w, h;
     if (widthScale < heightScale) {
       w = this.referenceWidth;
-      h = this.referenceHeight * heightScale / widthScale;
+      h = (this.referenceHeight * heightScale) / widthScale;
     } else {
-      w = this.referenceWidth * widthScale / heightScale;
+      w = (this.referenceWidth * widthScale) / heightScale;
       h = this.referenceHeight;
     }
     this.viewBox = {
@@ -113,11 +107,11 @@ export class Controller {
       height: h,
     };
     this.root.attributes.viewBox = `${-w / 2} ${-h / 2} ${w} ${h}`;
-  }
+  };
 
   private readonly updateSceneTransform = (transform: std.Matrix2x3) => {
     this.scene.attributes.transform = toSvg(scale(1, -1).multiply(transform));
-  }
+  };
 
   private readonly trackResize = (callback: () => void) => {
     let track = 0;
@@ -127,7 +121,7 @@ export class Controller {
     };
     frameHandler();
     return () => window.cancelAnimationFrame(track);
-  }
+  };
 
   private readonly pick = (e: PointerEvent) => {
     this.pickedPosition = this.camera.position;
@@ -135,7 +129,7 @@ export class Controller {
     this.pickedPoint = this.pickedTransform.transform(this.toCamera(e));
     this.dragging = true;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-  }
+  };
 
   @action private readonly drag = (e: PointerEvent) => {
     if (this.dragging) {
@@ -143,12 +137,12 @@ export class Controller {
       const delta = new std.Vector2(point.x - this.pickedPoint.x, point.y - this.pickedPoint.y);
       this.camera.position = new std.Vector2(this.pickedPosition.x - delta.x, this.pickedPosition.y - delta.y);
     }
-  }
+  };
 
   private readonly drop = (e: PointerEvent) => {
     this.dragging = false;
     (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-  }
+  };
 
   @action private readonly wheel = (e: WheelEvent) => {
     const k = e.deltaY < 0 ? 1 / 1.1 : 1.1;
@@ -164,11 +158,14 @@ export class Controller {
     const oldPos = this.camera.transform.transform(cameraPos);
     const newPos = newCamera.transform.transform(cameraPos);
 
-    this.camera.position = new std.Vector2(this.camera.position.x + oldPos.x - newPos.x, this.camera.position.y + oldPos.y - newPos.y);
+    this.camera.position = new std.Vector2(
+      this.camera.position.x + oldPos.x - newPos.x,
+      this.camera.position.y + oldPos.y - newPos.y,
+    );
     this.camera.scale = newScale;
-  }
+  };
 
   private readonly dblclick = (e: MouseEvent) => {
     this.reset();
-  }
+  };
 }

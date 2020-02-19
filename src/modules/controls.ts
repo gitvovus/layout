@@ -4,7 +4,10 @@ export class Controls {
   // buttons
   @observable public buttons = false;
   @observable public index = 3;
-  @observable public items = [...Array(4)].map((item, i) => ({ name: `item #${i}`, value: i }));
+  @observable public items = [...Array(4)].map((item, i) => ({
+    name: `item #${i}`,
+    value: i,
+  }));
   @observable public selectedItem = this.items[2];
   @observable public group = [false, true, false, false];
   @observable public message = 'nothing';

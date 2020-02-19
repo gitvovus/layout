@@ -22,7 +22,7 @@ import { Application } from '@/modules/application';
 
 Vue.config.productionTip = false;
 
-(<Array<[string, VueConstructor]>> [
+([
   ['controls', Controls],
   ['layout', Layout],
   ['lorem', Lorem],
@@ -39,7 +39,6 @@ Vue.config.productionTip = false;
   ['ui-slider', UiSlider],
   ['ui-spin-box', UiSpinBox],
   ['ui-text', UiText],
-])
-.forEach(([name, constructor]) => Vue.component(name, constructor));
+] as Array<[string, VueConstructor]>).forEach(([name, constructor]) => Vue.component(name, constructor));
 
 new Application().run();

@@ -1,7 +1,7 @@
 <template>
-<div :class="['popup', { show: value }]" @click="click" @focusout="focusout" tabindex="-1">
-  <slot/>
-</div>
+  <div :class="['popup', { show: value }]" @click="click" @focusout="focusout" tabindex="-1">
+    <slot />
+  </div>
 </template>
 
 <script lang="ts">

@@ -112,9 +112,6 @@ export class Matrix2x3 {
   public transform(vector: Vector2): Vector2 {
     const m = this.elements;
     const v = vector.elements;
-    return new Vector2(
-      m[0] * v[0] + m[2] * v[1] + m[4],
-      m[1] * v[0] + m[3] * v[1] + m[5],
-    );
+    return new Vector2(m[0] * v[0] + m[2] * v[1] + m[4], m[1] * v[0] + m[3] * v[1] + m[5]);
   }
 }

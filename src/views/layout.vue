@@ -1,28 +1,40 @@
 <template>
-<div class="l-root">
-  <div class="l-header">
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="spacer"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-  </div>
-  <div class="l-main">
-    <div class="l-wrapper">
-      <div class="l-views">
-        <div class="l-view-slot">
-          <div class="l-view" @click="toggleExpanded">
-            <div class="row"></div>
-            <div class="col"></div>
-            <div class="fit"></div>
-            <div class="col"></div>
+  <div class="l-root">
+    <div class="l-header">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="spacer"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+    <div class="l-main">
+      <div class="l-wrapper">
+        <div class="l-views">
+          <div class="l-view-slot">
+            <div class="l-view" @click="toggleExpanded">
+              <div class="row"></div>
+              <div class="col"></div>
+              <div class="fit"></div>
+              <div class="col"></div>
+            </div>
+          </div>
+          <div class="l-view-slot">
+            <div class="l-view" @click="toggleExpanded"></div>
+          </div>
+          <div class="l-view-slot">
+            <div class="l-view" @click="toggleExpanded"></div>
           </div>
         </div>
-        <div class="l-view-slot"><div class="l-view" @click="toggleExpanded"></div></div>
-        <div class="l-view-slot"><div class="l-view" @click="toggleExpanded"></div></div>
+        <div class="l-view-3d">
+          <div class="row"></div>
+          <div class="col"></div>
+          <div class="fit"></div>
+          <div class="col"></div>
+          <div class="col"></div>
+        </div>
       </div>
-      <div class="l-view-3d">
+      <div class="l-tools">
         <div class="row"></div>
         <div class="col"></div>
         <div class="fit"></div>
@@ -30,15 +42,7 @@
         <div class="col"></div>
       </div>
     </div>
-    <div class="l-tools">
-      <div class="row"></div>
-      <div class="col"></div>
-      <div class="fit"></div>
-      <div class="col"></div>
-      <div class="col"></div>
-    </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
@@ -152,20 +156,20 @@ export default class Layout extends Vue {
 .item {
   width: 50px;
   height: 50px;
-  @include item("50");
+  @include item('50');
 }
 .row {
   width: 900px;
   height: 50px;
-  @include item("900");
+  @include item('900');
 }
 .col {
   width: 50px;
   height: 200px;
-  @include item("200");
+  @include item('200');
 }
 .fit {
   height: 50px;
-  @include item("fit");
+  @include item('fit');
 }
 </style>

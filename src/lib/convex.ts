@@ -1,10 +1,10 @@
 import { Point } from '@/lib/std';
 
-export function bounds(points: Point[]): { min: Point, max: Point } {
+export function bounds(points: Point[]): { min: Point; max: Point } {
   if (points.length === 0) {
-    return { min: { x: 0, y: 0 }, max: { x: 0, y: 0 }};
+    return { min: { x: 0, y: 0 }, max: { x: 0, y: 0 } };
   }
-  const result = { min: {...points[0]}, max: {...points[0]} };
+  const result = { min: { ...points[0] }, max: { ...points[0] } };
   for (let i = 1; i < points.length; ++i) {
     result.min.x = Math.min(result.min.x, points[i].x);
     result.min.y = Math.min(result.min.y, points[i].y);
@@ -137,7 +137,10 @@ export function offset(contour: Point[], offset: number) {
     const pLength = Math.hypot(p.x, p.y);
     const nLength = Math.hypot(n.x, n.y);
     if (pLength > 1e-4 && nLength > 1e-4) {
-      let v = { x: p.x / pLength + n.x / nLength, y: p.y / pLength + n.y / nLength };
+      let v = {
+        x: p.x / pLength + n.x / nLength,
+        y: p.y / pLength + n.y / nLength,
+      };
       let vLength = Math.hypot(v.x, v.y);
       if (vLength <= 1e-4) {
         v = { x: -p.y / pLength, y: p.x / pLength };
@@ -145,7 +148,10 @@ export function offset(contour: Point[], offset: number) {
       }
       if (vLength > 1e-4) {
         const normal = { x: v.y / vLength, y: -v.x / vLength };
-        const point = { x: a.x + normal.x * offset, y: a.y + normal.y * offset };
+        const point = {
+          x: a.x + normal.x * offset,
+          y: a.y + normal.y * offset,
+        };
         result = cut(result, point, normal);
       }
     }
@@ -159,25 +165,18 @@ export function offset(contour: Point[], offset: number) {
   return result;
 }
 
-export function createPath(points: Point[], close: boolean) {
-  if (points.length < 1) {
+export function createData(points: Point[], closed: boolean, precision: number) {
+  if (points.length === 0) {
     return '';
   }
-
-  const precision = 2;
-  let path = `M${points[0].x.toFixed(precision)} ${points[0].y.toFixed(precision)}`;
-
-  if (points.length < 2) {
-    return path;
-  }
-
+  const chunks: string[] = [];
+  chunks.push(`M${points[0].x.toFixed(precision)} ${points[0].y.toFixed(precision)}`);
   for (let i = 1; i < points.length; ++i) {
-    path += `L${points[i].x.toFixed(precision)} ${points[i].y.toFixed(precision)}`;
+    const p = points[i];
+    chunks.push(`L${p.x.toFixed(precision)} ${p.y.toFixed(precision)}`);
   }
-
-  if (close) {
-    path += 'z';
+  if (closed) {
+    chunks.push('z');
   }
-
-  return path;
+  return chunks.join('');
 }
