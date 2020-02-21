@@ -52,7 +52,7 @@ import Component from 'vue-class-component';
 import { toggleExpanded } from '@/modules/animations';
 
 @Component
-export default class Layout extends Vue {
+export default class LayoutView extends Vue {
   private wrapper!: HTMLElement;
 
   private mounted() {

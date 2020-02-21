@@ -40,14 +40,14 @@
     </feMerge>
   </filter>
 </defs>
-<g id="contour-root">
-  <path id="zone" class="zone"/>
-  <g id="points" class="points">
+<g>
+  <path class="zone"/>
+  <g class="points">
   </g>
-  <g id="marks" class="marks">
+  <g class="marks">
   </g>
-  <path id="sorted" class="sorted"/>
-  <path id="convex" class="convex"/>
-  <path id="contour" class="contour"/>
+  <path class="sorted"/>
+  <path class="convex"/>
+  <path class="contour"/>
 </g>
 </svg>

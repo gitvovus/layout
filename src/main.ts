@@ -1,10 +1,11 @@
 import Vue, { VueConstructor } from 'vue';
 import '@/style/main.scss';
 
-import Controls from '@/views/controls.vue';
-import Layout from '@/views/layout.vue';
-import Lorem from '@/views/lorem.vue';
-import Mockup from '@/views/mockup.vue';
+import ControlsView from '@/views/controls-view.vue';
+import ConvexView from '@/views/convex-view.vue';
+import LayoutView from '@/views/layout-view.vue';
+import LoremView from '@/views/lorem-view.vue';
+import MockupView from '@/views/mockup-view.vue';
 import SvgView from '@/views/svg-view.vue';
 import View2d from '@/views/view-2d.vue';
 
@@ -23,10 +24,11 @@ import { Application } from '@/modules/application';
 Vue.config.productionTip = false;
 
 ([
-  ['controls', Controls],
-  ['layout', Layout],
-  ['lorem', Lorem],
-  ['mockup', Mockup],
+  ['controls-view', ControlsView],
+  ['convex-view', ConvexView],
+  ['layout-view', LayoutView],
+  ['lorem-view', LoremView],
+  ['mockup-view', MockupView],
   ['svg-view', SvgView],
   ['view-2d', View2d],
 

@@ -4,6 +4,7 @@ import * as svg from '@/lib/svg';
 import { Camera } from '@/modules/svg/camera';
 import { Controller } from '@/modules/svg/controller';
 import { Contour } from '@/modules/svg/contour';
+
 import source from '!!raw-loader!@/assets/scene.svg';
 
 export class SvgView {
@@ -59,11 +60,45 @@ export class SvgView {
         }),
       ),
     );
-    scene.add(
-      new svg.Item('path', { d: 'M1 0l-0.2 -0.1v0.2z', fill: 'darkred' }),
-      new svg.Item('path', { d: 'M0 1l-0.1 -0.2h0.2z', fill: 'darkgreen' }),
-      this.contours,
-    );
+    // scene.add(
+    //   new svg.Item('path', { d: 'M1 0l-0.2 -0.1v0.2z', fill: '#c00000' }),
+    //   new svg.Item('path', { d: 'M0 1l-0.1 -0.2h0.2z', fill: '#008000' }),
+    //   this.contours,
+    // );
+
+    // scene rotation controls
+    const delta = Math.PI / 12;
+    const ox = new Contour({ fill: '#c00000' }, [
+      { x: 1, y: 0 },
+      { x: 0.8, y: -0.1 },
+      { x: 0.8, y: 0.1 },
+    ]);
+    ox.on('pointerdown', (e: Event) => e.stopPropagation());
+    ox.on('click', (e: Event) => {
+      e.stopPropagation();
+      this.rotate(delta);
+    });
+    ox.on('dblclick', (e: Event) => {
+      e.stopPropagation();
+      this.rotate(delta);
+    });
+
+    const oy = new Contour({ fill: '#008000' }, [
+      { x: 0, y: 1 },
+      { x: -0.1, y: 0.8 },
+      { x: 0.1, y: 0.8 },
+    ]);
+    oy.on('pointerdown', (e: Event) => e.stopPropagation());
+    oy.on('click', (e: Event) => {
+      e.stopPropagation();
+      this.rotate(-delta);
+    });
+    oy.on('dblclick', (e: Event) => {
+      e.stopPropagation();
+      this.rotate(-delta);
+    });
+
+    scene.add(ox, oy, this.contours);
 
     // dynamic scene items
     const points: std.Point[] = [
@@ -82,12 +117,13 @@ export class SvgView {
     ];
 
     [
-      { name: 'red', fill: 'red', x: -0.25, y: -0.1 },
-      { name: 'green', fill: 'green', x: 0, y: 0 },
-      { name: 'blue', fill: 'blue', x: 0.25, y: 0.1 },
-    ].forEach(({ name, fill, x, y }) => {
-      const contour = new Contour({ name, fill, stroke: 'white', 'stroke-width': 0 }, points);
+      { fill: '#d01000c0', x: -0.25, y: -0.1 },
+      { fill: '#109000c0', x: 0, y: 0 },
+      { fill: '#0010d0c0', x: 0.25, y: 0.1 },
+    ].forEach(({ fill, x, y }) => {
+      const contour = new Contour({ fill }, points);
       contour.offset = { x, y };
+      this.unselect(contour);
 
       contour.on('dblclick', this.dblclick as EventListener);
       contour.on('pointerdown', this.pick as EventListener);
@@ -99,6 +135,21 @@ export class SvgView {
     });
   }
 
+  private select(item: Contour) {
+    item.attributes.stroke = 'white';
+    item.attributes['stroke-width'] = 0.01;
+    item.index = -1;
+  }
+
+  private unselect(item: Contour) {
+    item.attributes.stroke = 'black';
+    item.attributes['stroke-width'] = 0.003;
+  }
+
+  private rotate(delta: number) {
+    this.camera.rotation = std.mod(this.camera.rotation + delta, 2 * Math.PI);
+  }
+
   private readonly pick = (e: PointerEvent) => {
     e.stopPropagation();
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
@@ -106,8 +157,7 @@ export class SvgView {
     this.pickedItem = this.pickableItems.find(item => item.element === e.target) as Contour;
     this.pickedPosition = this.camera.transform.transform(this.controller.toCamera(e));
     this.pickedOffset = { ...this.pickedItem.offset };
-    this.pickedItem.attributes['stroke-width'] = 0.01;
-    this.pickedItem.index = -1;
+    this.select(this.pickedItem);
     this.dragging = true;
   };
 
@@ -131,7 +181,7 @@ export class SvgView {
     if (this.dragging) {
       e.stopPropagation();
       (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-      this.pickedItem.attributes['stroke-width'] = 0;
+      this.unselect(this.pickedItem);
       this.dragging = false;
     }
   };

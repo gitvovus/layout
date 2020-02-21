@@ -1,8 +1,10 @@
 <template>
   <div class="root">
     <div class="header dark">
-      <ui-button class="pretty round m-menu" v-for="i in 6" :key="i" v-model="button" :toggle="[i - 1]">{{ i - 1 }}</ui-button>
-      <ui-button class="pretty round m-menu" v-model="test" toggle>Test</ui-button>
+      <ui-button class="pretty round m-menu" v-for="(dummy, i) in 6" :key="i" v-model="model.button" :toggle="[i]">{{
+        i
+      }}</ui-button>
+      <ui-button class="pretty round m-menu" toggle v-model="model.test">Test</ui-button>
     </div>
     <div class="main">
       <div class="wrapper dark">
@@ -45,13 +47,13 @@
       </div>
       <div class="tools">
         <div class="m-dark dark">
-          <ui-button class="pretty round m-side" v-for="i in 6" :key="i + 100" v-model="model.dark" :toggle="[i - 1]"
-            >Dark #{{ i - 1 }}</ui-button
+          <ui-button class="pretty round m-side" v-for="(dummy, i) in 6" :key="i + 100" v-model="model.dark" :toggle="[i]"
+            >Dark #{{ i }}</ui-button
           >
         </div>
         <div class="m-light light">
-          <ui-button class="pretty round m-side" v-for="i in 6" :key="i + 200" v-model="model.light" :toggle="[i - 1]"
-            >Light #{{ i - 1 }}</ui-button
+          <ui-button class="pretty round m-side" v-for="(dummy, i) in 6" :key="i + 200" v-model="model.light" :toggle="[i]"
+            >Light #{{ i }}</ui-button
           >
         </div>
       </div>
@@ -65,15 +67,13 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 
-import { Application } from '@/modules/application';
 import { toggleExpanded } from '@/modules/animations';
+import { Mockup as Model } from '@/modules/mockup';
 
 @Observer
 @Component
-export default class Mockup extends Vue {
-  @Prop() private model!: Application;
-  private test = true;
-  private button = 0;
+export default class MockupView extends Vue {
+  @Prop() private model!: Model;
   private wrapper!: HTMLElement;
 
   private mounted() {

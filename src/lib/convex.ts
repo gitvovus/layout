@@ -14,14 +14,6 @@ export function bounds(points: Point[]): { min: Point; max: Point } {
   return result;
 }
 
-export function mirror(points: Point[]) {
-  const path = [...points];
-  for (let i = points.length - 1; i >= 0; --i) {
-    path.push({ x: -points[i].x, y: points[i].y });
-  }
-  return path;
-}
-
 function vector(from: Point, to: Point): Point {
   return { x: to.x - from.x, y: to.y - from.y };
 }
@@ -55,7 +47,6 @@ export function convex(points: Point[]) {
   if (points.length < 3) {
     return [...points];
   }
-  points = convexSort(points);
   const result = [points[0]];
   let last = 0;
   let next = last + 1 < points.length ? last + 1 : 0;
@@ -87,19 +78,19 @@ export function cut(points: Point[], linePoint: Point, lineNormal: Point) {
   let pd = distance(prev, linePoint, lineNormal);
   let pv = pd <= 0;
   if (pv) {
-    result.push(prev);
+    result.push({ ...prev });
   }
   for (const point of points) {
     const cd = distance(point, linePoint, lineNormal);
     const cv = cd <= 0;
-    if (cv !== pv) {
+    if (cv !== pv && pd !== 0 && cd !== 0) {
       const d = Math.abs(pd) + Math.abs(cd);
       const x = (prev.x * Math.abs(cd) + point.x * Math.abs(pd)) / d;
       const y = (prev.y * Math.abs(cd) + point.y * Math.abs(pd)) / d;
       result.push({ x, y });
     }
     if (cv) {
-      result.push(point);
+      result.push({ ...point });
     }
     pv = cv;
     pd = cd;
@@ -127,11 +118,10 @@ export function offset(contour: Point[], offset: number) {
     return result;
   }
 
-  const cvx = convex(contour);
-  for (let i = 0; i < cvx.length; ++i) {
-    const a = cvx[i];
-    const prev = i === 0 ? cvx[cvx.length - 1] : cvx[i - 1];
-    const next = i < cvx.length - 1 ? cvx[i + 1] : cvx[0];
+  for (let i = 0; i < contour.length; ++i) {
+    const a = contour[i];
+    const prev = contour[i === 0 ? contour.length - 1 : i - 1];
+    const next = contour[i < contour.length - 1 ? i + 1 : 0];
     const p = vector(prev, a);
     const n = vector(a, next);
     const pLength = Math.hypot(p.x, p.y);

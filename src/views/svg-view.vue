@@ -1,6 +1,6 @@
 <template>
   <div class="svg-view">
-    <ui-svg-element class="overlay" tabindex="0" :model="model.root" />
+    <ui-svg-element class="overlay" :model="model.root" />
     <slot />
   </div>
 </template>
@@ -27,13 +27,16 @@ export default class SvgView extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/style/_vars.scss';
+
 .svg-view {
   position: absolute;
   left: 10%;
   top: 10%;
   right: 10%;
   bottom: 10%;
-  background-color: rgba(white, 0.5);
-  box-shadow: 0 0 50px black;
+  background-color: rgba(ivory, 0.75);
+  border-radius: 8px;
+  box-shadow: $w-shadow;
 }
 </style>

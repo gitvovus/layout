@@ -72,7 +72,7 @@
                 >{{ model.paragraphs[i] }}</ui-button
               >
             </div>
-            <lorem :p="model.paragraphs[model.selectedParagraphs]" />
+            <lorem-view :p="model.paragraphs[model.selectedParagraphs]" />
           </ui-popup>
         </div>
       </div>
@@ -93,7 +93,7 @@
         >
       </div>
       <ui-accordion :expanded="model.expanded">
-        <lorem :p="model.paragraphs[model.selectedParagraphs]" class="content" />
+        <lorem-view :p="model.paragraphs[model.selectedParagraphs]" class="content" />
       </ui-accordion>
       <template v-for="(dummy, i) in 2">
         <div class="expand-header" :key="i">
@@ -103,7 +103,7 @@
           </ui-button>
         </div>
         <ui-accordion :expanded="model.expandedGroup === i" :key="i + 500">
-          <lorem :p="2" class="content" />
+          <lorem-view :p="2" class="content" />
         </ui-accordion>
       </template>
     </div>
@@ -127,7 +127,7 @@ import { Controls as Model } from '@/modules/controls';
 
 @Observer
 @Component
-export default class Controls extends Vue {
+export default class ControlsView extends Vue {
   @Prop() private model!: Model;
 }
 </script>
@@ -167,10 +167,6 @@ export default class Controls extends Vue {
     transform: rotate(90deg);
   }
 }
-.h-separator {
-  margin: 0.5rem 0;
-  height: 1px;
-}
 .content {
   padding: 10px;
   border-radius: 5px;
@@ -185,9 +181,6 @@ export default class Controls extends Vue {
   }
   & .icon {
     background-color: $text-dark;
-  }
-  & .h-separator {
-    background-color: rgba($text-dark, 0.25);
   }
   & .content-root {
     background-color: $bg-dark;
@@ -205,9 +198,6 @@ export default class Controls extends Vue {
   }
   & .icon {
     background-color: $text-light;
-  }
-  & .h-separator {
-    background-color: rgba($text-light, 0.25);
   }
   & .content-root {
     background-color: $bg-light;

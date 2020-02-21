@@ -13,6 +13,14 @@ export function mix(a: number, b: number, x: number) {
   return a + (b - a) * x;
 }
 
+export function mod(a: number, b: number) {
+  let x = a % b;
+  if (x < 0) {
+    x += b;
+  }
+  return x;
+}
+
 export function step(a: number, x: number): number {
   return x < a ? 0 : 1;
 }

@@ -18,17 +18,17 @@ const sample: Point[] = [
   { x: 2, y: 9 },
 ];
 
-export class ViewConvex {
+export class ConvexView {
   public readonly root = svg.fromSource(source)!;
 
   @observable public points: Point[] = [];
   @observable public pointCount = 0;
 
-  private readonly pointsGroup = this.root.find('points')!;
-  private readonly marksGroup = this.root.find('marks')!;
-  private readonly sortedGroup = this.root.find('sorted')!;
-  private readonly convexPath = this.root.find('convex')!;
-  private readonly zonePath = this.root.find('zone')!;
+  private readonly pointsGroup = this.root.findByClass('points')!;
+  private readonly marksGroup = this.root.findByClass('marks')!;
+  private readonly sortedGroup = this.root.findByClass('sorted')!;
+  private readonly convexPath = this.root.findByClass('convex')!;
+  private readonly zonePath = this.root.findByClass('zone')!;
 
   private readonly disposers: Array<() => void> = [];
 
@@ -42,6 +42,10 @@ export class ViewConvex {
         { fireImmediately: true },
       ),
     );
+  }
+
+  public dispose() {
+    this.disposers.forEach(disposer => disposer());
   }
 
   @computed public get maxLength() {

@@ -58,7 +58,7 @@ import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 
 @Component
-export default class Lorem extends Vue {
+export default class LoremView extends Vue {
   @Prop() private p?: number;
 }
 </script>

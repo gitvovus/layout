@@ -66,7 +66,7 @@ export class Item {
       return;
     }
     if (toIndex < 0) {
-      toIndex = this.items.length + toIndex;
+      toIndex += this.items.length;
     }
     toIndex = clamp(toIndex, 0, this.items.length - 1);
     if (index !== toIndex) {

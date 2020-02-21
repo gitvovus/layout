@@ -149,7 +149,7 @@ export class Controller {
   };
 
   @action private readonly wheel = (e: WheelEvent) => {
-    const k = e.deltaY < 0 ? 4 / 5 : 5 / 4;
+    const k = e.deltaY < 0 ? 7 / 8 : 8 / 7;
     const oldScale = this.camera.scale;
     const newScale = std.clamp(oldScale * k, 0.25, 4);
 
