@@ -48,16 +48,8 @@ export class SvgView {
     [-2, 2].forEach(cy => [-2, 2].forEach(cx => scene.add(new svg.Item('circle', { cx, cy, r: 0.1, fill: 'black' }))));
     [-1, 0, 1].forEach(i =>
       scene.add(
-        new svg.Item('path', {
-          d: `M-2 ${i}h4`,
-          stroke: 'black',
-          'stroke-width': 0.005,
-        }),
-        new svg.Item('path', {
-          d: `M${i} -2v4`,
-          stroke: 'black',
-          'stroke-width': 0.005,
-        }),
+        new svg.Item('path', { d: `M-2 ${i}h4`, stroke: 'black', 'stroke-width': 0.003 }),
+        new svg.Item('path', { d: `M${i} -2v4`, stroke: 'black', 'stroke-width': 0.003 }),
       ),
     );
     // scene.add(
@@ -121,7 +113,7 @@ export class SvgView {
       { fill: '#109000c0', x: 0, y: 0 },
       { fill: '#0010d0c0', x: 0.25, y: 0.1 },
     ].forEach(({ fill, x, y }) => {
-      const contour = new Contour({ fill }, points);
+      const contour = new Contour({ fill, stroke: 'white', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, points);
       contour.offset = { x, y };
       this.unselect(contour);
 
@@ -136,14 +128,12 @@ export class SvgView {
   }
 
   private select(item: Contour) {
-    item.attributes.stroke = 'white';
     item.attributes['stroke-width'] = 0.01;
     item.index = -1;
   }
 
   private unselect(item: Contour) {
-    item.attributes.stroke = 'black';
-    item.attributes['stroke-width'] = 0.003;
+    item.attributes['stroke-width'] = 0;
   }
 
   private rotate(delta: number) {

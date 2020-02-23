@@ -8,9 +8,9 @@ import { SvgView } from '@/modules/svg-view';
 import { ConvexView } from '@/modules/convex-view';
 
 export class Application {
-  @observable public page = 0;
+  @observable public page = 2;
   @observable public align = 0; // -1: left, 0: center, 1: right
-  @observable public dialog = 2;
+  @observable public dialog = 0;
 
   public readonly convex = new ConvexView();
   public readonly controls = [new Controls(), new Controls()];

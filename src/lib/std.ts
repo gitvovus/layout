@@ -39,7 +39,7 @@ export type Vector2Elements = [number, number];
 export type Matrix2x3Elements = [number, number, number, number, number, number];
 
 export class Vector2 {
-  public elements: Vector2Elements;
+  public readonly elements: Vector2Elements;
 
   public constructor(...elements: Vector2Elements) {
     this.elements = elements;
@@ -94,7 +94,7 @@ export class Matrix2x3 {
     );
   }
 
-  public elements: Matrix2x3Elements;
+  public readonly elements: Matrix2x3Elements;
 
   public constructor(...elements: Matrix2x3Elements) {
     this.elements = elements;
