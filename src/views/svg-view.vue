@@ -35,6 +35,7 @@ export default class SvgView extends Vue {
   top: 10%;
   right: 10%;
   bottom: 10%;
+  overflow: hidden;
   background-color: rgba(ivory, 0.75);
   border-radius: 8px;
   box-shadow: $w-shadow;

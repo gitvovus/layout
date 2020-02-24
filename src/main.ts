@@ -3,11 +3,9 @@ import '@/style/main.scss';
 
 import ControlsView from '@/views/controls-view.vue';
 import ConvexView from '@/views/convex-view.vue';
-import LayoutView from '@/views/layout-view.vue';
 import LoremView from '@/views/lorem-view.vue';
-import MockupView from '@/views/mockup-view.vue';
+import MovableView from '@/views/movable-view.vue';
 import SvgView from '@/views/svg-view.vue';
-import View2d from '@/views/view-2d.vue';
 
 import UiAccordion from '@/ui/accordion.vue';
 import UiButton from '@/ui/button.vue';
@@ -26,11 +24,9 @@ Vue.config.productionTip = false;
 ([
   ['controls-view', ControlsView],
   ['convex-view', ConvexView],
-  ['layout-view', LayoutView],
   ['lorem-view', LoremView],
-  ['mockup-view', MockupView],
+  ['movable-view', MovableView],
   ['svg-view', SvgView],
-  ['view-2d', View2d],
 
   ['ui-accordion', UiAccordion],
   ['ui-button', UiButton],

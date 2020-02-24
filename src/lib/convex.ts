@@ -49,7 +49,7 @@ export function convex(points: Point[]) {
   }
   const result = [points[0]];
   let last = 0;
-  let next = last + 1 < points.length ? last + 1 : 0;
+  let next = (last + 1) % points.length;
   while (next !== 0) {
     for (let i = last - 1; i >= 0; --i) {
       const dir = vector(result[last], points[next]);
@@ -63,7 +63,7 @@ export function convex(points: Point[]) {
     }
     result.push(points[next]);
     ++last;
-    next = next + 1 < points.length ? next + 1 : 0;
+    next = (next + 1) % points.length;
   }
   return result;
 }
@@ -74,27 +74,23 @@ function distance(point: Point, linePoint: Point, lineNormal: Point) {
 
 export function cut(points: Point[], linePoint: Point, lineNormal: Point) {
   const result: Point[] = [];
-  let prev = points[points.length - 1];
-  let pd = distance(prev, linePoint, lineNormal);
-  let pv = pd <= 0;
-  if (pv) {
-    result.push({ ...prev });
-  }
-  for (const point of points) {
+  for (let i = 0; i < points.length; ++i) {
+    const point = points[i];
     const cd = distance(point, linePoint, lineNormal);
     const cv = cd <= 0;
-    if (cv !== pv && pd !== 0 && cd !== 0) {
-      const d = Math.abs(pd) + Math.abs(cd);
-      const x = (prev.x * Math.abs(cd) + point.x * Math.abs(pd)) / d;
-      const y = (prev.y * Math.abs(cd) + point.y * Math.abs(pd)) / d;
+    if (cv) {
+      result.push(point);
+    }
+
+    const next = points[(i + 1) % points.length];
+    const nd = distance(next, linePoint, lineNormal);
+    const nv = nd <= 0;
+    if (cv !== nv) {
+      const d = Math.abs(nd) + Math.abs(cd);
+      const x = (next.x * Math.abs(cd) + point.x * Math.abs(nd)) / d;
+      const y = (next.y * Math.abs(cd) + point.y * Math.abs(nd)) / d;
       result.push({ x, y });
     }
-    if (cv) {
-      result.push({ ...point });
-    }
-    pv = cv;
-    pd = cd;
-    prev = point;
   }
   return result;
 }
@@ -118,6 +114,7 @@ export function offset(contour: Point[], offset: number) {
     return result;
   }
 
+  const eps = 1e-4;
   for (let i = 0; i < contour.length; ++i) {
     const a = contour[i];
     const prev = contour[i === 0 ? contour.length - 1 : i - 1];
@@ -126,17 +123,17 @@ export function offset(contour: Point[], offset: number) {
     const n = vector(a, next);
     const pLength = Math.hypot(p.x, p.y);
     const nLength = Math.hypot(n.x, n.y);
-    if (pLength > 1e-4 && nLength > 1e-4) {
+    if (pLength > eps && nLength > eps) {
       let v = {
         x: p.x / pLength + n.x / nLength,
         y: p.y / pLength + n.y / nLength,
       };
       let vLength = Math.hypot(v.x, v.y);
-      if (vLength <= 1e-4) {
+      if (vLength <= eps) {
         v = { x: -p.y / pLength, y: p.x / pLength };
         vLength = Math.hypot(v.x, v.y);
       }
-      if (vLength > 1e-4) {
+      if (vLength > eps) {
         const normal = { x: v.y / vLength, y: -v.x / vLength };
         const point = {
           x: a.x + normal.x * offset,
@@ -145,7 +142,7 @@ export function offset(contour: Point[], offset: number) {
         result = cut(result, point, normal);
       }
     }
-    if (nLength > 1e-4) {
+    if (nLength > eps) {
       const normal = { x: n.y / nLength, y: -n.x / nLength };
       const point = { x: a.x + normal.x * offset, y: a.y + normal.y * offset };
       result = cut(result, point, normal);
