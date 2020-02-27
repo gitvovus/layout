@@ -6,9 +6,9 @@
         <controls-view class="light" :model="model.controls[0]" />
         <controls-view class="dark" :model="model.controls[1]" />
       </div>
-      <svg-view v-if="model.page === 2" :model="model.svgView" />
+      <svg-view class="svg-demo" v-if="model.page === 2" :model="model.svgView" />
       <div class="app dark" v-if="model.page === 3">
-        <movable-view v-for="(item, i) in model.movable" :key="i" :model="item">
+        <movable-view v-for="(item, i) in model.movable" :key="i" :model="item" class="movable">
           <div class="anchor right bottom" v-if="i !== model.expanded">
             <ui-button no-focus tabindex="-1" class="icon-wrapper" @click="model.expand(i)">
               <div class="icon icon-expand"></div>
@@ -29,7 +29,7 @@
     <convex-view :class="{ show: model.dialog === 2 }" :width="800" :height="500" :model="model.convex" />
     <!-- pages selection -->
     <div class="app-bar light">
-      <div class="spacer" :collapsed="model.align === -1"></div>
+      <div :class="['spacer', { collapsed: model.align === -1 }]"></div>
       <div class="app-buttons">
         <ui-button no-focus tabindex="-1" class="round pretty" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
         <ui-button class="round pretty" :toggle="[1, 0]" v-model="model.dialog">Dialog</ui-button>
@@ -40,7 +40,7 @@
         <span class="v-separator" />
         <ui-button no-focus tabindex="-1" class="round pretty" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
       </div>
-      <div class="spacer" :collapsed="model.align === 1"></div>
+      <div :class="['spacer', { collapsed: model.align === 1 }]"></div>
     </div>
   </div>
 </template>
@@ -110,6 +110,45 @@ export default class AppView extends Vue {
   bottom: 0;
   display: flex;
 }
+.svg-demo {
+  left: 10%;
+  top: 10%;
+  right: 10%;
+  bottom: 10%;
+}
+
+.movable {
+  left: 0;
+  width: 30%;
+  height: 33.3333%;
+  z-index: 1;
+  &.i0 {
+    top: 0;
+  }
+  &.i1 {
+    top: 33.3333%;
+  }
+  &.i2 {
+    top: 66.6666%;
+  }
+  &.expanded {
+    left: 30%;
+    top: 0;
+    width: 70%;
+    height: 100%;
+    z-index: 2;
+  }
+  &.collapsed {
+    z-index: 0;
+  }
+  & .svg-view {
+    left: 20px;
+    top: 20px;
+    right: 20px;
+    bottom: 20px;
+  }
+}
+
 .convex-wrapper {
   display: flex;
   flex-direction: column;

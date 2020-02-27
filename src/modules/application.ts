@@ -8,7 +8,7 @@ import { Movable } from '@/modules/movable';
 import { SvgView } from '@/modules/svg-view';
 
 export class Application {
-  @observable public page = 1;
+  @observable public page = 3;
   @observable public align = 0; // -1: left, 0: center, 1: right
   @observable public dialog = 0;
 
@@ -22,23 +22,9 @@ export class Application {
   private vue!: Vue;
 
   public constructor() {
-    this.movable.push(
-      new Movable(-1, new SvgView(), {
-        left: '30%',
-        top: '0',
-        width: '70%',
-        height: '100%',
-      }),
-    );
+    this.movable.push(new Movable(new SvgView(), ['expanded']));
     for (let i = 0; i < 3; ++i) {
-      this.movable.push(
-        new Movable(i, new SvgView(), {
-          left: '0',
-          top: `${(i * 100) / 3}%`,
-          width: '30%',
-          height: `${100 / 3}%`,
-        }),
-      );
+      this.movable.push(new Movable(new SvgView(), [`i${i}`]));
     }
   }
 
@@ -52,32 +38,19 @@ export class Application {
       return;
     }
 
-    const itemToExpand = this.movable[index];
-    itemToExpand.attributes = {
-      left: '30%',
-      top: '0',
-      width: '70%',
-      height: '100%',
-      zIndex: 2,
-    };
-
-    const itemToCollapse = this.movable[this.expanded];
-    itemToCollapse.attributes = {
-      left: '0',
-      top: `${(itemToExpand.position * 100) / 3}%`,
-      width: '30%',
-      height: `${100 / 3}%`,
-      zIndex: 0,
-    };
-
     this.movable.forEach(item => {
-      if (item !== itemToExpand && item !== itemToCollapse) {
-        item.attributes = { ...item.attributes, zIndex: 1 };
+      const i = item.classes.indexOf('collapsed');
+      if (i !== -1) {
+        item.classes.splice(i, 1);
       }
     });
 
-    itemToCollapse.position = itemToExpand.position;
-    itemToExpand.position = -1;
+    const itemToExpand = this.movable[index];
+    const itemToCollapse = this.movable[this.expanded];
+
+    itemToCollapse.classes = [...itemToExpand.classes, 'collapsed'];
+    itemToExpand.classes = ['expanded'];
+
     this.expanded = index;
   }
 }

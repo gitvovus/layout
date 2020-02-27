@@ -1,32 +1,13 @@
 import { observable } from 'mobx';
-import { SvgView } from './svg-view';
 
-export type Attributes = {
-  left?: string;
-  top?: string;
-  width?: string;
-  height?: string;
-  zIndex?: number;
-};
+import { SvgView } from '@/modules/svg-view';
 
 export class Movable {
-  @observable public attributes: Attributes = {};
-  public position: number;
   public readonly view: SvgView;
+  @observable public classes: string[];
 
-  private el!: HTMLElement;
-
-  public constructor(index: number, view: SvgView, attributes?: Attributes) {
-    this.position = index;
+  public constructor(view: SvgView, classes: string[]) {
     this.view = view;
-    Object.assign(this.attributes, attributes);
-  }
-
-  public mount(el: HTMLElement) {
-    this.el = el;
-  }
-
-  public unmount() {
-    this.el = undefined!;
+    this.classes = classes;
   }
 }

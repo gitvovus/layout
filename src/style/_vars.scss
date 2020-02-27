@@ -1,6 +1,5 @@
-$font: -apple-system, Roboto, "Segoe UI", Verdana, sans-serif;
+$font: -apple-system, Roboto, 'Segoe UI', Verdana, sans-serif;
 $font-base: 14px;
-$font-menu: 16px;
 
 $transition: 0.25s;
 $page-transition: 2 * $transition;
@@ -20,15 +19,4 @@ $w-splitter: 1px solid #a0a0a0;
 $z-app: 20;
 $z-window: 10;
 
-$header-shadow: 0 0 5px rgba(black, 0.5);
 $popup-shadow: 0 0 10px rgba(black, 0.5);
-
-$tools-width: 250px;
-
-@mixin frame($color) {
-  $total: 5px;
-  $border: 2px;
-  $margin: $total - $border;
-  border: $border solid $color;
-  margin: $margin;
-}

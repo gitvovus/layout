@@ -2,7 +2,7 @@ import { action, observable } from 'mobx';
 
 class ListItem {
   public readonly name: string;
-  @observable public value = 0;
+  @observable public value = 5;
 
   public constructor(name: string) {
     this.name = name;

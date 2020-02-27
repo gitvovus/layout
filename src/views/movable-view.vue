@@ -1,6 +1,6 @@
 <template>
-  <div class="movable-view" :style="model.attributes">
-    <svg-view :model="model.view" :style="{ left: '20px', top: '20px', right: '20px', bottom: '20px' }" />
+  <div :class="['movable-view', ...model.classes]">
+    <svg-view :model="model.view" />
     <slot />
   </div>
 </template>
@@ -15,14 +15,6 @@ import { Movable as Model } from '@/modules/movable';
 @Component
 export default class MovableView extends Vue {
   @Prop() private model!: Model;
-
-  public mounted() {
-    this.model.mount(this.$el as HTMLElement);
-  }
-
-  public beforeDestroy() {
-    this.model.unmount();
-  }
 }
 </script>
 
