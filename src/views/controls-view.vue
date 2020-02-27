@@ -114,6 +114,22 @@
       {{ model.spinValue }}
       <ui-button class="round outline" @click="model.reset()">Reset</ui-button>
     </p>
+    <div class="list">
+      <div class="list-item" v-for="(item, i) in model.list" :key="i + 600">
+        <div class="list-icon icon-brightness"></div>
+        <div class="list-left">
+          <div>{{ item.name }}</div>
+          <div class="list-right">
+            <div class="list-slider">
+              <ui-slider :min="0" :max="10" v-model="item.value" />
+            </div>
+            <div>
+              <div class="list-icon icon-contrast"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -134,6 +150,63 @@ export default class ControlsView extends Vue {
 
 <style lang="scss">
 @import '@/style/_vars.scss';
+
+$w: 200px;
+$i: 26px;
+$m: 10px;
+$t: 0.3s;
+.list {
+  color: black;
+}
+.list-item {
+  width: $w;
+  background-color: white;
+  margin: 1px;
+  display: flex;
+}
+.list-icon {
+  width: 18px;
+  height: 18px;
+  margin: 4px;
+  vertical-align: middle;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  background-color: black;
+}
+.list-left {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+.list-right {
+  background-color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: $i;
+  transition: width $t;
+  overflow: hidden;
+  &:hover {
+    width: 100%;
+  }
+  &:hover .list-slider {
+    flex: 1 0 ($w - 2 * $i);
+  }
+}
+.list-slider {
+  flex: 1 0 0;
+  transition: flex 1s;
+  overflow: hidden;
+}
+.list-slider .slider {
+  width: $w - 2 * $i - 2 * $m;
+  margin: 0 $m;
+}
 
 .popup-anchor {
   display: inline-block;

@@ -1,5 +1,14 @@
 import { action, observable } from 'mobx';
 
+class ListItem {
+  public readonly name: string;
+  @observable public value = 0;
+
+  public constructor(name: string) {
+    this.name = name;
+  }
+}
+
 export class Controls {
   // buttons
   @observable public buttons = false;
@@ -27,6 +36,8 @@ export class Controls {
   public sliderMax = 50;
   public spinValues = [10, 20, 30, 40, 50];
   @observable public spinValue = 30;
+
+  @observable public readonly list = [new ListItem('First'), new ListItem('Second')];
 
   @action public click(message: string) {
     this.message = message;

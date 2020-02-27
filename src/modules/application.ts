@@ -8,7 +8,7 @@ import { Movable } from '@/modules/movable';
 import { SvgView } from '@/modules/svg-view';
 
 export class Application {
-  @observable public page = 3;
+  @observable public page = 1;
   @observable public align = 0; // -1: left, 0: center, 1: right
   @observable public dialog = 0;
 
