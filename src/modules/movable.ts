@@ -1,13 +1,13 @@
 import { observable } from 'mobx';
 
-import { SvgView } from '@/modules/svg-view';
+import { ViewModel } from '@/modules/view-model';
 
 export class Movable {
-  public readonly view: SvgView;
+  public readonly content: ViewModel;
   @observable public classes: string[];
 
-  public constructor(view: SvgView, classes: string[]) {
-    this.view = view;
+  public constructor(content: ViewModel, classes: string[]) {
+    this.content = content;
     this.classes = classes;
   }
 }

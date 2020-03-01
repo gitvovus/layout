@@ -32,17 +32,31 @@ export function onWindowEvent<K extends keyof WindowEventMap>(
 }
 
 /**
- * Allows to use event offset coordinates relative to event current target.
- * Note: e.offsetX and e.offsetY works differently in Firefox (relative to e.target) and Chrome (relative to e.currentTarget).
+ * Returns coordinates of MouseEvent (clientX, clientY) relative to given element.
+ * @param el element.
  * @param e event.
- * @returns event coordinates offset relative to event's currentTarget.
+ * @returns coordinates as { x, y }.
  */
-export function currentTargetOffset(e: MouseEvent): [number, number] {
-  const rect = (e.currentTarget as Element).getBoundingClientRect();
-  return [e.clientX - rect.left, e.clientY - rect.top];
-}
-
 export function elementOffset(el: Element, e: MouseEvent): { x: number; y: number } {
   const rect = el.getBoundingClientRect();
   return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+}
+
+/**
+ * Calls given callback every animation frame.
+ * @param callback callback to call.
+ * @param fireImmediately if true then additionally immediately calls callback.
+ * @returns function that should be called to stop per-frame calls.
+ */
+export function onAnimationFrame(callback: () => void, fireImmediately = true) {
+  let handle = 0;
+  const frameHandler = () => {
+    handle = window.requestAnimationFrame(frameHandler);
+    callback();
+  };
+  if (fireImmediately) {
+    callback();
+  }
+  handle = window.requestAnimationFrame(frameHandler);
+  return () => window.cancelAnimationFrame(handle);
 }

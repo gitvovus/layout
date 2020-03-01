@@ -16,17 +16,15 @@ export class Application {
   public readonly controls = [new Controls(), new Controls()];
   public readonly svgView = new SvgView();
 
-  @observable public readonly movable: Movable[] = [];
+  @observable public readonly movable: Movable[] = [
+    new Movable(new SvgView(), ['expanded']),
+    new Movable(new SvgView(), [`i0`]),
+    new Movable(new SvgView(), [`i1`]),
+    new Movable(new SvgView(), [`i2`]),
+  ];
   @observable public expanded = 0;
 
   private vue!: Vue;
-
-  public constructor() {
-    this.movable.push(new Movable(new SvgView(), ['expanded']));
-    for (let i = 0; i < 3; ++i) {
-      this.movable.push(new Movable(new SvgView(), [`i${i}`]));
-    }
-  }
 
   public run() {
     this.vue = new Vue({ render: h => h(AppView, { props: { model: this } }) });

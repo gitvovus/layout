@@ -19,9 +19,9 @@ export class Controller {
   @observable public referenceHeight = 2;
   private viewBox = { left: -1, bottom: -1, width: 2, height: 2 };
 
-  private el!: HTMLElement;
-  private root!: svg.Item;
-  private scene!: svg.Item;
+  private el?: HTMLElement;
+  private root: svg.Item;
+  private scene: svg.Item;
   private camera: Camera;
 
   private pickedPoint = new std.Vector2(0, 0);
@@ -44,7 +44,7 @@ export class Controller {
       utils.onElementEvent(this.el, 'pointermove', this.drag),
       utils.onElementEvent(this.el, 'pointerup', this.drop),
       utils.onElementEvent(this.el, 'wheel', this.wheel),
-      this.trackResize(this.updateViewBox),
+      utils.onAnimationFrame(this.updateViewBox),
       reaction(() => [this.referenceWidth, this.referenceHeight], this.updateViewBox, { fireImmediately: true }),
       reaction(() => this.camera.inverseTransform, this.updateSceneTransform, {
         fireImmediately: true,
@@ -74,7 +74,7 @@ export class Controller {
   }
 
   public toCamera(e: MouseEvent) {
-    const { x, y } = utils.elementOffset(this.el, e);
+    const { x, y } = utils.elementOffset(this.el!, e);
     return new std.Vector2(
       this.viewBox.left + (this.viewBox.width * x) / this.width,
       this.viewBox.bottom + (this.viewBox.height * (this.height - y)) / this.height,
@@ -82,8 +82,8 @@ export class Controller {
   }
 
   private readonly updateViewBox = () => {
-    const width = this.el.clientWidth;
-    const height = this.el.clientHeight;
+    const width = this.el!.clientWidth;
+    const height = this.el!.clientHeight;
     if (width === this.width && height === this.height) {
       return;
     }
@@ -115,16 +115,6 @@ export class Controller {
 
   private readonly updateSceneTransform = (transform: std.Matrix2x3) => {
     this.scene.attributes.transform = toSvg(scale(1, -1).multiply(transform));
-  };
-
-  private readonly trackResize = (callback: () => void) => {
-    let track = 0;
-    const frameHandler = () => {
-      callback();
-      track = window.requestAnimationFrame(frameHandler);
-    };
-    frameHandler();
-    return () => window.cancelAnimationFrame(track);
   };
 
   private readonly pick = (e: PointerEvent) => {

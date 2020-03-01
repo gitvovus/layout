@@ -21,7 +21,7 @@
     <ui-dialog :class="['effect', { show: model.dialog === 1 }]" :width="600" :height="720">
       <div class="w-panel">
         <div class="w-header">Header</div>
-        <div class="w-content"><lorem-view /></div>
+        <div class="w-content"><lorem-view :model="model.controls[0].lorem" /></div>
         <div class="w-footer">Footer</div>
       </div>
     </ui-dialog>
@@ -111,10 +111,10 @@ export default class AppView extends Vue {
   display: flex;
 }
 .svg-demo {
-  left: 10%;
-  top: 10%;
-  right: 10%;
-  bottom: 10%;
+  margin: 10%;
+  background-color: rgba(ivory, 0.75);
+  border-radius: 8px;
+  box-shadow: $w-shadow;
 }
 
 .movable {
@@ -142,10 +142,23 @@ export default class AppView extends Vue {
     z-index: 0;
   }
   & .svg-view {
-    left: 20px;
-    top: 20px;
-    right: 20px;
-    bottom: 20px;
+    margin: 20px;
+    background-color: rgba(ivory, 0.75);
+    border-radius: 8px;
+    box-shadow: $w-shadow;
+  }
+  & .lorem {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 20px;
+    padding: 10px;
+    overflow: hidden;
+    background-color: rgba(ivory, 0.75);
+    border-radius: 8px;
+    box-shadow: $w-shadow;
   }
 }
 

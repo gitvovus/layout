@@ -67,12 +67,12 @@
                 v-for="(item, i) in model.paragraphs"
                 :key="i"
                 class="round"
-                :toggle="[i]"
-                v-model="model.selectedParagraphs"
-                >{{ model.paragraphs[i] }}</ui-button
+                :toggle="[item]"
+                v-model="model.lorem.paragraphs"
+                >{{ item }}</ui-button
               >
             </div>
-            <lorem-view :p="model.paragraphs[model.selectedParagraphs]" />
+            <lorem-view :model="model.lorem" />
           </ui-popup>
         </div>
       </div>
@@ -87,13 +87,13 @@
           v-for="(item, i) in model.paragraphs"
           :key="i"
           class="round"
-          :toggle="[i]"
-          v-model="model.selectedParagraphs"
-          >{{ model.paragraphs[i] }}</ui-button
+          :toggle="[item]"
+          v-model="model.lorem.paragraphs"
+          >{{ item }}</ui-button
         >
       </div>
       <ui-accordion :expanded="model.expanded">
-        <lorem-view :p="model.paragraphs[model.selectedParagraphs]" class="content" />
+        <lorem-view :model="model.lorem" class="content" />
       </ui-accordion>
       <template v-for="(dummy, i) in 2">
         <div class="expand-header" :key="i">
@@ -103,7 +103,7 @@
           </ui-button>
         </div>
         <ui-accordion :expanded="model.expandedGroup === i" :key="i + 500">
-          <lorem-view :p="2" class="content" />
+          <lorem-view :model="model.lorem" class="content" />
         </ui-accordion>
       </template>
     </div>

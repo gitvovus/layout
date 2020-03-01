@@ -1,6 +1,6 @@
 <template>
   <div :class="['movable-view', ...model.classes]">
-    <svg-view :model="model.view" />
+    <component :is="model.content.template" :model="model.content" />
     <slot />
   </div>
 </template>

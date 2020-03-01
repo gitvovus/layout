@@ -4,10 +4,12 @@ import * as svg from '@/lib/svg';
 import { Camera } from '@/modules/svg/camera';
 import { Controller } from '@/modules/svg/controller';
 import { Contour } from '@/modules/svg/contour';
+import { ViewModel } from '@/modules/view-model';
 
 import source from '!!raw-loader!@/assets/scene.svg';
 
-export class SvgView {
+export class SvgView implements ViewModel {
+  public template = 'svg-view';
   public readonly root = svg.fromSource(source)!;
 
   private readonly scene = this.root.findByClass('scene')!;

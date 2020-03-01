@@ -1,5 +1,7 @@
 import { action, observable } from 'mobx';
 
+import { Lorem } from '@/modules/lorem';
+
 class ListItem {
   public readonly name: string;
   @observable public value = 5;
@@ -10,6 +12,9 @@ class ListItem {
 }
 
 export class Controls {
+  public readonly lorem = new Lorem();
+  public paragraphs = [1, 2, 4, 8];
+
   // buttons
   @observable public buttons = false;
   @observable public index = 3;
@@ -27,8 +32,6 @@ export class Controls {
 
   // expand
   @observable public expanded = false;
-  public paragraphs = [1, 2, 4, 8];
-  @observable public selectedParagraphs = 0;
   @observable public expandedGroup?: number = undefined;
 
   // slider & spin-box

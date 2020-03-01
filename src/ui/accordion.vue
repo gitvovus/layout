@@ -12,34 +12,26 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop, Watch } from 'vue-property-decorator';
 
+import { onAnimationFrame } from '@/lib/utils';
+
 @Observer
 @Component
 export default class UiAccordion extends Vue {
   @Prop() private expanded!: boolean;
-  private trackResizeDisposer!: () => void;
+  private disposer!: () => void;
 
   private mounted() {
-    this.trackResizeDisposer = this.trackResize();
+    this.disposer = onAnimationFrame(() => this.expand(this.expanded));
   }
 
   private beforeDestroy() {
-    this.trackResizeDisposer();
-  }
-
-  private trackResize() {
-    let id = 0;
-    const frameHandler = () => {
-      id = requestAnimationFrame(frameHandler);
-      this.expand(this.expanded);
-    };
-    frameHandler();
-    return () => cancelAnimationFrame(id);
+    this.disposer();
   }
 
   @Watch('expanded')
-  private expand(expand: boolean) {
+  private expand(expanded: boolean) {
     const el = this.$el as HTMLElement;
-    const height = expand ? (el.firstChild as HTMLElement).scrollHeight + 'px' : '';
+    const height = expanded ? (el.firstChild as HTMLElement).scrollHeight + 'px' : '';
     if (el.style.height !== height) {
       el.style.height = height;
     }
