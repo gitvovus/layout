@@ -12,7 +12,7 @@ class ListItem {
 }
 
 export class Controls {
-  public readonly lorem = new Lorem();
+  public readonly lorem = new Lorem(1);
   public paragraphs = [1, 2, 4, 8];
 
   // buttons

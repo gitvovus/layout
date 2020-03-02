@@ -94,20 +94,20 @@ export default class UiButton extends Vue {
   color: $primary;
   $inverse: invert($primary);
   &:focus {
-    border-color: rgba($primary, 0.125);
+    border-color: rgba($primary, 1/8);
   }
   &[checked] {
-    background-color: rgba(white, 0.25);
-    border-color: rgba($inverse, 0.125);
-    box-shadow: inset 0 0 5px -1px rgba(black, 0.5);
+    background-color: rgba(white, 1/4);
+    border-color: rgba($inverse, 1/8);
+    box-shadow: inset 0 0 5px -1px rgba(black, 1/2);
     text-shadow: 0 0 3px $inverse;
   }
   &:focus[checked] {
     border-color: rgba(white, $alpha-border-focus-checked);
   }
   &:hover:not([checked]) {
-    background-color: rgba($primary, 0.0625);
-    border-color: rgba($primary, 0.125);
+    background-color: rgba($primary, 1/16);
+    border-color: rgba($primary, 1/8);
   }
   &:hover[checked] {
     background-color: rgba(white, $alpha-bg-hover-checked);
@@ -116,7 +116,7 @@ export default class UiButton extends Vue {
   &:active:hover {
     background-color: rgba($primary, $alpha-bg-active);
     border-color: rgba(white, $alpha-border-active);
-    box-shadow: inset 0 0 5px -1px rgba(black, 0.5);
+    box-shadow: inset 0 0 5px -1px rgba(black, 1/2);
     color: $inverse;
     text-shadow: 0 0 3px $primary;
   }
@@ -141,9 +141,9 @@ export default class UiButton extends Vue {
       @include pretty(
         $primary: black,
         $alpha-border-focus-checked: 1,
-        $alpha-bg-hover-checked: 0.0625,
-        $alpha-border-hover-checked: 0.75,
-        $alpha-bg-active: 0.0625,
+        $alpha-bg-hover-checked: 1/16,
+        $alpha-border-hover-checked: 3/4,
+        $alpha-bg-active: 1/16,
         $alpha-border-active: 1
       );
     }
@@ -157,11 +157,11 @@ export default class UiButton extends Vue {
     &.pretty {
       @include pretty(
         $primary: white,
-        $alpha-border-focus-checked: 0.25,
-        $alpha-bg-hover-checked: 0.125,
-        $alpha-border-hover-checked: 0.125,
-        $alpha-bg-active: 0.125,
-        $alpha-border-active: 0.25
+        $alpha-border-focus-checked: 1/4,
+        $alpha-bg-hover-checked: 1/8,
+        $alpha-border-hover-checked: 1/8,
+        $alpha-bg-active: 1/8,
+        $alpha-border-active: 1/4
       );
     }
   }

@@ -103,7 +103,7 @@
           </ui-button>
         </div>
         <ui-accordion :expanded="model.expandedGroup === i" :key="i + 500">
-          <lorem-view :model="model.lorem" class="content" />
+          <lorem-view :paragraphs="1" class="content" />
         </ui-accordion>
       </template>
     </div>
@@ -131,6 +131,44 @@
         </div>
       </div>
     </div>
+    <!-- sliding menu -->
+    <br />
+    <div class="menu">
+      <div class="sub-menu-item">
+        Descriptions
+        <div class="popup-container">
+          <div class="popup-content">
+            <div class="menu-item">Description #1</div>
+            <div class="menu-item">Description #2</div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">Item</div>
+      <div class="sub-menu-item">
+        Options
+        <div class="popup-container">
+          <div class="popup-content">
+            <div class="menu-item">Option #1</div>
+            <div class="menu-item">Option #2</div>
+          </div>
+        </div>
+      </div>
+      <ui-resizer class="sub-menu-item">
+        <template v-slot:header>
+          <div>
+            Resizer header
+          </div>
+        </template>
+        <template v-slot:content>
+          <div class="popup-container">
+            <div class="popup-content">
+              <lorem-view class="resizer-content" :paragraphs="1" />
+            </div>
+          </div>
+        </template>
+      </ui-resizer>
+    </div>
+    <div>Some text under menu bar</div>
   </div>
 </template>
 
@@ -151,6 +189,75 @@ export default class ControlsView extends Vue {
 
 <style lang="scss">
 @import '@/style/_vars.scss';
+
+.resizer-content {
+  width: 200px;
+  white-space: normal;
+}
+
+$indent: 10px;
+.menu {
+  display: flex;
+  box-shadow: $popup-shadow;
+}
+.menu-item,
+.sub-menu-item {
+  white-space: nowrap;
+  user-select: none;
+  padding: 5px $indent;
+  &:hover {
+    & .popup-container {
+      height: auto;
+    }
+  }
+}
+.sub-menu-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid red;
+}
+.popup-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: -($indent);
+  top: 100%;
+  height: 0;
+  overflow: hidden;
+}
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  margin: $indent;
+  box-shadow: $popup-shadow;
+}
+.dark {
+  .menu,
+  .popup-content {
+    background-color: $bg-dark;
+  }
+  .menu-item,
+  .sub-menu-item {
+    &:hover {
+      background-color: rgba(white, 1/8);
+    }
+  }
+}
+.light {
+  .menu,
+  .popup-content {
+    background-color: $bg-light;
+  }
+  .menu-item,
+  .sub-menu-item {
+    background-color: $bg-light;
+    &:hover {
+      background-color: rgba(black, 1/8);
+    }
+  }
+}
 
 $w: 200px;
 $i: 26px;
