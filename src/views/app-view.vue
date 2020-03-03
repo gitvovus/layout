@@ -21,7 +21,7 @@
     <ui-dialog :class="['effect', { show: model.dialog === 1 }]" :width="600" :height="720">
       <div class="w-panel">
         <div class="w-header">Header</div>
-        <div class="w-content"><lorem-view :model="model.controls[0].lorem" /></div>
+        <div class="w-content"><lorem-view /></div>
         <div class="w-footer">Footer</div>
       </div>
     </ui-dialog>

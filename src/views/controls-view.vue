@@ -103,7 +103,7 @@
           </ui-button>
         </div>
         <ui-accordion :expanded="model.expandedGroup === i" :key="i + 500">
-          <lorem-view :model="model.lorem" class="content" />
+          <lorem-view :paragraphs="1" class="content" />
         </ui-accordion>
       </template>
     </div>
@@ -142,6 +142,58 @@
         <ui-button>Popup button #3</ui-button>
       </div>
     </div>
+    <!-- sliding menu -->
+    <br />
+    <div class="menu">
+      <div class="sub-menu-item">
+        <ui-button>Descriptions</ui-button>
+        <div class="popup-container">
+          <div class="popup-content">
+            <ui-button>Description #1</ui-button>
+            <ui-button>Description #2</ui-button>
+          </div>
+        </div>
+      </div>
+      <ui-button>Item</ui-button>
+      <div class="sub-menu-item">
+        <ui-button>Options</ui-button>
+        <div class="popup-container">
+          <div class="popup-content">
+            <ui-button>Option #1</ui-button>
+            <ui-button>Option #2</ui-button>
+          </div>
+        </div>
+      </div>
+      <div class="sub-menu-item">
+        <ui-button>Tip top</ui-button>
+        <div class="popup-container">
+          <div class="tip-container">
+            <svg class="tip-top" xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12">
+              <path class="tip-top-fill" d="M0 12L8 0L16 12z" />
+              <path class="tip-top-stroke" d="M0 12L8 0L16 12" fill="none" />
+            </svg>
+            <div class="tip-body">
+              <ui-button>Popup button #1</ui-button>
+              <ui-button>Popup button #2</ui-button>
+              <ui-button>Popup button #3</ui-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ui-resizer class="sub-menu-item">
+        <template v-slot:header>
+          <ui-button>Resizer header</ui-button>
+        </template>
+        <template v-slot:content>
+          <div class="popup-container">
+            <div class="popup-content">
+              <lorem-view class="resizer-content" :paragraphs="1" />
+            </div>
+          </div>
+        </template>
+      </ui-resizer>
+    </div>
+    <div>Some text under menu bar</div>
   </div>
 </template>
 
@@ -163,9 +215,11 @@ export default class ControlsView extends Vue {
 <style lang="scss">
 @import '@/style/_vars.scss';
 
+$indent-v: 5px;
+$indent-h: 10px;
 .tip-container {
-  margin-right: auto;
-  margin-top: 50px;
+  // margin-right: auto;
+  // margin-top: 20px;
   display: flex;
   flex-direction: column;
   filter: drop-shadow(0 0 10px black);
@@ -182,15 +236,16 @@ export default class ControlsView extends Vue {
   border-radius: 8px;
   .button {
     margin: 0;
+    padding: $indent-v $indent-h;
   }
 }
 .dark {
   & .tip-body {
-    background-color: #404040;
+    background-color: $bg-dark;
     border: 1px solid lime;
   }
   & .tip-top-fill {
-    fill: #404040;
+    fill: $bg-dark;
   }
   & .tip-top-stroke {
     stroke: lime;
@@ -198,15 +253,72 @@ export default class ControlsView extends Vue {
 }
 .light {
   & .tip-body {
-    background-color: ivory;
+    background-color: $bg-light;
     border: 1px solid red;
   }
   & .tip-top-fill {
-    fill: ivory;
+    fill: $bg-light;
   }
   & .tip-top-stroke {
     stroke: red;
   }
+}
+
+.menu {
+  display: flex;
+  box-shadow: $popup-shadow;
+  & .button {
+    margin: 0;
+    padding: $indent-v $indent-h;
+  }
+}
+.menu-item,
+.sub-menu-item {
+  white-space: nowrap;
+  user-select: none;
+  &:hover {
+    & .popup-container {
+      height: auto;
+    }
+  }
+}
+.sub-menu-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.popup-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: -($indent-h);
+  top: 100%;
+  height: 0;
+  overflow: hidden;
+}
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  margin: $indent-v $indent-h;
+  box-shadow: $popup-shadow;
+}
+.dark {
+  & .menu,
+  & .popup-content {
+    background-color: $bg-dark;
+  }
+}
+.light {
+  & .menu,
+  & .popup-content {
+    background-color: $bg-light;
+  }
+}
+.resizer-content {
+  width: 200px;
+  white-space: normal;
+  padding: 0 $indent-h;
+  user-select: text;
 }
 
 $w: 200px;

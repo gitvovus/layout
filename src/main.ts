@@ -11,6 +11,7 @@ import UiAccordion from '@/ui/accordion.vue';
 import UiButton from '@/ui/button.vue';
 import UiDialog from '@/ui/dialog.vue';
 import UiPopup from '@/ui/popup.vue';
+import UiResizer from '@/ui/resizer.vue';
 import UiScroller from '@/ui/scroller.vue';
 import UiSlider from '@/ui/slider.vue';
 import UiSpinBox from '@/ui/spin-box.vue';
@@ -32,6 +33,7 @@ Vue.config.productionTip = false;
   ['ui-button', UiButton],
   ['ui-dialog', UiDialog],
   ['ui-popup', UiPopup],
+  ['ui-resizer', UiResizer],
   ['ui-scroller', UiScroller],
   ['ui-slider', UiSlider],
   ['ui-spin-box', UiSpinBox],
