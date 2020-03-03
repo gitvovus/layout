@@ -131,6 +131,17 @@
         </div>
       </div>
     </div>
+    <div class="tip-container">
+      <svg class="tip-top" xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12">
+        <path class="tip-top-fill" d="M0 12L8 0L16 12z" />
+        <path class="tip-top-stroke" d="M0 12L8 0L16 12" fill="none" />
+      </svg>
+      <div class="tip-body">
+        <ui-button>Popup button #1</ui-button>
+        <ui-button>Popup button #2</ui-button>
+        <ui-button>Popup button #3</ui-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -151,6 +162,52 @@ export default class ControlsView extends Vue {
 
 <style lang="scss">
 @import '@/style/_vars.scss';
+
+.tip-container {
+  margin-right: auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  filter: drop-shadow(0 0 10px black);
+}
+.tip-top {
+  margin-left: 20px;
+  padding: 0;
+  transform: translateY(1px);
+}
+.tip-body {
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  .button {
+    margin: 0;
+  }
+}
+.dark {
+  & .tip-body {
+    background-color: #404040;
+    border: 1px solid lime;
+  }
+  & .tip-top-fill {
+    fill: #404040;
+  }
+  & .tip-top-stroke {
+    stroke: lime;
+  }
+}
+.light {
+  & .tip-body {
+    background-color: ivory;
+    border: 1px solid red;
+  }
+  & .tip-top-fill {
+    fill: ivory;
+  }
+  & .tip-top-stroke {
+    stroke: red;
+  }
+}
 
 $w: 200px;
 $i: 26px;
