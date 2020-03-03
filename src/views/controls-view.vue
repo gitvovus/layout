@@ -146,26 +146,26 @@
     <br />
     <div class="menu">
       <div class="sub-menu-item">
-        <ui-button>Descriptions</ui-button>
+        <ui-button no-focus tabindex="-1">Descriptions</ui-button>
         <div class="popup-container">
           <div class="popup-content">
-            <ui-button>Description #1</ui-button>
-            <ui-button>Description #2</ui-button>
+            <ui-button no-focus tabindex="-1">Description #1</ui-button>
+            <ui-button no-focus tabindex="-1">Description #2</ui-button>
           </div>
         </div>
       </div>
-      <ui-button>Item</ui-button>
+      <ui-button no-focus tabindex="-1">Item</ui-button>
       <div class="sub-menu-item">
-        <ui-button>Options</ui-button>
+        <ui-button no-focus tabindex="-1">Options</ui-button>
         <div class="popup-container">
           <div class="popup-content">
-            <ui-button>Option #1</ui-button>
-            <ui-button>Option #2</ui-button>
+            <ui-button no-focus tabindex="-1">Option #1</ui-button>
+            <ui-button no-focus tabindex="-1">Option #2</ui-button>
           </div>
         </div>
       </div>
       <div class="sub-menu-item">
-        <ui-button>Tip top</ui-button>
+        <ui-button no-focus tabindex="-1">Tip top</ui-button>
         <div class="popup-container">
           <div class="tip-container">
             <svg class="tip-top" xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12">
@@ -173,16 +173,16 @@
               <path class="tip-top-stroke" d="M0 12L8 0L16 12" fill="none" />
             </svg>
             <div class="tip-body">
-              <ui-button>Popup button #1</ui-button>
-              <ui-button>Popup button #2</ui-button>
-              <ui-button>Popup button #3</ui-button>
+              <ui-button no-focus tabindex="-1">Popup button #1</ui-button>
+              <ui-button no-focus tabindex="-1">Popup button #2</ui-button>
+              <ui-button no-focus tabindex="-1">Popup button #3</ui-button>
             </div>
           </div>
         </div>
       </div>
       <ui-resizer class="sub-menu-item">
         <template v-slot:header>
-          <ui-button>Resizer header</ui-button>
+          <ui-button no-focus tabindex="-1">Resizer header</ui-button>
         </template>
         <template v-slot:content>
           <div class="popup-container">
@@ -218,8 +218,6 @@ export default class ControlsView extends Vue {
 $indent-v: 5px;
 $indent-h: 10px;
 .tip-container {
-  // margin-right: auto;
-  // margin-top: 20px;
   display: flex;
   flex-direction: column;
   filter: drop-shadow(0 0 10px black);
@@ -279,6 +277,7 @@ $indent-h: 10px;
   &:hover {
     & .popup-container {
       height: auto;
+      overflow: visible;
     }
   }
 }
@@ -299,7 +298,7 @@ $indent-h: 10px;
 .popup-content {
   display: flex;
   flex-direction: column;
-  margin: $indent-v $indent-h;
+  margin: 5px 8px 8px 8px;
   box-shadow: $popup-shadow;
 }
 .dark {
