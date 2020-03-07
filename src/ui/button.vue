@@ -133,23 +133,6 @@ export default class UiButton extends Vue {
   transition: background-color $transition, border-color $transition, box-shadow $transition, text-shadow $transition;
 }
 
-.light {
-  & .button {
-    @include tint(black);
-
-    &.pretty {
-      @include pretty(
-        $primary: black,
-        $alpha-border-focus-checked: 1,
-        $alpha-bg-hover-checked: 1/16,
-        $alpha-border-hover-checked: 3/4,
-        $alpha-bg-active: 1/16,
-        $alpha-border-active: 1
-      );
-    }
-  }
-}
-
 .dark {
   & .button {
     @include tint(white);

@@ -1,5 +1,5 @@
 <template>
-  <div class="controls-root">
+  <div class="controls-view">
     <div>
       <!-- buttons -->
       <div class="expand-header">
@@ -143,7 +143,7 @@
       </div>
     </div>
     <!-- sliding menu -->
-    <br />
+    <div><br /></div>
     <div class="menu">
       <div class="sub-menu-item">
         <ui-button no-focus tabindex="-1">Descriptions</ui-button>
@@ -193,7 +193,9 @@
         </template>
       </ui-resizer>
     </div>
-    <div>Some text under menu bar</div>
+    <div class="scrollable">
+      <lorem-view />
+    </div>
   </div>
 </template>
 
@@ -249,18 +251,6 @@ $indent-h: 10px;
     stroke: lime;
   }
 }
-.light {
-  & .tip-body {
-    background-color: $bg-light;
-    border: 1px solid red;
-  }
-  & .tip-top-fill {
-    fill: $bg-light;
-  }
-  & .tip-top-stroke {
-    stroke: red;
-  }
-}
 
 .menu {
   display: flex;
@@ -305,12 +295,6 @@ $indent-h: 10px;
   & .menu,
   & .popup-content {
     background-color: $bg-dark;
-  }
-}
-.light {
-  & .menu,
-  & .popup-content {
-    background-color: $bg-light;
   }
 }
 .resizer-content {
@@ -391,12 +375,13 @@ $t: 0.3s;
   align-items: center;
 }
 
-.controls-root {
+.controls-view {
   flex: 1 1 auto;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-primary);
   padding: 10px 10px 10px 20px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -411,42 +396,18 @@ $t: 0.3s;
 }
 .content {
   padding: 10px;
-  border-radius: 5px;
-  border-width: 1px;
+  border-radius: 4px;
+  border: 1px solid rgba(white, 0.1);
+}
+
+.scrollable {
+  margin-top: 1em;
+  padding: 0 1em;
   border-style: solid;
-}
-
-.dark {
-  &.controls-root {
-    background-color: $bg-dark;
-    color: $text-dark;
-  }
-  & .icon {
-    background-color: $text-dark;
-  }
-  & .content-root {
-    background-color: $bg-dark;
-  }
-  & .content {
-    background-color: rgba(black, 0.05);
-    border-color: rgba(white, 0.1);
-  }
-}
-
-.light {
-  &.controls-root {
-    background-color: $bg-light;
-    color: $text-light;
-  }
-  & .icon {
-    background-color: $text-light;
-  }
-  & .content-root {
-    background-color: $bg-light;
-  }
-  & .content {
-    background-color: rgba(white, 0.1);
-    border-color: rgba(black, 0.1);
-  }
+  border-color: orange;
+  border-width: 1px 0;
+  max-width: 50%;
+  max-height: 200px;
+  overflow-y: scroll;
 }
 </style>

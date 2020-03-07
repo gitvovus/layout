@@ -1,11 +1,8 @@
 <template>
-  <div class="app" :style="{ backgroundImage: `url(${bg})` }">
+  <div class="app dark" :style="{ backgroundImage: `url(${bg})` }">
     <!-- pages -->
     <transition>
-      <div class="controls-wrapper" v-if="model.page === 1">
-        <controls-view class="light" :model="model.controls[0]" />
-        <controls-view class="dark" :model="model.controls[1]" />
-      </div>
+      <controls-view v-if="model.page === 1" :model="model.controls" />
       <svg-view class="svg-demo" v-if="model.page === 2" :model="model.svgView" />
       <div class="app dark" v-if="model.page === 3">
         <movable-view v-for="(item, i) in model.movable" :key="i" :model="item" class="movable">
@@ -28,7 +25,7 @@
     <!-- convex hull demo dialog -->
     <convex-view :class="{ show: model.dialog === 2 }" :width="800" :height="500" :model="model.convex" />
     <!-- pages selection -->
-    <div class="app-bar light">
+    <div class="app-bar">
       <div :class="['spacer', { collapsed: model.align === -1 }]"></div>
       <div class="app-buttons">
         <ui-button no-focus tabindex="-1" class="round pretty" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
@@ -57,7 +54,7 @@ import { Application as Model } from '@/modules/application';
 const s = 20;
 const l = 0x88;
 const d = 0x80;
-const light: img.RGBA = [l, l, l, 0xff];
+const lite: img.RGBA = [l, l, l, 0xff];
 const dark: img.RGBA = [d, d, d, 0xff];
 
 @Observer
@@ -65,7 +62,7 @@ const dark: img.RGBA = [d, d, d, 0xff];
 export default class AppView extends Vue {
   @Prop() private model!: Model;
   private bg = img.fromImageData(
-    img.generate(s * 2, s * 2, (x, y) => ((((x - (x % s)) / s) & 1) === (((y - (y % s)) / s) & 1) ? light : dark)),
+    img.generate(s * 2, s * 2, (x, y) => ((((x - (x % s)) / s) & 1) === (((y - (y % s)) / s) & 1) ? lite : dark)),
   );
 }
 </script>
@@ -95,20 +92,8 @@ export default class AppView extends Vue {
   background-color: $bg-dark;
   color: $text-dark;
 }
-.light .app-buttons {
-  background-color: $bg-light;
-  color: $text-light;
-}
 .text {
   margin: 0 0.5rem;
-}
-.controls-wrapper {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
 }
 .svg-demo {
   margin: 10%;
@@ -169,8 +154,7 @@ export default class AppView extends Vue {
   justify-content: center;
 }
 
-.dark .button.icon-wrapper,
-.light .button.icon-wrapper {
+.button.icon-wrapper {
   width: 24px;
   height: 24px;
   margin: 2px;

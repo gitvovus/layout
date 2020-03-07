@@ -1,15 +1,50 @@
 @import '@/style/_vars.scss';
 
-.dark {
-  & .h-separator,
-  & .v-separator {
-    background-color: #606060;
+$dark-base: (
+  'tx-primary': #d0d0d0,
+  'bg-primary': #303030,
+);
+
+$dark-ext: (
+  'bg-scroll-track': lighten(map-get($dark-base, 'bg-primary'), 10%),
+  'bg-scroll-thumb': darken(map-get($dark-base, 'tx-primary'), 25%),
+);
+
+$dark: map-merge($dark-base, $dark-ext);
+
+$theme: $dark;
+
+:root {
+  @each $color, $value in $theme {
+    --#{$color}: #{$value};
   }
 }
 
-.light {
-  & .h-separator,
-  & .v-separator {
-    background-color: #c0c0c0;
-  }
+html {
+  color: var(--tx-primary);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: var(--bg-scroll-track);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--bg-scroll-thumb);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-scroll-thumb) var(--bg-scroll-track);
+}
+
+.h-separator,
+.v-separator {
+  background-color: #606060;
+}
+
+.popup {
+  background-color: var(--bg-primary);
+}
+
+.icon {
+  background-color: var(--tx-primary);
 }

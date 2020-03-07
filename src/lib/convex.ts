@@ -114,7 +114,7 @@ export function offset(contour: Point[], offset: number) {
     return result;
   }
 
-  const eps = 1e-4;
+  const eps = 0;
   for (let i = 0; i < contour.length; ++i) {
     const a = contour[i];
     const prev = contour[i === 0 ? contour.length - 1 : i - 1];

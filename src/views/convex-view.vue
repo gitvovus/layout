@@ -1,6 +1,6 @@
 <template>
   <ui-dialog class="effect">
-    <div class="w-panel light">
+    <div class="w-panel">
       <div class="w-header">Convex Hull &amp; Offset</div>
       <div class="w-content convex-wrapper">
         <ui-svg-element :model="model.root" />

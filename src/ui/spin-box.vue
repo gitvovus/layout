@@ -4,10 +4,10 @@
       <div class="items">
         <input type="text" v-model="text" @keypress="onKeyPress" />
         <div class="buttons">
-          <ui-button no-focus tabindex="-1" class="light" @click="up">
+          <ui-button no-focus tabindex="-1" @click="up">
             <div class="icon icon-up"></div>
           </ui-button>
-          <ui-button no-focus tabindex="-1" class="light" @click="down">
+          <ui-button no-focus tabindex="-1" @click="down">
             <div class="icon icon-down"></div>
           </ui-button>
         </div>
@@ -151,7 +151,7 @@ export default class UiSpinBox extends Vue {
   }
 
   & .icon {
-    background-color: $text-light;
+    background-color: var(--tx-primary);
   }
 
   & .mark {

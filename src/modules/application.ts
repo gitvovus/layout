@@ -15,12 +15,12 @@ enum Page {
 }
 
 export class Application {
-  @observable public page = Page.CONTROLS;
+  @observable public page = Page.EMPTY;
   @observable public align = 0; // -1: left, 0: center, 1: right
-  @observable public dialog = 0;
+  @observable public dialog = 2;
 
   public readonly convex = new ConvexView();
-  public readonly controls = [new Controls(), new Controls()];
+  public readonly controls = new Controls();
   public readonly svgView = new SvgView();
 
   @observable public readonly movable: Movable[] = [

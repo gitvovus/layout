@@ -45,7 +45,7 @@ svg {
   display: flex;
   flex-direction: column;
   pointer-events: none;
-  background-color: white;
+  background-color: var(--bg-primary);
   opacity: 0.9;
 }
 

@@ -1,18 +1,7 @@
-.icon-brightness {
-  mask-image: url('~@/assets/brightness.svg');
-}
-.icon-contrast {
-  mask-image: url('~@/assets/contrast.svg');
-}
-.icon-down {
-  mask-image: url('~@/assets/down.svg');
-}
-.icon-expand {
-  mask-image: url('~@/assets/expand.svg');
-}
-.icon-less {
-  mask-image: url('~@/assets/less.svg');
-}
-.icon-up {
-  mask-image: url('~@/assets/up.svg');
+$icons: ('brightness', 'contrast', 'down', 'expand', 'less', 'up');
+
+@each $icon in $icons {
+  .icon-#{$icon} {
+    mask-image: url('~@/assets/#{$icon}.svg');
+  }
 }
