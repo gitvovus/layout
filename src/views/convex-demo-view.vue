@@ -17,11 +17,11 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Observer } from 'mobx-vue';
 
-import { ConvexView as Model } from '@/modules/convex-view';
+import { ConvexDemo as Model } from '@/modules/convex-demo';
 
 @Observer
 @Component
-export default class ConvexView extends Vue {
+export default class ConvexDemoView extends Vue {
   @Prop() private model!: Model;
 }
 </script>

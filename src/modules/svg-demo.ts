@@ -8,8 +8,8 @@ import { ViewModel } from '@/modules/view-model';
 
 import source from '!!raw-loader!@/assets/scene.svg';
 
-export class SvgView implements ViewModel {
-  public template = 'svg-view';
+export class SvgDemo implements ViewModel {
+  public template = 'svg-demo-view';
   public readonly root = svg.fromSource(source)!;
 
   private readonly scene = this.root.findByClass('scene')!;

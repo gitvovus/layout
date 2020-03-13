@@ -39,11 +39,11 @@ export class Controller {
   public mount(el: HTMLElement) {
     this.el = el;
     this.disposers.push(
-      utils.onElementEvent(this.el, 'dblclick', this.dblclick),
-      utils.onElementEvent(this.el, 'pointerdown', this.pick),
-      utils.onElementEvent(this.el, 'pointermove', this.drag),
-      utils.onElementEvent(this.el, 'pointerup', this.drop),
-      utils.onElementEvent(this.el, 'wheel', this.wheel),
+      utils.onElementEvent(el, 'dblclick', this.dblclick),
+      utils.onElementEvent(el, 'pointerdown', this.pick),
+      utils.onElementEvent(el, 'pointermove', this.drag),
+      utils.onElementEvent(el, 'pointerup', this.drop),
+      utils.onElementEvent(el, 'wheel', this.wheel, { passive: false }),
       utils.onAnimationFrame(this.updateViewBox),
       reaction(() => [this.referenceWidth, this.referenceHeight], this.updateViewBox, { fireImmediately: true }),
       reaction(() => this.camera.inverseTransform, this.updateSceneTransform, {

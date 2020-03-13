@@ -2,10 +2,12 @@ import Vue, { VueConstructor } from 'vue';
 import '@/style/main.scss';
 
 import ControlsView from '@/views/controls-view.vue';
-import ConvexView from '@/views/convex-view.vue';
+import ConvexDemoView from '@/views/convex-demo-view.vue';
+import EventTrackerView from '@/views/event-tracker-view.vue';
 import LoremView from '@/views/lorem-view.vue';
+import MovableDemoView from '@/views/movable-demo-view.vue';
 import MovableView from '@/views/movable-view.vue';
-import SvgView from '@/views/svg-view.vue';
+import SvgDemoView from '@/views/svg-demo-view.vue';
 
 import UiAccordion from '@/ui/accordion.vue';
 import UiButton from '@/ui/button.vue';
@@ -24,10 +26,12 @@ Vue.config.productionTip = false;
 
 ([
   ['controls-view', ControlsView],
-  ['convex-view', ConvexView],
+  ['convex-demo-view', ConvexDemoView],
+  ['event-tracker-view', EventTrackerView],
   ['lorem-view', LoremView],
+  ['movable-demo-view', MovableDemoView],
   ['movable-view', MovableView],
-  ['svg-view', SvgView],
+  ['svg-demo-view', SvgDemoView],
 
   ['ui-accordion', UiAccordion],
   ['ui-button', UiButton],
@@ -39,6 +43,6 @@ Vue.config.productionTip = false;
   ['ui-spin-box', UiSpinBox],
   ['ui-svg-element', UiSvgElement],
   ['ui-svg-text', UiSvgText],
-] as Array<[string, VueConstructor]>).forEach(([name, constructor]) => Vue.component(name, constructor));
+] as [string, VueConstructor][]).forEach(([name, constructor]) => Vue.component(name, constructor));
 
 new Application().run();

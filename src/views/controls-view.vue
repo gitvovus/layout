@@ -131,17 +131,6 @@
         </div>
       </div>
     </div>
-    <div class="tip-container">
-      <svg class="tip-top" xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12">
-        <path class="tip-top-fill" d="M0 12L8 0L16 12z" />
-        <path class="tip-top-stroke" d="M0 12L8 0L16 12" fill="none" />
-      </svg>
-      <div class="tip-body">
-        <ui-button>Popup button #1</ui-button>
-        <ui-button>Popup button #2</ui-button>
-        <ui-button>Popup button #3</ui-button>
-      </div>
-    </div>
     <!-- sliding menu -->
     <div><br /></div>
     <div class="menu">
@@ -234,27 +223,24 @@ $indent-h: 10px;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
+  background-color: $bg-dark;
+  border: 1px solid orange;
   .button {
     margin: 0;
     padding: $indent-v $indent-h;
   }
 }
-.dark {
-  & .tip-body {
-    background-color: $bg-dark;
-    border: 1px solid lime;
-  }
-  & .tip-top-fill {
-    fill: $bg-dark;
-  }
-  & .tip-top-stroke {
-    stroke: lime;
-  }
+.tip-top-fill {
+  fill: $bg-dark;
+}
+.tip-top-stroke {
+  stroke: orange;
 }
 
 .menu {
   display: flex;
   box-shadow: $popup-shadow;
+  background-color: $bg-dark;
   & .button {
     margin: 0;
     padding: $indent-v $indent-h;
@@ -288,14 +274,9 @@ $indent-h: 10px;
 .popup-content {
   display: flex;
   flex-direction: column;
+  background-color: $bg-dark;
   margin: 5px 8px 8px 8px;
   box-shadow: $popup-shadow;
-}
-.dark {
-  & .menu,
-  & .popup-content {
-    background-color: $bg-dark;
-  }
 }
 .resizer-content {
   width: 200px;

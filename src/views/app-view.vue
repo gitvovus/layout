@@ -1,21 +1,15 @@
 <template>
-  <div class="app dark" :style="{ backgroundImage: `url(${bg})` }">
+  <div class="app" :style="{ backgroundImage: `url(${bg})` }">
     <!-- pages -->
     <transition>
-      <controls-view v-if="model.page === 1" :model="model.controls" />
-      <svg-view class="svg-demo" v-if="model.page === 2" :model="model.svgView" />
-      <div class="app dark" v-if="model.page === 3">
-        <movable-view v-for="(item, i) in model.movable" :key="i" :model="item" class="movable">
-          <div class="anchor right bottom" v-if="i !== model.expanded">
-            <ui-button no-focus tabindex="-1" class="icon-wrapper" @click="model.expand(i)">
-              <div class="icon icon-expand"></div>
-            </ui-button>
-          </div>
-        </movable-view>
-      </div>
+      <component
+        v-if="model.pages[model.page] !== undefined"
+        :is="model.pages[model.page].template"
+        :model="model.pages[model.page]"
+      />
     </transition>
     <!-- simple dialog -->
-    <ui-dialog :class="['effect', { show: model.dialog === 1 }]" :width="600" :height="720">
+    <ui-dialog :class="['effect', { show: model.dialog === 0 }]" :width="600" :height="720">
       <div class="w-panel">
         <div class="w-header">Header</div>
         <div class="w-content"><lorem-view /></div>
@@ -23,17 +17,19 @@
       </div>
     </ui-dialog>
     <!-- convex hull demo dialog -->
-    <convex-view :class="{ show: model.dialog === 2 }" :width="800" :height="500" :model="model.convex" />
+    <convex-demo-view :class="{ show: model.dialog === 1 }" :width="800" :height="500" :model="model.convex" />
     <!-- pages selection -->
     <div class="app-bar">
       <div :class="['spacer', { collapsed: model.align === -1 }]"></div>
       <div class="app-buttons">
         <ui-button no-focus tabindex="-1" class="round pretty" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
-        <ui-button class="round pretty" :toggle="[1, 0]" v-model="model.dialog">Dialog</ui-button>
-        <ui-button class="round pretty" :toggle="[2, 0]" v-model="model.dialog">Convex</ui-button>
+        <ui-button class="round pretty" :toggle="[0, undefined]" v-model="model.dialog">Dialog</ui-button>
+        <ui-button class="round pretty" :toggle="[1, undefined]" v-model="model.dialog">Convex</ui-button>
         <span class="v-separator" />
         <div class="text">Page:</div>
-        <ui-button class="round pretty" v-for="(dummy, i) in 4" :key="i" v-model="model.page" :toggle="[i]">{{ i }}</ui-button>
+        <ui-button class="round pretty" v-for="(dummy, i) in model.pages" :key="i" v-model="model.page" :toggle="[i]">{{
+          i
+        }}</ui-button>
         <span class="v-separator" />
         <ui-button no-focus tabindex="-1" class="round pretty" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
       </div>
@@ -82,24 +78,30 @@ export default class AppView extends Vue {
   display: flex;
   align-items: baseline;
   border-radius: 5px 5px 0 0;
-  box-shadow: 0 0 8px rgba(black, 0.5);
+  box-shadow: 0 0 8px rgba(black, 1/2);
   pointer-events: auto;
+  background-color: $bg-dark;
+  color: $text-dark;
   & .v-separator {
     align-self: stretch;
   }
 }
-.dark .app-buttons {
-  background-color: $bg-dark;
-  color: $text-dark;
-}
 .text {
   margin: 0 0.5rem;
 }
-.svg-demo {
-  margin: 10%;
-  background-color: rgba(ivory, 0.75);
-  border-radius: 8px;
-  box-shadow: $w-shadow;
+.app {
+  & .svg-demo-view {
+    margin: 10%;
+    background-color: rgba(ivory, 3/4);
+    border-radius: 8px;
+    box-shadow: $w-shadow;
+  }
+  & .event-tracker-view {
+    margin: 10%;
+    border: 1px solid orange;
+    border-radius: 8px;
+    background-color: rgba(black, 1/4);
+  }
 }
 
 .movable {
@@ -126,7 +128,7 @@ export default class AppView extends Vue {
   &.collapsed {
     z-index: 0;
   }
-  & .svg-view {
+  & .svg-demo-view {
     margin: 20px;
     background-color: rgba(ivory, 0.75);
     border-radius: 8px;

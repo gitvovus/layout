@@ -19,8 +19,6 @@ export default class MovableView extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/style/_vars.scss';
-
 $t: 1s;
 
 .movable-view {

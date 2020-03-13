@@ -1,61 +1,41 @@
-import { action, observable } from 'mobx';
+import { observable } from 'mobx';
 import Vue from 'vue';
 import AppView from '@/views/app-view.vue';
 
 import { Controls } from '@/modules/controls';
-import { ConvexView } from '@/modules/convex-view';
-import { Movable } from '@/modules/movable';
-import { SvgView } from '@/modules/svg-view';
+import { ConvexDemo } from '@/modules/convex-demo';
+import { EventTracker } from '@/modules/event-tracker';
+import { MovableDemo } from '@/modules/movable-demo';
+import { SvgDemo } from '@/modules/svg-demo';
+import { ViewModel } from '@/modules/view-model';
 
 enum Page {
   EMPTY,
   CONTROLS,
-  SVG_VIEW,
+  EVENT_TRACKER,
+  SVG_DEMO,
   MOVABLES,
 }
 
 export class Application {
-  @observable public page = Page.EMPTY;
   @observable public align = 0; // -1: left, 0: center, 1: right
-  @observable public dialog = 2;
+  @observable public dialog: number | undefined = undefined;
+  public readonly convex = new ConvexDemo();
 
-  public readonly convex = new ConvexView();
-  public readonly controls = new Controls();
-  public readonly svgView = new SvgView();
-
-  @observable public readonly movable: Movable[] = [
-    new Movable(new SvgView(), ['expanded']),
-    new Movable(new SvgView(), [`i0`]),
-    new Movable(new SvgView(), [`i1`]),
-    new Movable(new SvgView(), [`i2`]),
+  @observable public page = Page.EVENT_TRACKER;
+  public readonly pages: (ViewModel | undefined)[] = [
+    undefined,
+    new Controls(),
+    new EventTracker(),
+    new SvgDemo(),
+    new MovableDemo(),
   ];
-  @observable public expanded = 0;
 
   private vue!: Vue;
 
   public run() {
+    document.addEventListener('contextmenu', e => e.preventDefault());
     this.vue = new Vue({ render: h => h(AppView, { props: { model: this } }) });
     this.vue.$mount('#app');
-  }
-
-  @action public expand(index: number) {
-    if (index === this.expanded) {
-      return;
-    }
-
-    this.movable.forEach(item => {
-      const i = item.classes.indexOf('collapsed');
-      if (i !== -1) {
-        item.classes.splice(i, 1);
-      }
-    });
-
-    const itemToExpand = this.movable[index];
-    const itemToCollapse = this.movable[this.expanded];
-
-    itemToCollapse.classes = [...itemToExpand.classes, 'collapsed'];
-    itemToExpand.classes = ['expanded'];
-
-    this.expanded = index;
   }
 }

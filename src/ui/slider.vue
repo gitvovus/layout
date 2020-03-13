@@ -32,7 +32,7 @@ export default class UiSlider extends Vue {
 
   private mounted() {
     this.scrollHandler = (e: Event) => this.scroll(e as WheelEvent);
-    this.$el.addEventListener('wheel', this.scrollHandler);
+    this.$el.addEventListener('wheel', this.scrollHandler, { passive: false });
   }
 
   private beforeDestroy() {

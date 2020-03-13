@@ -1,5 +1,5 @@
 <template>
-  <div class="svg-view">
+  <div class="svg-demo-view">
     <ui-svg-element class="overlay" :model="model.root" />
     <slot />
   </div>
@@ -9,7 +9,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Observer } from 'mobx-vue';
 
-import { SvgView as Model } from '@/modules/svg-view';
+import { SvgDemo as Model } from '@/modules/svg-demo';
 
 @Observer
 @Component
@@ -27,9 +27,7 @@ export default class SvgView extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/style/_vars.scss';
-
-.svg-view {
+.svg-demo-view {
   position: absolute;
   overflow: hidden;
   left: 0;

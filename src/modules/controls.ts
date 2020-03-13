@@ -1,6 +1,7 @@
 import { action, observable } from 'mobx';
 
 import { Lorem } from '@/modules/lorem';
+import { ViewModel } from '@/modules/view-model';
 
 class ListItem {
   public readonly name: string;
@@ -11,7 +12,8 @@ class ListItem {
   }
 }
 
-export class Controls {
+export class Controls implements ViewModel {
+  public readonly template = 'controls-view';
   public readonly lorem = new Lorem(1);
   public paragraphs = [1, 2, 4, 8];
 

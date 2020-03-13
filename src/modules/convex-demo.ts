@@ -4,6 +4,7 @@ import { Point } from '@/lib/std';
 import * as cvx from '@/lib/convex';
 import * as svg from '@/lib/svg';
 import source from '!!raw-loader!@/assets/convex.svg';
+import { ViewModel } from '@/modules/view-model';
 
 const sample: Point[] = [
   { x: 4, y: 0 },
@@ -18,7 +19,8 @@ const sample: Point[] = [
   { x: 2, y: 9 },
 ];
 
-export class ConvexView {
+export class ConvexDemo implements ViewModel {
+  public readonly template = 'convex-demo-view';
   public readonly root = svg.fromSource(source)!;
 
   @observable public points: Point[] = [];
