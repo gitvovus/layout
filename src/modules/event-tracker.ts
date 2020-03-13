@@ -16,6 +16,7 @@ export class EventTracker implements ViewModel {
   @observable public deltaX = 0;
   @observable public deltaY = 0;
   @observable public deltaZ = 0;
+  @observable public deltaMode = 0;
 
   private el?: HTMLElement;
   private readonly disposers: (() => void)[] = [];
@@ -54,12 +55,13 @@ export class EventTracker implements ViewModel {
       this.deltaX = e.deltaX;
       this.deltaY = e.deltaY;
       this.deltaZ = e.deltaZ;
+      this.deltaMode = e.deltaMode;
     }
   }
 
   @action private readonly pick = (e: PointerEvent) => {
-    this.update(e);
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    this.update(e);
   };
 
   @action private readonly drag = (e: PointerEvent) => {
@@ -67,12 +69,12 @@ export class EventTracker implements ViewModel {
   };
 
   @action private readonly drop = (e: PointerEvent) => {
-    this.update(e);
     (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    this.update(e);
   };
 
   @action private readonly wheel = (e: WheelEvent) => {
-    this.update(e);
     e.preventDefault();
+    this.update(e);
   };
 }

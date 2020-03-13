@@ -118,11 +118,11 @@ export class Controller {
   };
 
   private readonly pick = (e: PointerEvent) => {
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     this.pickedPosition = this.camera.position;
     this.pickedTransform = this.camera.transform;
     this.pickedPoint = this.pickedTransform.transform(this.toCamera(e));
     this.dragging = true;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   @action private readonly drag = (e: PointerEvent) => {
@@ -134,11 +134,13 @@ export class Controller {
   };
 
   private readonly drop = (e: PointerEvent) => {
-    this.dragging = false;
     (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    this.dragging = false;
   };
 
   @action private readonly wheel = (e: WheelEvent) => {
+    e.preventDefault();
+
     const k = e.deltaY < 0 ? 7 / 8 : 8 / 7;
     const oldScale = this.camera.scale;
     const newScale = std.clamp(oldScale * k, 0.25, 4);

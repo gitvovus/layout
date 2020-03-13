@@ -12,6 +12,7 @@
       <div>deltaX: {{ model.deltaX }}</div>
       <div>deltaY: {{ model.deltaY }}</div>
       <div>deltaZ: {{ model.deltaZ }}</div>
+      <div>deltaMode: {{ model.deltaMode }}</div>
     </div>
   </div>
 </template>
