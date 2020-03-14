@@ -22,7 +22,7 @@ export class Application {
   @observable public dialog: number | undefined = undefined;
   public readonly convex = new ConvexDemo();
 
-  @observable public page = Page.EVENT_TRACKER;
+  @observable public page = Page.EMPTY;
   public readonly pages: (ViewModel | undefined)[] = [
     undefined,
     new Controls(),

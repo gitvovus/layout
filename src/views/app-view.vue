@@ -91,16 +91,20 @@ export default class AppView extends Vue {
 }
 .app {
   & .svg-demo-view {
-    margin: 10%;
+    margin: 10vh 10vw;
     background-color: rgba(ivory, 3/4);
     border-radius: 8px;
     box-shadow: $w-shadow;
   }
+  & .movable .svg-demo-view {
+    margin: 20px;
+  }
   & .event-tracker-view {
-    margin: 10%;
+    margin: 10vh 10vw;
     border: 1px solid orange;
     border-radius: 8px;
     background-color: rgba(black, 1/4);
+    box-shadow: $w-shadow;
   }
 }
 
@@ -127,12 +131,6 @@ export default class AppView extends Vue {
   }
   &.collapsed {
     z-index: 0;
-  }
-  & .svg-demo-view {
-    margin: 20px;
-    background-color: rgba(ivory, 0.75);
-    border-radius: 8px;
-    box-shadow: $w-shadow;
   }
   & .lorem {
     position: absolute;

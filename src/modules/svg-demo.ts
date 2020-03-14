@@ -47,18 +47,27 @@ export class SvgDemo implements ViewModel {
 
   private generate(scene: svg.Item) {
     // static scene items
-    [-2, 2].forEach(cy => [-2, 2].forEach(cx => scene.add(new svg.Item('circle', { cx, cy, r: 0.1, fill: 'black' }))));
+    [-2, 2].forEach(cy =>
+      [-2, 2].forEach(cx =>
+        scene.add(
+          new svg.Item('circle', {
+            cx,
+            cy,
+            r: 0.1,
+            fill: 'white',
+            stroke: 'black',
+            'stroke-width': 1,
+            'vector-effect': 'non-scaling-stroke',
+          }),
+        ),
+      ),
+    );
     [-1, 0, 1].forEach(i =>
       scene.add(
         new svg.Item('path', { d: `M-2 ${i}h4`, stroke: 'black', 'stroke-width': 0.003 }),
         new svg.Item('path', { d: `M${i} -2v4`, stroke: 'black', 'stroke-width': 0.003 }),
       ),
     );
-    // scene.add(
-    //   new svg.Item('path', { d: 'M1 0l-0.2 -0.1v0.2z', fill: '#c00000' }),
-    //   new svg.Item('path', { d: 'M0 1l-0.1 -0.2h0.2z', fill: '#008000' }),
-    //   this.contours,
-    // );
 
     // scene rotation controls
     const delta = Math.PI / 12;
