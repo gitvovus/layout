@@ -2,11 +2,7 @@
   <div class="app" :style="{ backgroundImage: `url(${bg})` }">
     <!-- pages -->
     <transition>
-      <component
-        v-if="model.pages[model.page] !== undefined"
-        :is="model.pages[model.page].template"
-        :model="model.pages[model.page]"
-      />
+      <component v-if="model.activePage !== undefined" :is="model.activePage.template" :model="model.activePage" />
     </transition>
     <!-- simple dialog -->
     <ui-dialog :class="['effect', { show: model.dialog === 0 }]" :width="600" :height="720">
@@ -47,8 +43,6 @@ import { Prop } from 'vue-property-decorator';
 import * as img from '@/lib/images';
 import * as svg from '@/lib/svg';
 import { Application as Model } from '@/modules/application';
-
-import source from '!!raw-loader!@/assets/cursor.svg';
 
 const s = 20;
 const l = 0x88;
@@ -109,7 +103,6 @@ export default class AppView extends Vue {
     background-color: rgba(black, 1/4);
     box-shadow: $w-shadow;
   }
-  cursor: url('~@/assets/cursor.svg') -28 -28, auto;
 }
 
 .movable {

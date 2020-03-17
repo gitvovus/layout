@@ -3,8 +3,8 @@
     <div class="event-tracker-info">
       <div>
         {{ model.leftButton ? 'L' : '-' }}
-        {{ model.rightButton ? 'R' : '-' }}
         {{ model.middleButton ? 'M' : '-' }}
+        {{ model.rightButton ? 'R' : '-' }}
       </div>
       <div>type: {{ model.lastEvent }}</div>
       <div>clientX: {{ model.clientX }}</div>
@@ -15,7 +15,10 @@
       <div>deltaMode: {{ model.deltaMode }}</div>
     </div>
     <div class="event-tracker-parent">
-      <div class="event-tracker-child"></div>
+      parent
+      <div class="event-tracker-child">
+        child
+      </div>
     </div>
   </div>
 </template>
@@ -70,15 +73,17 @@ export default class SvgView extends Vue {
   position: absolute;
   right: 0;
   top: 0;
+  margin: 5px;
+  padding: 10px;
   border-radius: 5px;
   background-color: rgba(black, 1/4);
-  margin: 5px;
-  padding: 50px;
 }
 .event-tracker-child {
   width: 100px;
   height: 100px;
+  margin: 10px;
+  padding: 10px;
   border-radius: 5px;
-  background-color: rgba(yellow, 1/4);
+  background-color: rgba(green, 1/4);
 }
 </style>

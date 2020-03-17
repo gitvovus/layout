@@ -1,10 +1,18 @@
-import { observable, reaction } from 'mobx';
+import { autorun, computed, observable } from 'mobx';
 
-import { Point } from '@/lib/std';
+import * as std from '@/lib/std';
 import * as svg from '@/lib/svg';
 
+const rotation = std.Matrix2x3.rotation;
+const scale = std.Matrix2x3.scale;
+const translation = std.Matrix2x3.translation;
+
+function toSvg(matrix: std.Matrix2x3) {
+  return `matrix(${matrix.elements.join(' ')})`;
+}
+
 export class Contour extends svg.Item {
-  public static createData(points: Point[], closed: boolean, precision: number) {
+  public static createData(points: std.Point[], closed: boolean, precision: number) {
     if (points.length === 0) {
       return '';
     }
@@ -20,35 +28,45 @@ export class Contour extends svg.Item {
     return chunks.join('');
   }
 
-  @observable public offset: Point = observable({ x: 0, y: 0 });
-  private pointsValue: Point[] = [];
+  @observable public scale = 1;
+  @observable public rotation = 0;
+  @observable private positionValue = new std.Vector2(0, 0);
+  private pointsValue: std.Point[] = [];
   private disposers: Array<() => void> = [];
 
-  public constructor(attributes?: { [key: string]: string | number }, points?: Point[]) {
+  public constructor(attributes?: { [key: string]: string | number }, points?: std.Point[]) {
     super('path', attributes);
 
     if (points) {
       this.points = points;
     }
 
-    this.disposers.push(
-      reaction(
-        () => [this.offset.x, this.offset.y],
-        () => (this.attributes.transform = `translate(${this.offset.x} ${this.offset.y})`),
-        { fireImmediately: true },
-      ),
-    );
+    this.disposers.push(autorun(() => (this.attributes.transform = toSvg(this.transform))));
   }
 
   public dispose() {
     this.disposers.forEach(disposer => disposer());
   }
 
+  @computed public get position() {
+    return this.positionValue.clone();
+  }
+
+  public set position(value: std.Vector2) {
+    this.positionValue = value.clone();
+  }
+
+  @computed public get transform() {
+    return translation(this.positionValue.x, this.positionValue.y)
+      .multiply(rotation(this.rotation))
+      .multiply(scale(this.scale, this.scale));
+  }
+
   public get points() {
     return this.pointsValue;
   }
 
-  public set points(value: Point[]) {
+  public set points(value: std.Point[]) {
     this.pointsValue = value;
     this.attributes.d = Contour.createData(value, true, 2);
   }

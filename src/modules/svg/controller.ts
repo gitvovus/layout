@@ -12,6 +12,12 @@ function toSvg(matrix: std.Matrix2x3) {
   return `matrix(${matrix.elements.join(' ')})`;
 }
 
+enum Gesture {
+  NONE,
+  DRAG,
+  ROTATE,
+}
+
 export class Controller {
   @observable public width = 2;
   @observable public height = 2;
@@ -24,10 +30,13 @@ export class Controller {
   private scene: svg.Item;
   private camera: Camera;
 
+  private gesture = Gesture.NONE;
+  private pickedOffset = { x: 0, y: 0 };
   private pickedPoint = new std.Vector2(0, 0);
   private pickedPosition = new std.Vector2(0, 0);
+  private pickedRotation = 0;
   private pickedTransform = new std.Matrix2x3(1, 0, 0, 1, 0, 0);
-  private dragging = false;
+
   private readonly disposers: Array<() => void> = [];
 
   public constructor(root: svg.Item, camera: Camera) {
@@ -39,13 +48,12 @@ export class Controller {
   public mount(el: HTMLElement) {
     this.el = el;
     this.disposers.push(
-      utils.onElementEvent(el, 'dblclick', this.dblclick),
+      utils.onElementEvent(el, 'dblclick', () => this.reset()),
       utils.onElementEvent(el, 'pointerdown', this.pick),
       utils.onElementEvent(el, 'pointermove', this.drag),
       utils.onElementEvent(el, 'pointerup', this.drop),
       utils.onElementEvent(el, 'wheel', this.wheel, { passive: false }),
       utils.onAnimationFrame(this.updateViewBox),
-      reaction(() => [this.referenceWidth, this.referenceHeight], this.updateViewBox, { fireImmediately: true }),
       reaction(() => this.camera.inverseTransform, this.updateSceneTransform, {
         fireImmediately: true,
       }),
@@ -118,24 +126,42 @@ export class Controller {
   };
 
   private readonly pick = (e: PointerEvent) => {
+    switch (e.button) {
+      case 0:
+        this.gesture = Gesture.DRAG;
+        break;
+      case 2:
+        this.gesture = Gesture.ROTATE;
+        break;
+      default:
+        return;
+    }
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    this.pickedOffset = utils.elementOffset(this.el!, e);
     this.pickedPosition = this.camera.position;
+    this.pickedRotation = this.camera.rotation;
     this.pickedTransform = this.camera.transform;
     this.pickedPoint = this.pickedTransform.transform(this.toCamera(e));
-    this.dragging = true;
   };
 
   @action private readonly drag = (e: PointerEvent) => {
-    if (this.dragging) {
+    if (this.gesture === Gesture.NONE) {
+      return;
+    }
+    if (this.gesture === Gesture.DRAG) {
       const point = this.pickedTransform.transform(this.toCamera(e));
       const delta = new std.Vector2(point.x - this.pickedPoint.x, point.y - this.pickedPoint.y);
       this.camera.position = new std.Vector2(this.pickedPosition.x - delta.x, this.pickedPosition.y - delta.y);
+    } else {
+      const offset = utils.elementOffset(this.el!, e);
+      const delta = (2 * Math.PI * (offset.x - this.pickedOffset.x)) / this.el!.clientWidth;
+      this.camera.rotation = std.mod(this.pickedRotation - delta, 2 * Math.PI);
     }
   };
 
   private readonly drop = (e: PointerEvent) => {
     (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-    this.dragging = false;
+    this.gesture = Gesture.NONE;
   };
 
   @action private readonly wheel = (e: WheelEvent) => {
@@ -159,9 +185,5 @@ export class Controller {
       this.camera.position.y + oldPos.y - newPos.y,
     );
     this.camera.scale = newScale;
-  };
-
-  private readonly dblclick = (e: MouseEvent) => {
-    this.reset();
   };
 }
