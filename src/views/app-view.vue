@@ -45,7 +45,10 @@ import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 
 import * as img from '@/lib/images';
+import * as svg from '@/lib/svg';
 import { Application as Model } from '@/modules/application';
+
+import source from '!!raw-loader!@/assets/cursor.svg';
 
 const s = 20;
 const l = 0x88;
@@ -106,6 +109,7 @@ export default class AppView extends Vue {
     background-color: rgba(black, 1/4);
     box-shadow: $w-shadow;
   }
+  cursor: url('~@/assets/cursor.svg') -28 -28, auto;
 }
 
 .movable {

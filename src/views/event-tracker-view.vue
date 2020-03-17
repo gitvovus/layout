@@ -14,6 +14,9 @@
       <div>deltaZ: {{ model.deltaZ }}</div>
       <div>deltaMode: {{ model.deltaMode }}</div>
     </div>
+    <div class="event-tracker-parent">
+      <div class="event-tracker-child"></div>
+    </div>
   </div>
 </template>
 
@@ -62,5 +65,20 @@ export default class SvgView extends Vue {
   display: flex;
   flex-direction: column;
   pointer-events: none;
+}
+.event-tracker-parent {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 5px;
+  background-color: rgba(black, 1/4);
+  margin: 5px;
+  padding: 50px;
+}
+.event-tracker-child {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  background-color: rgba(yellow, 1/4);
 }
 </style>

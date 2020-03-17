@@ -19,6 +19,8 @@ export class EventTracker implements ViewModel {
   @observable public deltaMode = 0;
 
   private el?: HTMLElement;
+  private parent?: HTMLElement;
+  private child?: HTMLElement;
   private readonly disposers: (() => void)[] = [];
 
   public dispose() {
@@ -28,17 +30,25 @@ export class EventTracker implements ViewModel {
 
   public mount(el: HTMLElement) {
     this.el = el;
+    this.parent = el.getElementsByClassName('event-tracker-parent')![0] as HTMLElement;
+    this.child = el.getElementsByClassName('event-tracker-child')![0] as HTMLElement;
     this.disposers.push(
       utils.onElementEvent(el, 'pointerdown', this.pick),
       utils.onElementEvent(el, 'pointermove', this.drag),
       utils.onElementEvent(el, 'pointerup', this.drop),
       utils.onElementEvent(el, 'wheel', this.wheel),
+      utils.onElementEvent(this.parent, 'pointerdown', e => console.log('parent', e.type)),
+      utils.onElementEvent(this.parent, 'mousedown', e => console.log('parent', e.type)),
+      utils.onElementEvent(this.child, 'pointerdown', e => console.log('child', e.type)),
+      utils.onElementEvent(this.child, 'mousedown', e => console.log('child', e.type)),
     );
   }
 
   public unmount() {
     this.dispose();
     this.el = undefined;
+    this.parent = undefined;
+    this.child = undefined;
   }
 
   @action private update(e: PointerEvent | WheelEvent) {
