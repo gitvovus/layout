@@ -6,14 +6,16 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Observer } from 'mobx-vue';
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 
 import { SvgDemo as Model } from '@/modules/svg-demo';
 
 @Observer
 @Component
-export default class SvgView extends Vue {
+export default class SvgDemoView extends Vue {
   @Prop() private model!: Model;
 
   private mounted() {

@@ -14,8 +14,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Observer } from 'mobx-vue';
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 
 import { ConvexDemo as Model } from '@/modules/convex-demo';
 

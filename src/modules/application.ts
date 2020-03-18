@@ -1,13 +1,14 @@
 import { computed, observable } from 'mobx';
 import Vue from 'vue';
 
+import AppView from '@/views/app-view.vue';
+
 import { Controls } from '@/modules/controls';
 import { ConvexDemo } from '@/modules/convex-demo';
 import { EventTracker } from '@/modules/event-tracker';
 import { MovableDemo } from '@/modules/movable-demo';
 import { SvgDemo } from '@/modules/svg-demo';
 import { ViewModel } from '@/modules/view-model';
-import AppView from '@/views/app-view.vue';
 
 enum Page {
   EMPTY,
@@ -22,7 +23,7 @@ export class Application {
   @observable public dialog: number | undefined = undefined;
   public readonly convex = new ConvexDemo();
 
-  @observable public page = Page.SVG_DEMO;
+  @observable public page = Page.EMPTY;
   public readonly pages: (ViewModel | undefined)[] = [
     undefined,
     new Controls(),

@@ -1,13 +1,15 @@
 <template>
-  <div :class="['movable-view', ...model.classes]">
+  <div class="movable-view" :class="[...model.classes]">
     <component :is="model.content.template" :model="model.content" />
     <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Observer } from 'mobx-vue';
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 
 import { Movable as Model } from '@/modules/movable';
 

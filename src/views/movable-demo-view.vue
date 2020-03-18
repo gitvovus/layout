@@ -11,8 +11,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Observer } from 'mobx-vue';
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 
 import { MovableDemo as Model } from '@/modules/movable-demo';
 
@@ -24,12 +26,29 @@ export default class MovableDemoView extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/style/_vars.scss';
-
-$t: 1s;
-
-.movable-view {
-  position: absolute;
-  transition: left $t, top $t, width $t, height $t;
+.movable {
+  left: 0;
+  width: 30%;
+  height: 33.3333%;
+  z-index: 1;
+  &.i0 {
+    top: 0;
+  }
+  &.i1 {
+    top: 33.3333%;
+  }
+  &.i2 {
+    top: 66.6666%;
+  }
+  &.expanded {
+    left: 30%;
+    top: 0;
+    width: 70%;
+    height: 100%;
+    z-index: 2;
+  }
+  &.collapsed {
+    z-index: 0;
+  }
 }
 </style>

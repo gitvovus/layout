@@ -45,7 +45,7 @@ import * as svg from '@/lib/svg';
 import { Application as Model } from '@/modules/application';
 
 const s = 20;
-const l = 0x88;
+const l = 0x90;
 const d = 0x80;
 const lite: img.RGBA = [l, l, l, 0xff];
 const dark: img.RGBA = [d, d, d, 0xff];
@@ -101,45 +101,6 @@ export default class AppView extends Vue {
     border: 1px solid orange;
     border-radius: 8px;
     background-color: rgba(black, 1/4);
-    box-shadow: $w-shadow;
-  }
-}
-
-.movable {
-  left: 0;
-  width: 30%;
-  height: 33.3333%;
-  z-index: 1;
-  &.i0 {
-    top: 0;
-  }
-  &.i1 {
-    top: 33.3333%;
-  }
-  &.i2 {
-    top: 66.6666%;
-  }
-  &.expanded {
-    left: 30%;
-    top: 0;
-    width: 70%;
-    height: 100%;
-    z-index: 2;
-  }
-  &.collapsed {
-    z-index: 0;
-  }
-  & .lorem {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    margin: 20px;
-    padding: 10px;
-    overflow: hidden;
-    background-color: rgba(ivory, 0.75);
-    border-radius: 8px;
     box-shadow: $w-shadow;
   }
 }
