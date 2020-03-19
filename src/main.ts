@@ -8,6 +8,7 @@ import LoremView from '@/views/lorem-view.vue';
 import MovableDemoView from '@/views/movable-demo-view.vue';
 import MovableView from '@/views/movable-view.vue';
 import SvgDemoView from '@/views/svg-demo-view.vue';
+import SvgDrawingView from '@/views/svg-drawing-view.vue';
 
 import UiAccordion from '@/ui/accordion.vue';
 import UiButton from '@/ui/button.vue';
@@ -32,6 +33,7 @@ Vue.config.productionTip = false;
   ['movable-demo-view', MovableDemoView],
   ['movable-view', MovableView],
   ['svg-demo-view', SvgDemoView],
+  ['svg-drawing-view', SvgDrawingView],
 
   ['ui-accordion', UiAccordion],
   ['ui-button', UiButton],

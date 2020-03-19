@@ -11,6 +11,7 @@ export class MovableDemo implements ViewModel {
     new Movable(new SvgDemo(), [`i0`]),
     new Movable(new SvgDemo(), [`i1`]),
     new Movable(new SvgDemo(), [`i2`]),
+    new Movable(new SvgDemo(), [`i3`]),
   ];
   @observable public expanded = 0;
 

@@ -4,8 +4,8 @@
       <!-- buttons -->
       <div class="expand-header">
         Buttons:
-        <ui-button class="round outline icon-wrapper" @click="model.buttons = !model.buttons">
-          <div :class="['icon icon-less', model.buttons ? 'collapse' : 'expand']"></div>
+        <ui-button class="round outline iconic" @click="model.buttons = !model.buttons">
+          <div :class="['icon icon-lt', model.buttons ? 'collapse' : 'expand']"></div>
         </ui-button>
       </div>
       <ui-accordion :expanded="model.buttons">
@@ -79,8 +79,8 @@
       <!-- accordions -->
       <div class="expand-header">
         Expand:
-        <ui-button class="round outline icon-wrapper" @click="model.expanded = !model.expanded">
-          <div :class="['icon icon-less', model.expanded ? 'collapse' : 'expand']"></div>
+        <ui-button class="round outline iconic" @click="model.expanded = !model.expanded">
+          <div :class="['icon icon-lt', model.expanded ? 'collapse' : 'expand']"></div>
         </ui-button>
         paragraphs:
         <ui-button
@@ -98,8 +98,8 @@
       <template v-for="(dummy, i) in 2">
         <div class="expand-header" :key="i">
           <div>Expand (radio #{{ i }}):</div>
-          <ui-button class="round outline icon-wrapper" :toggle="[i, undefined]" v-model="model.expandedGroup">
-            <div :class="['icon icon-less', model.expandedGroup === i ? 'collapse' : 'expand']"></div>
+          <ui-button class="round outline iconic" :toggle="[i, undefined]" v-model="model.expandedGroup">
+            <div :class="['icon icon-lt', model.expandedGroup === i ? 'collapse' : 'expand']"></div>
           </ui-button>
         </div>
         <ui-accordion :expanded="model.expandedGroup === i" :key="i + 500">

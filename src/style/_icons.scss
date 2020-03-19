@@ -1,4 +1,4 @@
-$icons: ('brightness', 'contrast', 'down', 'expand', 'less', 'up');
+$icons: ('brightness', 'contrast', 'down', 'expand', 'gt', 'lt', 'up');
 
 @each $icon in $icons {
   .icon-#{$icon} {

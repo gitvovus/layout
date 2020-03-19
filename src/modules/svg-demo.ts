@@ -70,17 +70,30 @@ export class SvgDemo implements ViewModel {
         ),
       ),
     );
+
     [-1, 0, 1].forEach(i =>
       scene.add(
         new svg.Item('path', { d: `M-2 ${i}h4`, stroke: 'black', 'stroke-width': 0.5, 'vector-effect': 'non-scaling-stroke' }),
         new svg.Item('path', { d: `M${i} -2v4`, stroke: 'black', 'stroke-width': 0.5, 'vector-effect': 'non-scaling-stroke' }),
       ),
     );
-    scene.add(
-      new svg.Item('path', { d: 'M1 0l-0.2 -0.1v0.2z', fill: '#c00000' }),
-      new svg.Item('path', { d: 'M0 1l-0.1 -0.2h0.2z', fill: '#008000' }),
-      this.contours,
+
+    [
+      ['M1 0l-0.2 -0.1v0.2z', '#d00000'],
+      ['M0 1l-0.1 -0.2h0.2z', '#00a000'],
+    ].forEach(([d, fill]) =>
+      scene.add(
+        new svg.Item('path', {
+          d,
+          fill,
+          stroke: 'black',
+          'stroke-width': 0.5,
+          'vector-effect': 'non-scaling-stroke',
+        }),
+      ),
     );
+
+    scene.add(this.contours);
 
     // dynamic scene items
     const points: std.Point[] = [
@@ -99,11 +112,14 @@ export class SvgDemo implements ViewModel {
     ];
 
     [
-      { fill: '#d01000c0', x: -0.25, y: -0.1 },
-      { fill: '#109000c0', x: 0, y: 0 },
-      { fill: '#0010d0c0', x: 0.25, y: 0.1 },
+      { fill: '#f00000c0', x: -0.25, y: -0.1 },
+      { fill: '#00b000c0', x: 0, y: 0 },
+      { fill: '#1010ffc0', x: 0.25, y: 0.1 },
     ].forEach(({ fill, x, y }) => {
-      const contour = new Contour({ fill, stroke: 'white', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, points);
+      const contour = new Contour(
+        { fill, stroke: 'black', 'stroke-width': 0.01, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
+        points,
+      );
       contour.position = new std.Vector2(x, y);
       this.unselect(contour);
 
@@ -119,14 +135,14 @@ export class SvgDemo implements ViewModel {
   }
 
   private select(item: Contour, brignOnTop: boolean) {
-    item.attributes['stroke-width'] = 0.01;
+    item.attributes['stroke'] = 'white';
     if (brignOnTop) {
       item.index = -1;
     }
   }
 
   private unselect(item: Contour) {
-    item.attributes['stroke-width'] = 0;
+    item.attributes['stroke'] = 'black';
   }
 
   private readonly pick = (e: PointerEvent) => {

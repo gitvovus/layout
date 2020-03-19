@@ -2,7 +2,7 @@
   <div class="app">
     <movable-view v-for="(item, i) in model.movable" :key="i" :model="item" class="movable">
       <div class="anchor right bottom" v-if="i !== model.expanded">
-        <ui-button no-focus tabindex="-1" class="icon-wrapper" @click="model.expand(i)">
+        <ui-button no-focus tabindex="-1" class="iconic" @click="model.expand(i)">
           <div class="icon icon-expand"></div>
         </ui-button>
       </div>
@@ -29,16 +29,19 @@ export default class MovableDemoView extends Vue {
 .movable {
   left: 0;
   width: 30%;
-  height: 33.3333%;
+  height: 25%;
   z-index: 1;
   &.i0 {
     top: 0;
   }
   &.i1 {
-    top: 33.3333%;
+    top: 25%;
   }
   &.i2 {
-    top: 66.6666%;
+    top: 50%;
+  }
+  &.i3 {
+    top: 75%;
   }
   &.expanded {
     left: 30%;

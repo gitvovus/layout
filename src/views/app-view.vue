@@ -18,7 +18,9 @@
     <div class="app-bar">
       <div :class="['spacer', { collapsed: model.align === -1 }]"></div>
       <div class="app-buttons">
-        <ui-button no-focus tabindex="-1" class="round pretty" v-model="model.align" :toggle="[-1, 0]">&lt;</ui-button>
+        <ui-button no-focus tabindex="-1" class="round iconic" v-model="model.align" :toggle="[-1, 0]">
+          <div class="icon icon-lt"></div>
+        </ui-button>
         <ui-button class="round pretty" :toggle="[0, undefined]" v-model="model.dialog">Dialog</ui-button>
         <ui-button class="round pretty" :toggle="[1, undefined]" v-model="model.dialog">Convex</ui-button>
         <span class="v-separator" />
@@ -27,7 +29,9 @@
           i
         }}</ui-button>
         <span class="v-separator" />
-        <ui-button no-focus tabindex="-1" class="round pretty" v-model="model.align" :toggle="[1, 0]">&gt;</ui-button>
+        <ui-button no-focus tabindex="-1" class="round iconic" v-model="model.align" :toggle="[1, 0]">
+          <div class="icon icon-gt"></div>
+        </ui-button>
       </div>
       <div :class="['spacer', { collapsed: model.align === 1 }]"></div>
     </div>
@@ -63,33 +67,10 @@ export default class AppView extends Vue {
 <style lang="scss">
 @import '@/style/_vars.scss';
 
-.app-bar {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  display: flex;
-  pointer-events: none;
-  z-index: $z-app;
-}
-.app-buttons {
-  display: flex;
-  align-items: baseline;
-  border-radius: 5px 5px 0 0;
-  box-shadow: 0 0 8px rgba(black, 1/2);
-  pointer-events: auto;
-  background-color: $bg-dark;
-  color: $text-dark;
-  & .v-separator {
-    align-self: stretch;
-  }
-}
-.text {
-  margin: 0 0.5rem;
-}
 .app {
   & .svg-demo-view {
     margin: 10vh 10vw;
-    background-color: rgba(ivory, 3/4);
+    background-color: rgba(#ffffe0, 3/4);
     border-radius: 8px;
     box-shadow: $w-shadow;
   }
@@ -104,6 +85,34 @@ export default class AppView extends Vue {
     box-shadow: $w-shadow;
   }
 }
+.app-bar {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  display: flex;
+  pointer-events: none;
+  z-index: $z-app;
+}
+.app-buttons {
+  display: flex;
+  align-items: center;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 0 8px rgba(black, 1/2);
+  pointer-events: auto;
+  background-color: $bg-dark;
+  color: $text-dark;
+  padding: 0 3px;
+  & .v-separator {
+    align-self: stretch;
+  }
+  & .text {
+    margin: 0 0.5em;
+    padding-bottom: 2px;
+  }
+  & .button.iconic {
+    margin: 0 5px;
+  }
+}
 
 .convex-wrapper {
   display: flex;
@@ -112,7 +121,7 @@ export default class AppView extends Vue {
   justify-content: center;
 }
 
-.button.icon-wrapper {
+.button.iconic {
   width: 24px;
   height: 24px;
   margin: 2px;
@@ -124,7 +133,6 @@ export default class AppView extends Vue {
     padding: 2px;
   }
 }
-
 .icon {
   width: 100%;
   height: 100%;

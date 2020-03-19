@@ -8,12 +8,14 @@ import { ConvexDemo } from '@/modules/convex-demo';
 import { EventTracker } from '@/modules/event-tracker';
 import { MovableDemo } from '@/modules/movable-demo';
 import { SvgDemo } from '@/modules/svg-demo';
+import { SvgDrawing } from '@/modules/svg-drawing';
 import { ViewModel } from '@/modules/view-model';
 
 enum Page {
   EMPTY,
   CONTROLS,
   EVENT_TRACKER,
+  SVG_DRAWING,
   SVG_DEMO,
   MOVABLES,
 }
@@ -28,6 +30,7 @@ export class Application {
     undefined,
     new Controls(),
     new EventTracker(),
+    new SvgDrawing(),
     new SvgDemo(),
     new MovableDemo(),
   ];
