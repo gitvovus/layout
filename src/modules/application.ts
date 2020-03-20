@@ -10,6 +10,7 @@ import { MovableDemo } from '@/modules/movable-demo';
 import { SvgDemo } from '@/modules/svg-demo';
 import { SvgDrawing } from '@/modules/svg-drawing';
 import { ViewModel } from '@/modules/view-model';
+import { SceneDemo } from './scene-demo';
 
 enum Page {
   EMPTY,
@@ -17,7 +18,8 @@ enum Page {
   EVENT_TRACKER,
   SVG_DRAWING,
   SVG_DEMO,
-  MOVABLES,
+  SCENE_DEMO,
+  MOVABLE_DEMO,
 }
 
 export class Application {
@@ -32,6 +34,7 @@ export class Application {
     new EventTracker(),
     new SvgDrawing(),
     new SvgDemo(),
+    new SceneDemo(),
     new MovableDemo(),
   ];
 

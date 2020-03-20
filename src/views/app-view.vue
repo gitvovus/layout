@@ -74,8 +74,16 @@ export default class AppView extends Vue {
     border-radius: 8px;
     box-shadow: $w-shadow;
   }
-  & .movable .svg-demo-view {
-    margin: 20px;
+  & .scene-demo-view {
+    margin: 10vh 10vw;
+    border-radius: 8px;
+    box-shadow: $w-shadow;
+  }
+  & .movable {
+    & .svg-demo-view,
+    & .scene-demo-view {
+      margin: 20px;
+    }
   }
   & .event-tracker-view {
     margin: 10vh 10vw;

@@ -7,6 +7,7 @@ import EventTrackerView from '@/views/event-tracker-view.vue';
 import LoremView from '@/views/lorem-view.vue';
 import MovableDemoView from '@/views/movable-demo-view.vue';
 import MovableView from '@/views/movable-view.vue';
+import SceneDemoView from '@/views/scene-demo-view.vue';
 import SvgDemoView from '@/views/svg-demo-view.vue';
 import SvgDrawingView from '@/views/svg-drawing-view.vue';
 
@@ -32,6 +33,7 @@ Vue.config.productionTip = false;
   ['lorem-view', LoremView],
   ['movable-demo-view', MovableDemoView],
   ['movable-view', MovableView],
+  ['scene-demo-view', SceneDemoView],
   ['svg-demo-view', SvgDemoView],
   ['svg-drawing-view', SvgDrawingView],
 
