@@ -65,7 +65,7 @@ export default class SvgView extends Vue {
   min-width: 12em;
   margin: 5px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: $r;
   background-color: rgba(black, 1/2);
   display: flex;
   flex-direction: column;
@@ -77,7 +77,7 @@ export default class SvgView extends Vue {
   top: 0;
   margin: 5px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: $r;
   background-color: rgba(black, 1/4);
 }
 .event-tracker-child {
@@ -85,7 +85,7 @@ export default class SvgView extends Vue {
   height: 100px;
   margin: 10px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: $r;
   background-color: rgba(green, 1/4);
 }
 </style>

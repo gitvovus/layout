@@ -71,12 +71,12 @@ export default class AppView extends Vue {
   & .svg-demo-view {
     margin: 10vh 10vw;
     background-color: rgba(#ffffe0, 3/4);
-    border-radius: 8px;
+    border-radius: $r;
     box-shadow: $w-shadow;
   }
   & .scene-demo-view {
     margin: 10vh 10vw;
-    border-radius: 8px;
+    border-radius: $r;
     box-shadow: $w-shadow;
   }
   & .movable {
@@ -88,7 +88,7 @@ export default class AppView extends Vue {
   & .event-tracker-view {
     margin: 10vh 10vw;
     border: 1px solid orange;
-    border-radius: 8px;
+    border-radius: $r;
     background-color: rgba(black, 1/4);
     box-shadow: $w-shadow;
   }
@@ -104,7 +104,7 @@ export default class AppView extends Vue {
 .app-buttons {
   display: flex;
   align-items: center;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 $r $r;
   box-shadow: 0 0 8px rgba(black, 1/2);
   pointer-events: auto;
   background-color: $bg-dark;

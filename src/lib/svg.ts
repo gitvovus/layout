@@ -111,7 +111,8 @@ export class Item {
     }
     listeners.push(listener);
     if (this.el) {
-      this.el.addEventListener(event, listener);
+      // TODO: handle { passive: false } in more intelligent way
+      this.el.addEventListener(event, listener, { passive: false });
     }
   }
 
@@ -146,7 +147,9 @@ export class Item {
   public mount(el: SVGElement) {
     this.unmount();
     this.el = el;
-    this.events.forEach((listeners, event) => listeners.forEach(listener => this.el!.addEventListener(event, listener)));
+    this.events.forEach((listeners, event) =>
+      listeners.forEach(listener => this.el!.addEventListener(event, listener, { passive: false })),
+    );
   }
 
   public unmount() {

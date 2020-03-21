@@ -18,14 +18,14 @@ export default class UiPopup extends Vue {
   @Watch('value')
   private show(show: boolean) {
     if (show) {
-      const el = this.$el as HTMLElement;
-      const parent = el.parentElement;
+      const element = this.$el as HTMLElement;
+      const parent = element.parentElement;
       if (parent) {
         const rect = parent.getBoundingClientRect();
-        el.style.left = rect.left + 'px';
-        el.style.top = rect.top + 'px';
+        element.style.left = rect.left + 'px';
+        element.style.top = rect.top + 'px';
       }
-      Vue.nextTick(() => el.focus());
+      Vue.nextTick(() => element.focus());
     }
   }
 
@@ -41,10 +41,10 @@ export default class UiPopup extends Vue {
   }
 
   private focusout(e: FocusEvent) {
-    const el = this.$el as HTMLElement;
+    const element = this.$el as HTMLElement;
     let target = e.relatedTarget as HTMLElement | null;
     while (target) {
-      if (target === el) {
+      if (target === element) {
         return;
       }
       target = target.parentElement;

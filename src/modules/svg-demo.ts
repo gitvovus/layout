@@ -19,7 +19,7 @@ export class SvgDemo implements ViewModel {
   public template = 'svg-demo-view';
   public readonly root = svg.fromSource(source)!;
 
-  private el?: HTMLElement;
+  private element?: HTMLElement;
   private readonly scene = this.root.findByClass('scene')!;
   private readonly contours = new svg.Item('g');
   private readonly camera = new Camera();
@@ -43,13 +43,13 @@ export class SvgDemo implements ViewModel {
     this.pickableItems.forEach(item => item.dispose());
   }
 
-  public mount(el: HTMLElement) {
-    this.el = el;
-    this.controller.mount(el);
+  public mount(element: HTMLElement) {
+    this.element = element;
+    this.controller.mount(element);
   }
 
   public unmount() {
-    this.el = undefined;
+    this.element = undefined;
     this.controller.unmount();
   }
 
@@ -162,7 +162,7 @@ export class SvgDemo implements ViewModel {
     e.stopPropagation();
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
 
-    this.pickedOffset = utils.elementOffset(this.el!, e);
+    this.pickedOffset = utils.elementOffset(this.element!, e);
     this.pickedPoint = this.camera.transform.transform(this.controller.toCamera(e));
     this.pickedItem = this.pickableItems.find(item => item.element === e.target) as Contour;
     this.pickedPosition = this.pickedItem.position;
@@ -186,8 +186,8 @@ export class SvgDemo implements ViewModel {
       const delta = new std.Vector2(point.x - this.pickedPoint.x, point.y - this.pickedPoint.y);
       this.pickedItem.position = new std.Vector2(this.pickedPosition.x + delta.x, this.pickedPosition.y + delta.y);
     } else {
-      const offset = utils.elementOffset(this.el!, e);
-      const delta = (2 * Math.PI * (offset.x - this.pickedOffset.x)) / this.el!.clientWidth;
+      const offset = utils.elementOffset(this.element!, e);
+      const delta = (2 * Math.PI * (offset.x - this.pickedOffset.x)) / this.element!.clientWidth;
       this.pickedItem.rotation = std.mod(this.pickedRotation + delta, 2 * Math.PI);
     }
   };

@@ -46,7 +46,7 @@ export class Mockup {
   private scene!: three.Scene;
   private camera!: three.Camera;
   private element!: HTMLElement;
-  private controller!: Controller;
+  private readonly controller: Controller;
 
   private root!: three.Object3D;
   private child!: three.Object3D;
@@ -70,6 +70,14 @@ export class Mockup {
   public constructor(scene: three.Scene, camera: three.Camera) {
     this.scene = scene;
     this.camera = camera;
+    this.controller = new Controller({
+      phi: -Math.PI / 2,
+      theta: Math.PI / 6,
+      radius: 5,
+      minRadius: 1,
+      lookAt: new three.Vector3(0, 0, 0.25),
+      zoom: 1.5,
+    });
 
     this.setupScene();
     this.setupObjects();
@@ -95,23 +103,16 @@ export class Mockup {
     this.controller.update(this.camera);
   }
 
-  public mount(el: HTMLElement) {
-    this.element = el;
+  public mount(element: HTMLElement) {
+    this.element = element;
     this.element.addEventListener('pointerdown', this.pick);
     this.element.addEventListener('pointermove', this.drag);
     this.element.addEventListener('pointerup', this.drop);
-    this.controller = new Controller(this.element, {
-      phi: -Math.PI / 2,
-      theta: Math.PI / 6,
-      radius: 5,
-      minRadius: 1,
-      lookAt: new three.Vector3(0, 0, 0.25),
-      zoom: 1.5,
-    });
+    this.controller.mount(element);
   }
 
   public unmount() {
-    this.controller.dispose();
+    this.controller.unmount();
     this.element.removeEventListener('pointerdown', this.pick);
     this.element.removeEventListener('pointermove', this.drag);
     this.element.removeEventListener('pointerup', this.drop);

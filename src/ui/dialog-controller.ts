@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 
 interface Handler {
-  el: HTMLElement;
+  element: HTMLElement;
   pick: (e: PointerEvent) => void;
   drag: (e: PointerEvent) => void;
   drop: (e: PointerEvent) => void;
@@ -26,77 +26,77 @@ export class Controller {
   private se!: Handler;
   private captured = { x: 0, y: 0 };
 
-  public mount(el: HTMLElement) {
-    const grid = el.firstChild as HTMLElement;
+  public mount(element: HTMLElement) {
+    const grid = element.firstChild as HTMLElement;
     this.cc = {
-      el: grid.children[4] as HTMLElement,
+      element: grid.children[4] as HTMLElement,
       pick: this.ccPick,
       drag: this.ccDrag,
       drop: this.ccDrop,
     };
     this.nw = {
-      el: grid.children[0] as HTMLElement,
+      element: grid.children[0] as HTMLElement,
       pick: this.nwPick,
       drag: this.nwDrag,
       drop: this.nwDrop,
     };
     this.nn = {
-      el: grid.children[1] as HTMLElement,
+      element: grid.children[1] as HTMLElement,
       pick: this.nnPick,
       drag: this.nnDrag,
       drop: this.nnDrop,
     };
     this.ne = {
-      el: grid.children[2] as HTMLElement,
+      element: grid.children[2] as HTMLElement,
       pick: this.nePick,
       drag: this.neDrag,
       drop: this.neDrop,
     };
     this.ww = {
-      el: grid.children[3] as HTMLElement,
+      element: grid.children[3] as HTMLElement,
       pick: this.wwPick,
       drag: this.wwDrag,
       drop: this.wwDrop,
     };
     this.ee = {
-      el: grid.children[5] as HTMLElement,
+      element: grid.children[5] as HTMLElement,
       pick: this.eePick,
       drag: this.eeDrag,
       drop: this.eeDrop,
     };
     this.sw = {
-      el: grid.children[6] as HTMLElement,
+      element: grid.children[6] as HTMLElement,
       pick: this.swPick,
       drag: this.swDrag,
       drop: this.swDrop,
     };
     this.ss = {
-      el: grid.children[7] as HTMLElement,
+      element: grid.children[7] as HTMLElement,
       pick: this.ssPick,
       drag: this.ssDrag,
       drop: this.ssDrop,
     };
     this.se = {
-      el: grid.children[8] as HTMLElement,
+      element: grid.children[8] as HTMLElement,
       pick: this.sePick,
       drag: this.seDrag,
       drop: this.seDrop,
     };
 
-    this.cc.el.addEventListener('dblclick', this.dblClick);
+    this.cc.element.addEventListener('dblclick', this.dblClick);
 
     [this.nw, this.nn, this.ne, this.ww, this.cc, this.ee, this.sw, this.ss, this.se].forEach(item =>
-      item.el.addEventListener('pointerdown', item.pick),
+      item.element.addEventListener('pointerdown', item.pick),
     );
 
     this.center();
   }
 
   public unmount() {
-    this.cc.el.removeEventListener('dblclick', this.dblClick);
+    this.cc.element.removeEventListener('dblclick', this.dblClick);
 
     [this.nw, this.nn, this.ne, this.ww, this.cc, this.ee, this.sw, this.ss, this.se].forEach(item =>
-      item.el.removeEventListener('pointerdown', item.pick),
+      item.element.removeEventListener('pointerdown', item.pick),
     );
   }
 
@@ -108,26 +108,26 @@ export class Controller {
   }
 
   private capture(h: Handler, e: PointerEvent) {
-    h.el.addEventListener('pointermove', h.drag);
-    h.el.addEventListener('pointerup', h.drop);
-    h.el.setPointerCapture(e.pointerId);
+    h.element.addEventListener('pointermove', h.drag);
+    h.element.addEventListener('pointerup', h.drop);
+    h.element.setPointerCapture(e.pointerId);
   }
 
   private release(h: Handler, e: PointerEvent) {
-    h.el.removeEventListener('pointermove', h.drag);
-    h.el.removeEventListener('pointerup', h.drop);
-    h.el.releasePointerCapture(e.pointerId);
+    h.element.removeEventListener('pointermove', h.drag);
+    h.element.removeEventListener('pointerup', h.drop);
+    h.element.releasePointerCapture(e.pointerId);
   }
 
   private dblClick = (e: Event) => {
-    if (e.target === this.cc.el) {
+    if (e.target === this.cc.element) {
       this.center();
     }
   };
 
   // -----------------------------------------------------------
   private ccPick = (e: PointerEvent) => {
-    if (e.target === this.cc.el && e.buttons & 1) {
+    if (e.target === this.cc.element && e.buttons & 1) {
       this.captured.x = e.screenX - this.left;
       this.captured.y = e.screenY - this.top;
       this.capture(this.cc, e);

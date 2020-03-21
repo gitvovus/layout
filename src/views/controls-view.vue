@@ -157,7 +157,7 @@
         <ui-button no-focus tabindex="-1">Tip top</ui-button>
         <div class="popup-container">
           <div class="tip-container">
-            <svg class="tip-top" xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12">
+            <svg class="tip-top" width="16" height="12" viewBox="0 0 16 12">
               <path class="tip-top-fill" d="M0 12L8 0L16 12z" />
               <path class="tip-top-stroke" d="M0 12L8 0L16 12" fill="none" />
             </svg>
@@ -222,7 +222,7 @@ $indent-h: 10px;
   max-width: 300px;
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
+  border-radius: $r;
   background-color: $bg-dark;
   border: 1px solid orange;
   .button {
@@ -377,7 +377,7 @@ $t: 0.3s;
 }
 .content {
   padding: 10px;
-  border-radius: 4px;
+  border-radius: $r;
   border: 1px solid rgba(white, 0.1);
 }
 

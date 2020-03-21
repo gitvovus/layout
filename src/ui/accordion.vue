@@ -30,10 +30,10 @@ export default class UiAccordion extends Vue {
 
   @Watch('expanded')
   private expand(expanded: boolean) {
-    const el = this.$el as HTMLElement;
-    const height = expanded ? (el.firstChild as HTMLElement).scrollHeight + 'px' : '';
-    if (el.style.height !== height) {
-      el.style.height = height;
+    const element = this.$el as HTMLElement;
+    const height = expanded ? (element.firstChild as HTMLElement).scrollHeight + 'px' : '';
+    if (element.style.height !== height) {
+      element.style.height = height;
     }
   }
 }

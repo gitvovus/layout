@@ -1,14 +1,16 @@
 $font: -apple-system, Roboto, 'Segoe UI', Verdana, sans-serif;
 $font-base: 14px;
 
-$transition: 0.25s;
-$page-transition: 2 * $transition;
+$transition: 0.5s;
+$page-transition: 0.75s;
 
 $bg-dark: #404040;
 $text-dark: #d0d0d0;
 
+$r: 4px;
+
 $w-margin: 16px;
-$w-radius: 8px;
+$w-radius: $r;
 $w-resize: 8px;
 $w-shadow: 0 0 50px black;
 $w-splitter: 1px solid #a0a0a0;

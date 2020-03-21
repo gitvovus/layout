@@ -27,7 +27,7 @@ export class Controller {
   public movementSpeed = 10;
   public rotationSpeed = 1;
 
-  private eventSource: HTMLElement;
+  private element!: HTMLElement;
 
   private minTheta = -1.5;
   private maxTheta = 1.5;
@@ -42,7 +42,9 @@ export class Controller {
   private panX = new three.Vector3();
   private panY = new three.Vector3();
 
-  public constructor(eventSource: HTMLElement, initializer?: Partial<Options>) {
+  private readonly disposers: (() => void)[] = [];
+
+  public constructor(initializer?: Partial<Options>) {
     Object.assign(this, initializer);
     Object.assign(this.initializer, {
       phi: this.phi,
@@ -55,14 +57,6 @@ export class Controller {
       movementSpeed: this.movementSpeed,
       rotationSpeed: this.rotationSpeed,
     });
-
-    this.eventSource = eventSource;
-    eventSource.addEventListener('pointerdown', this.pick);
-    eventSource.addEventListener('pointermove', this.drag);
-    eventSource.addEventListener('pointerup', this.drop);
-    eventSource.addEventListener('wheel', this.wheel);
-    eventSource.addEventListener('keydown', this.keyDown);
-    eventSource.addEventListener('keyup', this.keyUp);
   }
 
   public update(camera: three.Camera) {
@@ -86,13 +80,25 @@ export class Controller {
   }
 
   public dispose() {
-    const eventSource = this.eventSource;
-    eventSource.removeEventListener('pointerdown', this.pick);
-    eventSource.removeEventListener('pointermove', this.drag);
-    eventSource.removeEventListener('pointerup', this.drop);
-    eventSource.removeEventListener('wheel', this.wheel);
-    eventSource.removeEventListener('keydown', this.keyDown);
-    eventSource.removeEventListener('keyup', this.keyUp);
+    this.unmount();
+  }
+
+  public mount(element: HTMLElement) {
+    this.element = element;
+    this.disposers.push(
+      utils.onElementEvent(element, 'pointerdown', this.pick),
+      utils.onElementEvent(element, 'pointermove', this.drag),
+      utils.onElementEvent(element, 'pointerup', this.drop),
+      utils.onElementEvent(element, 'wheel', this.wheel, { passive: false }),
+      utils.onElementEvent(element, 'keydown', this.keyDown),
+      utils.onElementEvent(element, 'keyup', this.keyUp),
+    );
+  }
+
+  public unmount() {
+    this.disposers.forEach(disposer => disposer());
+    this.disposers.length = 0;
+    this.element = undefined!;
   }
 
   private readonly keyDown = (e: KeyboardEvent) => {
@@ -177,10 +183,10 @@ export class Controller {
     this.panY.set(-cosPhi * sinTheta, -sinPhi * sinTheta, cosTheta).multiplyScalar(this.radius);
 
     this.trackPointer = true;
-    const { x, y } = utils.elementOffset(this.eventSource, e);
+    const { x, y } = utils.elementOffset(this.element, e);
     this.pointer.x = x;
     this.pointer.y = y;
-    this.eventSource.setPointerCapture(e.pointerId);
+    this.element.setPointerCapture(e.pointerId);
   };
 
   private readonly drag = (e: PointerEvent) => {
@@ -188,27 +194,27 @@ export class Controller {
       return;
     }
 
-    const { x, y } = utils.elementOffset(this.eventSource, e);
+    const { x, y } = utils.elementOffset(this.element, e);
     const dx = x - this.pointer.x;
     const dy = y - this.pointer.y;
     this.pointer.x = x;
     this.pointer.y = y;
 
     if (e.buttons & 1) {
-      this.phi -= (dx * 2 * Math.PI * this.rotationSpeed) / this.eventSource.clientWidth;
-      this.theta += (dy * 2 * Math.PI * this.rotationSpeed) / this.eventSource.clientHeight;
+      this.phi -= (dx * 2 * Math.PI * this.rotationSpeed) / this.element.clientWidth;
+      this.theta += (dy * 2 * Math.PI * this.rotationSpeed) / this.element.clientHeight;
     } else if (e.buttons & 2) {
       const delta = this.panX
         .clone()
-        .multiplyScalar(dx / this.eventSource.clientWidth)
-        .add(this.panY.clone().multiplyScalar(-dy / this.eventSource.clientHeight));
+        .multiplyScalar(dx / this.element.clientWidth)
+        .add(this.panY.clone().multiplyScalar(-dy / this.element.clientHeight));
       this.lookAt.sub(delta);
     }
   };
 
   private readonly drop = (e: PointerEvent) => {
     if (this.trackPointer && !(e.buttons & 3)) {
-      this.eventSource.releasePointerCapture(e.pointerId);
+      this.element.releasePointerCapture(e.pointerId);
       this.trackPointer = false;
     }
   };

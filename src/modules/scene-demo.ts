@@ -12,7 +12,7 @@ export class SceneDemo implements ViewModel {
   private readonly scene: three.Scene;
   private readonly camera: three.PerspectiveCamera;
 
-  private el!: HTMLElement;
+  private element!: HTMLElement;
   private width = 0;
   private height = 0;
   private renderer!: three.WebGLRenderer;
@@ -36,20 +36,20 @@ export class SceneDemo implements ViewModel {
     this.disposers.length = 0;
   }
 
-  public mount(el: HTMLElement, canvas: HTMLCanvasElement) {
-    this.el = el;
+  public mount(element: HTMLElement, canvas: HTMLCanvasElement) {
+    this.element = element;
     const bg = new three.Color(window.getComputedStyle(canvas).backgroundColor || 0xa0c0e0);
 
     this.renderer = new three.WebGLRenderer({ canvas, antialias: true });
     this.renderer.setClearColor(bg);
     this.renderer.setPixelRatio(window.devicePixelRatio);
 
-    this.mockup.mount(el);
+    this.mockup.mount(element);
 
     this.disposers.push(utils.onAnimationFrame(this.render), () => {
       this.mockup.unmount();
       this.renderer.dispose();
-      this.el = undefined!;
+      this.element = undefined!;
       this.width = 0;
       this.height = 0;
     });
@@ -66,8 +66,8 @@ export class SceneDemo implements ViewModel {
   };
 
   private updateSize() {
-    const width = this.el.clientWidth;
-    const height = this.el.clientHeight;
+    const width = this.element.clientWidth;
+    const height = this.element.clientHeight;
 
     if (width !== this.width || height !== this.height) {
       this.width = width;

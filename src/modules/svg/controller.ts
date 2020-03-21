@@ -25,7 +25,7 @@ export class Controller {
   @observable public referenceHeight = 2;
   private viewBox = { left: -1, bottom: -1, width: 2, height: 2 };
 
-  private el?: HTMLElement;
+  private element?: HTMLElement;
   private root: svg.Item;
   private scene: svg.Item;
   private camera: Camera;
@@ -45,14 +45,14 @@ export class Controller {
     this.camera = camera;
   }
 
-  public mount(el: HTMLElement) {
-    this.el = el;
+  public mount(element: HTMLElement) {
+    this.element = element;
     this.disposers.push(
-      utils.onElementEvent(el, 'dblclick', () => this.reset()),
-      utils.onElementEvent(el, 'pointerdown', this.pick),
-      utils.onElementEvent(el, 'pointermove', this.drag),
-      utils.onElementEvent(el, 'pointerup', this.drop),
-      utils.onElementEvent(el, 'wheel', this.wheel, { passive: false }),
+      utils.onElementEvent(element, 'dblclick', () => this.reset()),
+      utils.onElementEvent(element, 'pointerdown', this.pick),
+      utils.onElementEvent(element, 'pointermove', this.drag),
+      utils.onElementEvent(element, 'pointerup', this.drop),
+      utils.onElementEvent(element, 'wheel', this.wheel, { passive: false }),
       utils.onAnimationFrame(this.updateViewBox),
       reaction(() => this.camera.inverseTransform, this.updateSceneTransform, {
         fireImmediately: true,
@@ -61,13 +61,9 @@ export class Controller {
   }
 
   public unmount() {
-    this.el = undefined!;
+    this.element = undefined!;
     this.disposers.forEach(disposer => disposer());
     this.disposers.length = 0;
-  }
-
-  public get element() {
-    return this.el;
   }
 
   @action public reset() {
@@ -82,7 +78,7 @@ export class Controller {
   }
 
   public toCamera(e: MouseEvent) {
-    const { x, y } = utils.elementOffset(this.el!, e);
+    const { x, y } = utils.elementOffset(this.element!, e);
     return new std.Vector2(
       this.viewBox.left + (this.viewBox.width * x) / this.width,
       this.viewBox.bottom + (this.viewBox.height * (this.height - y)) / this.height,
@@ -90,8 +86,8 @@ export class Controller {
   }
 
   private readonly updateViewBox = () => {
-    const width = this.el!.clientWidth;
-    const height = this.el!.clientHeight;
+    const width = this.element!.clientWidth;
+    const height = this.element!.clientHeight;
     if (width === this.width && height === this.height) {
       return;
     }
@@ -137,7 +133,7 @@ export class Controller {
         return;
     }
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    this.pickedOffset = utils.elementOffset(this.el!, e);
+    this.pickedOffset = utils.elementOffset(this.element!, e);
     this.pickedPosition = this.camera.position;
     this.pickedRotation = this.camera.rotation;
     this.pickedTransform = this.camera.transform;
@@ -153,8 +149,8 @@ export class Controller {
       const delta = new std.Vector2(point.x - this.pickedPoint.x, point.y - this.pickedPoint.y);
       this.camera.position = new std.Vector2(this.pickedPosition.x - delta.x, this.pickedPosition.y - delta.y);
     } else {
-      const offset = utils.elementOffset(this.el!, e);
-      const delta = (2 * Math.PI * (offset.x - this.pickedOffset.x)) / this.el!.clientWidth;
+      const offset = utils.elementOffset(this.element!, e);
+      const delta = (2 * Math.PI * (offset.x - this.pickedOffset.x)) / this.element!.clientWidth;
       this.camera.rotation = std.mod(this.pickedRotation - delta, 2 * Math.PI);
     }
   };
