@@ -7,10 +7,10 @@ import { Controls } from '@/modules/controls';
 import { ConvexDemo } from '@/modules/convex-demo';
 import { EventTracker } from '@/modules/event-tracker';
 import { MovableDemo } from '@/modules/movable-demo';
+import { SceneDemo } from '@/modules/scene-demo';
 import { SvgDemo } from '@/modules/svg-demo';
 import { SvgDrawing } from '@/modules/svg-drawing';
 import { ViewModel } from '@/modules/view-model';
-import { SceneDemo } from './scene-demo';
 
 enum Page {
   EMPTY,

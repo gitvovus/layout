@@ -10,7 +10,7 @@
       </div>
       <ui-accordion :expanded="model.buttons">
         <div>
-          <input type="text" value="text" style="width: 100px" />
+          <input type="text" value="text" style="width: 100px;" />
           <ui-button class="outline">focusable</ui-button>
           <ui-button class="outline" no-focus tabindex="-1">non-focusable</ui-button>
           <ui-button class="outline">focusable</ui-button>
@@ -108,10 +108,10 @@
       </template>
     </div>
     <p>
-      <ui-scroller :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue" style="height: 100px" />
-      <ui-slider :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue" style="width: 100px" />
+      <ui-scroller :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue" style="height: 100px;" />
+      <ui-slider :min="model.sliderMin" :max="model.sliderMax" v-model="model.spinValue" style="width: 100px;" />
       <ui-spin-box v-model="model.spinValue" :values="model.spinValues" />
-      <input type="number" min="10" max="50" step="10" v-model="model.spinValue" style="width: 50px; height: 24px" />
+      <input type="number" min="10" max="50" step="10" v-model="model.spinValue" style="width: 50px; height: 24px;" />
       {{ model.spinValue }}
       <ui-button class="round outline" @click="model.reset()">Reset</ui-button>
     </p>

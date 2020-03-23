@@ -31,6 +31,7 @@ export default class SvgDemoView extends Vue {
 <style lang="scss">
 .svg-demo-view {
   position: absolute;
+  display: flex;
   overflow: hidden;
   left: 0;
   top: 0;

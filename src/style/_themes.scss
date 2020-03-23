@@ -31,7 +31,7 @@ html {
 ::-webkit-scrollbar-thumb {
   background-color: var(--bg-scroll-thumb);
 }
-* {
+div {
   scrollbar-width: thin;
   scrollbar-color: var(--bg-scroll-thumb) var(--bg-scroll-track);
 }
