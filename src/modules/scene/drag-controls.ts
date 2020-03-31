@@ -108,26 +108,30 @@ export class AxisDragHandler implements DragHandler {
   private f: (v: three.Vector3) => three.Vector3 = (v: three.Vector3) => v;
 }
 
+// TODO: finalize implementation
 export class ConeDragHandler implements DragHandler {
   public root = new three.Object3D();
-  public handle!: three.Object3D;
+  public handle: three.Object3D;
+
+  private rootGroup: three.Group;
+  private handleGroup: three.Group;
 
   private t?: three.Object3D;
   private origin = new three.Vector3(); // target local position
   private targetMatrix = new three.Matrix4(); // target local matrix
   private inverseMatrix = new three.Matrix4(); // target world matrix inverse
 
-  private axis: three.Vector3;
-  private vector: three.Vector3;
+  private referenceAxis: three.Vector3;
+  private currentAxis: three.Vector3;
   private angle: number;
 
   public constructor(axis: three.Vector3, angle: number) {
-    this.axis = axis.clone().normalize();
-    this.vector = this.axis.clone();
+    this.referenceAxis = axis.clone().normalize();
+    this.currentAxis = this.referenceAxis.clone();
     this.angle = angle;
+
     const oz = new three.BufferGeometry();
     oz.setAttribute('position', new three.Float32BufferAttribute(new Float32Array([0, 0, 0, 0, 0, 1]), 3));
-    this.root.add(new three.LineSegments(oz, new three.LineBasicMaterial({ color: 0x800000 })));
 
     const r = 16;
     const l = 4;
@@ -139,11 +143,26 @@ export class ConeDragHandler implements DragHandler {
       const z = Math.sin(theta);
       return new three.Vector3(x, y, z);
     });
-    this.root.add(new three.LineSegments(grid, new three.LineBasicMaterial({ color: 0, transparent: true, opacity: 0.5 })));
-    this.handle = new three.Mesh(geometry.sphere(0.1, 3), new three.MeshPhongMaterial({ color: 0xffff00 }));
-    this.handle.position.copy(this.vector);
-    this.root.add(this.handle);
-    this.constraint = coneConstraint(this.axis, this.angle);
+
+    this.handleGroup = new three.Group();
+    const handleSphere = new three.Mesh(geometry.sphere(0.1, 3), new three.MeshPhongMaterial({ color: 0xffff00 }));
+    handleSphere.position.set(0, 0, 1);
+    const handleAxis = new three.LineSegments(oz, new three.LineBasicMaterial({ color: 0x008000 }));
+    this.handleGroup.add(handleAxis, handleSphere);
+    this.handleGroup.quaternion.setFromUnitVectors(this.referenceAxis, this.currentAxis);
+
+    this.rootGroup = new three.Group();
+    this.rootGroup.quaternion.setFromUnitVectors(new three.Vector3(0, 0, 1), axis);
+
+    this.rootGroup.add(
+      new three.LineSegments(oz, new three.LineBasicMaterial({ color: 0x800000 })),
+      new three.LineSegments(grid, new three.LineBasicMaterial({ color: 0, transparent: true, opacity: 0.5 })),
+      this.handleGroup,
+    );
+
+    this.root.add(this.rootGroup);
+    this.handle = handleSphere;
+    this.constraint = coneConstraint(this.referenceAxis, this.angle);
   }
 
   public get constraint(): (v: three.Vector3) => three.Vector3 {
@@ -163,11 +182,15 @@ export class ConeDragHandler implements DragHandler {
     if (value) {
       this.targetMatrix.copy(value.matrix);
       this.inverseMatrix.getInverse(value.matrixWorld);
+
+      const targetInverse = new three.Matrix4();
+      targetInverse.getInverse(this.targetMatrix);
+      this.root.quaternion.setFromRotationMatrix(targetInverse);
     }
   }
 
   public pick() {
-    this.origin.copy(this.vector);
+    this.origin.copy(this.currentAxis);
   }
 
   public drag(v: three.Vector3) {
@@ -177,13 +200,17 @@ export class ConeDragHandler implements DragHandler {
     this.root.getWorldScale(scale);
     v.applyMatrix3(inverseRotation).multiplyScalar(1 / scale.x);
     v.add(this.origin);
-    this.vector = this.constraint(v);
-    this.handle.position.copy(this.vector);
+    this.currentAxis = this.constraint(v);
 
-    const q = new three.Quaternion().setFromUnitVectors(this.axis, this.vector);
+    const q = new three.Quaternion().setFromUnitVectors(this.referenceAxis, this.currentAxis);
     const r = new three.Matrix4().makeRotationFromQuaternion(q);
     const m = this.targetMatrix.clone().multiply(r);
-    m.decompose(this.t!.position, this.t!.quaternion, this.t!.scale);
+    this.t!.quaternion.setFromRotationMatrix(m);
+    this.handleGroup.quaternion.setFromRotationMatrix(m);
+
+    const inverse = new three.Matrix4();
+    inverse.getInverse(m);
+    this.root.quaternion.setFromRotationMatrix(inverse);
   }
 
   private f: VectorConstraint = (v: three.Vector3) => v;
