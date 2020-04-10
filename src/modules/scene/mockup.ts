@@ -16,11 +16,7 @@ export class Model extends models.Item {
   public constructor() {
     super({ template: 'mockup', label: 'Mockup' });
     this.list = new reactive.List(this.items);
-  }
-
-  public dispose() {
-    super.dispose();
-    this.list.dispose();
+    this.addDisposers(() => this.list.dispose());
   }
 
   @computed public get selectedIndex() {
@@ -40,7 +36,7 @@ export class Model extends models.Item {
   }
 }
 
-export class Mockup {
+export class Mockup extends reactive.Disposable {
   @observable public model!: Model;
 
   private scene!: three.Scene;
@@ -63,11 +59,10 @@ export class Mockup {
   private dragOrigin = new three.Vector3();
   private plane = new three.Plane();
 
-  private readonly disposers: Array<() => void> = [];
-
   private coneTarget!: three.Object3D;
 
   public constructor(scene: three.Scene, camera: three.Camera) {
+    super();
     this.scene = scene;
     this.camera = camera;
     this.controller = new Controller({
@@ -82,21 +77,18 @@ export class Mockup {
     this.setupScene();
     this.setupObjects();
 
-    this.disposers.push(
+    this.addDisposers(
       reaction(
         () => this.model.selectedItem,
         item => this.select(this.objects, item && (item as models.Object3D).root),
         { fireImmediately: true },
       ),
+      () => {
+        this.controller.dispose();
+        this.scene.remove(this.root);
+        geometry.dispose(this.root);
+      },
     );
-  }
-
-  public dispose() {
-    this.controller.dispose();
-    this.disposers.forEach(disposer => disposer());
-    this.disposers.length = 0;
-    this.scene.remove(this.root);
-    geometry.dispose(this.root);
   }
 
   public update() {

@@ -1,6 +1,7 @@
 import * as std from '@/lib/std';
 import * as svg from '@/lib/svg';
 import * as utils from '@/lib/utils';
+import { Disposable } from '@/lib/reactive';
 
 import { Camera } from '@/modules/svg/camera';
 import { Controller } from '@/modules/svg/controller';
@@ -15,7 +16,7 @@ enum Gesture {
   ROTATE,
 }
 
-export class SvgDemo implements ViewModel {
+export class SvgDemo extends Disposable implements ViewModel {
   public template = 'svg-demo-view';
   public readonly root = svg.fromSource(source)!;
 
@@ -35,12 +36,10 @@ export class SvgDemo implements ViewModel {
   private pickedRotation!: number;
 
   public constructor() {
+    super();
     this.controller.setReferenceSize(4, 4);
     this.generate(this.scene);
-  }
-
-  public dispose() {
-    this.pickableItems.forEach(item => item.dispose());
+    this.addDisposers(() => this.pickableItems.forEach(item => item.dispose()));
   }
 
   public mount(element: HTMLElement) {

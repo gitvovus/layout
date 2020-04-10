@@ -3,8 +3,11 @@ import { computed, observable, reaction } from 'mobx';
 import { Point } from '@/lib/std';
 import * as cvx from '@/lib/convex';
 import * as svg from '@/lib/svg';
-import source from '!!raw-loader!@/assets/convex.svg';
+import { Disposable } from '@/lib/reactive';
+
 import { ViewModel } from '@/modules/view-model';
+
+import source from '!!raw-loader!@/assets/convex.svg';
 
 const sample: Point[] = [
   { x: 4, y: 0 },
@@ -19,7 +22,7 @@ const sample: Point[] = [
   { x: 2, y: 9 },
 ];
 
-export class ConvexDemo implements ViewModel {
+export class ConvexDemo extends Disposable implements ViewModel {
   public readonly template = 'convex-demo-view';
   public readonly root = svg.fromSource(source)!;
 
@@ -32,22 +35,17 @@ export class ConvexDemo implements ViewModel {
   private readonly convexPath = this.root.findByClass('convex')!;
   private readonly zonePath = this.root.findByClass('zone')!;
 
-  private readonly disposers: Array<() => void> = [];
-
   public constructor() {
+    super();
     this.points = sample;
     this.pointCount = this.points.length - 1;
-    this.disposers.push(
+    this.addDisposers(
       reaction(
         () => this.pointCount,
         () => this.compute(this.points, this.pointCount),
         { fireImmediately: true },
       ),
     );
-  }
-
-  public dispose() {
-    this.disposers.forEach(disposer => disposer());
   }
 
   @computed public get maxLength() {

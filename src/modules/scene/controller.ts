@@ -2,6 +2,7 @@ import * as three from 'three';
 
 import { clamp } from '@/lib/std';
 import * as utils from '@/lib/utils';
+import { Disposable } from '@/lib/reactive';
 
 export interface Options {
   phi: number;
@@ -15,7 +16,7 @@ export interface Options {
   rotationSpeed: number;
 }
 
-export class Controller {
+export class Controller extends Disposable {
   public lookAt = new three.Vector3(0, 0, 0);
   public radius = 6;
   public phi = 0;
@@ -42,9 +43,8 @@ export class Controller {
   private panX = new three.Vector3();
   private panY = new three.Vector3();
 
-  private readonly disposers: (() => void)[] = [];
-
   public constructor(initializer?: Partial<Options>) {
+    super();
     Object.assign(this, initializer);
     Object.assign(this.initializer, {
       phi: this.phi,
@@ -79,13 +79,9 @@ export class Controller {
     camera.lookAt(this.lookAt);
   }
 
-  public dispose() {
-    this.unmount();
-  }
-
   public mount(element: HTMLElement) {
     this.element = element;
-    this.disposers.push(
+    this.addDisposers(
       utils.onElementEvent(element, 'pointerdown', this.pick),
       utils.onElementEvent(element, 'pointermove', this.drag),
       utils.onElementEvent(element, 'pointerup', this.drop),
@@ -96,8 +92,7 @@ export class Controller {
   }
 
   public unmount() {
-    this.disposers.forEach(disposer => disposer());
-    this.disposers.length = 0;
+    this.dispose();
     this.element = undefined!;
   }
 

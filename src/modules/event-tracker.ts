@@ -1,10 +1,11 @@
 import { action, observable } from 'mobx';
 
+import { Disposable } from '@/lib/reactive';
 import * as utils from '@/lib/utils';
 
 import { ViewModel } from '@/modules/view-model';
 
-export class EventTracker implements ViewModel {
+export class EventTracker extends Disposable implements ViewModel {
   public readonly template = 'event-tracker-view';
 
   @observable public lastEvent = '';
@@ -18,21 +19,13 @@ export class EventTracker implements ViewModel {
   @observable public deltaZ = 0;
   @observable public deltaMode = 0;
 
-  private element?: HTMLElement;
   private parent?: HTMLElement;
   private child?: HTMLElement;
-  private readonly disposers: (() => void)[] = [];
-
-  public dispose() {
-    this.disposers.forEach(disposer => disposer());
-    this.disposers.length = 0;
-  }
 
   public mount(element: HTMLElement) {
-    this.element = element;
     this.parent = element.getElementsByClassName('event-tracker-parent')![0] as HTMLElement;
     this.child = element.getElementsByClassName('event-tracker-child')![0] as HTMLElement;
-    this.disposers.push(
+    this.addDisposers(
       utils.onElementEvent(element, 'pointerdown', this.pick),
       utils.onElementEvent(element, 'pointermove', this.drag),
       utils.onElementEvent(element, 'pointerup', this.drop),
@@ -46,7 +39,6 @@ export class EventTracker implements ViewModel {
 
   public unmount() {
     this.dispose();
-    this.element = undefined;
     this.parent = undefined;
     this.child = undefined;
   }

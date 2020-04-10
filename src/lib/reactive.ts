@@ -19,26 +19,43 @@ export type ArrayChange<T> =
       newValue: T;
     };
 
-export class List<T> {
-  @observable public readonly items: T[];
-  @observable private index?: number;
-  private disposer: () => void;
+export type Disposer = () => void;
 
-  public constructor(items?: T[], index?: number) {
-    this.items = items || [];
-    this.selectedIndex = index;
-    this.disposer = reaction(
-      () => this.items.length,
-      length => {
-        if (this.index !== undefined && this.index >= length) {
-          this.index = length === 0 ? undefined : length - 1;
-        }
-      },
-    );
-  }
+export interface DisposableInterface {
+  dispose(): void;
+}
+
+export class Disposable implements DisposableInterface {
+  private readonly disposers: Disposer[] = [];
 
   public dispose() {
-    this.disposer();
+    this.disposers.forEach(disposer => disposer());
+    this.disposers.length = 0;
+  }
+
+  protected addDisposers(...disposers: Disposer[]) {
+    this.disposers.push(...disposers);
+  }
+}
+
+export class List<T> extends Disposable {
+  @observable public readonly items: T[];
+  @observable private index?: number;
+
+  public constructor(items?: T[], index?: number) {
+    super();
+    this.items = items || [];
+    this.selectedIndex = index;
+    this.addDisposers(
+      reaction(
+        () => this.items.length,
+        length => {
+          if (this.index !== undefined && this.index >= length) {
+            this.index = length === 0 ? undefined : length - 1;
+          }
+        },
+      ),
+    );
   }
 
   @computed public get selectedIndex() {
@@ -69,18 +86,14 @@ export class List<T> {
   }
 }
 
-export class Selection<T> {
+export class Selection<T> extends Disposable {
   @observable public readonly items: T[];
   @observable private item?: T;
-  private disposer: () => void;
 
   public constructor(items: T[]) {
+    super();
     this.items = items;
-    this.disposer = observe(this.items, this.onItemsChanged);
-  }
-
-  public dispose() {
-    this.disposer();
+    this.addDisposers(observe(this.items, this.onItemsChanged));
   }
 
   @computed public get selectedItem() {
@@ -116,7 +129,7 @@ export class Selection<T> {
         this.unselect(change.oldValue);
         break;
       case 'splice':
-        change.removed.forEach(item => this.unselect(item));
+        change.removed.forEach(this.unselect);
         break;
       default:
         assert(false);
@@ -124,18 +137,14 @@ export class Selection<T> {
   };
 }
 
-export class MultiSelection<T> {
+export class MultiSelection<T> extends Disposable {
   @observable public readonly items: T[];
   @observable private readonly selected: T[] = [];
-  private disposer: () => void;
 
   public constructor(items: T[]) {
+    super();
     this.items = items;
-    this.disposer = observe(this.items, this.onItemsChanged);
-  }
-
-  public dispose() {
-    this.disposer();
+    this.addDisposers(observe(this.items, this.onItemsChanged));
   }
 
   @computed public get selectedItems() {
@@ -183,7 +192,7 @@ export class MultiSelection<T> {
         this.unselect(change.oldValue);
         break;
       case 'splice':
-        change.removed.forEach(item => this.unselect(item));
+        change.removed.forEach(this.unselect);
         break;
       default:
         assert(false);

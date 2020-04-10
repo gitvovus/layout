@@ -1,11 +1,12 @@
 import * as three from 'three';
 
+import { Disposable } from '@/lib/reactive';
 import * as utils from '@/lib/utils';
 
 import { Mockup } from '@/modules/scene/mockup';
 import { ViewModel } from '@/modules/view-model';
 
-export class SceneDemo implements ViewModel {
+export class SceneDemo extends Disposable implements ViewModel {
   public readonly template = 'scene-demo-view';
 
   private readonly mockup: Mockup;
@@ -17,9 +18,8 @@ export class SceneDemo implements ViewModel {
   private height = 0;
   private renderer!: three.WebGLRenderer;
 
-  private readonly disposers: (() => void)[] = [];
-
   public constructor() {
+    super();
     this.camera = new three.PerspectiveCamera(30, 1, 0.1, 50);
     this.camera.up.set(0, 0, 1);
     this.camera.add(new three.PointLight(0xa0a0a0));
@@ -29,11 +29,6 @@ export class SceneDemo implements ViewModel {
     this.scene.add(this.camera);
 
     this.mockup = new Mockup(this.scene, this.camera);
-  }
-
-  public dispose() {
-    this.disposers.forEach(disposer => disposer());
-    this.disposers.length = 0;
   }
 
   public mount(element: HTMLElement, canvas: HTMLCanvasElement) {
@@ -46,7 +41,7 @@ export class SceneDemo implements ViewModel {
 
     this.mockup.mount(element);
 
-    this.disposers.push(utils.onAnimationFrame(this.render), () => {
+    this.addDisposers(utils.onAnimationFrame(this.render), () => {
       this.mockup.unmount();
       this.renderer.dispose();
       this.element = undefined!;
