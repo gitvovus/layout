@@ -27,7 +27,7 @@ export class Application {
   @observable public dialog: number | undefined = undefined;
   public readonly convex = new ConvexDemo();
 
-  @observable public page = Page.SCENE_DEMO;
+  @observable public page = Page.SVG_DRAWING;
   public readonly pages: (ViewModel | undefined)[] = [
     undefined,
     new Controls(),
