@@ -43,10 +43,13 @@ export class SceneDemo extends Disposable implements ViewModel {
 
     this.addDisposers(utils.onAnimationFrame(this.render), () => {
       this.mockup.unmount();
-      this.renderer.dispose();
       this.element = undefined!;
       this.width = 0;
       this.height = 0;
+      const renderer = this.renderer;
+      this.renderer = undefined!;
+      // delayed dispose to allow smooth fadeout for the view
+      setTimeout(() => renderer.dispose(), 1000);
     });
   }
 

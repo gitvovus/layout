@@ -7,9 +7,9 @@ const scale = std.Matrix2x3.scale;
 const translation = std.Matrix2x3.translation;
 
 export class Camera {
-  @observable public scale = 1;
   @observable public rotation = 0;
   @observable private positionValue = new std.Vector2(0, 0);
+  @observable private scaleValue = new std.Vector2(1, 1);
 
   @computed public get position() {
     return this.positionValue.clone();
@@ -19,14 +19,22 @@ export class Camera {
     this.positionValue = value.clone();
   }
 
+  @computed public get scale() {
+    return this.scaleValue.clone();
+  }
+
+  public set scale(value: std.Vector2) {
+    this.scaleValue = value.clone();
+  }
+
   @computed public get transform() {
     return translation(this.positionValue.x, this.positionValue.y)
       .multiply(rotation(this.rotation))
-      .multiply(scale(this.scale, this.scale));
+      .multiply(scale(this.scaleValue.x, this.scaleValue.y));
   }
 
   @computed public get inverseTransform() {
-    return scale(1 / this.scale, 1 / this.scale)
+    return scale(1 / this.scaleValue.x, 1 / this.scaleValue.y)
       .multiply(rotation(-this.rotation))
       .multiply(translation(-this.positionValue.x, -this.positionValue.y));
   }

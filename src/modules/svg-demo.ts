@@ -17,7 +17,7 @@ enum Gesture {
 }
 
 export class SvgDemo extends Disposable implements ViewModel {
-  public template = 'svg-demo-view';
+  public readonly template = 'svg-demo-view';
   public readonly root = svg.fromSource(source)!;
 
   private element?: HTMLElement;
@@ -122,11 +122,11 @@ export class SvgDemo extends Disposable implements ViewModel {
       contour.position = new std.Vector2(x, y);
       this.unselect(contour);
 
-      contour.on('dblclick', this.dblclick as EventListener);
-      contour.on('pointerdown', this.pick as EventListener);
-      contour.on('pointermove', this.drag as EventListener);
-      contour.on('pointerup', this.drop as EventListener);
-      contour.on('wheel', this.wheel as EventListener);
+      contour.on('dblclick', this.dblclick);
+      contour.on('pointerdown', this.pick);
+      contour.on('pointermove', this.drag);
+      contour.on('pointerup', this.drop);
+      contour.on('wheel', this.wheel);
 
       this.contours.add(contour);
       this.pickableItems.push(contour);

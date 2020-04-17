@@ -1,3 +1,3 @@
 export interface ViewModel {
-  template: string;
+  readonly template: string;
 }

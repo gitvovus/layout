@@ -70,6 +70,8 @@
 </template>
 
 <style lang="scss">
+@import '@/style/_vars.scss';
+
 .app.svg-drawing-view {
   display: flex;
   align-items: baseline;
@@ -84,7 +86,7 @@
   top: 0;
   margin: 10px;
   display: flex;
-  box-shadow: 0 0 5px rgba(black, 0.5);
+  box-shadow: $shadow;
   & select {
     border: none;
     margin: 0;
@@ -103,18 +105,17 @@
 .bg-check {
   display: flex;
   align-items: center;
-  height: 100px;
-  border-radius: 5px;
+  border-radius: $r;
   margin: 10px;
   overflow: hidden;
-  box-shadow: 0 0 5px rgba(black, 0.5);
+  box-shadow: $shadow;
 }
 .use-case {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   &.white {
     background-color: white;
   }

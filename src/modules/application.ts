@@ -6,6 +6,7 @@ import AppView from '@/views/app-view.vue';
 import { Controls } from '@/modules/controls';
 import { ConvexDemo } from '@/modules/convex-demo';
 import { EventTracker } from '@/modules/event-tracker';
+import { IconTool } from '@/modules/icon-tool';
 import { MovableDemo } from '@/modules/movable-demo';
 import { SceneDemo } from '@/modules/scene-demo';
 import { SvgDemo } from '@/modules/svg-demo';
@@ -17,6 +18,7 @@ enum Page {
   CONTROLS,
   EVENT_TRACKER,
   SVG_DRAWING,
+  ICON_TOOL,
   SVG_DEMO,
   SCENE_DEMO,
   MOVABLE_DEMO,
@@ -27,12 +29,13 @@ export class Application {
   @observable public dialog: number | undefined = undefined;
   public readonly convex = new ConvexDemo();
 
-  @observable public page = Page.SVG_DRAWING;
+  @observable public page = Page.ICON_TOOL;
   public readonly pages: (ViewModel | undefined)[] = [
     undefined,
     new Controls(),
     new EventTracker(),
     new SvgDrawing(),
+    new IconTool(),
     new SvgDemo(),
     new SceneDemo(),
     new MovableDemo(),

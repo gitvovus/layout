@@ -4,6 +4,7 @@ import '@/style/main.scss';
 import ControlsView from '@/views/controls-view.vue';
 import ConvexDemoView from '@/views/convex-demo-view.vue';
 import EventTrackerView from '@/views/event-tracker-view.vue';
+import IconTool from '@/views/icon-tool.vue';
 import LoremView from '@/views/lorem-view.vue';
 import MovableDemoView from '@/views/movable-demo-view.vue';
 import MovableView from '@/views/movable-view.vue';
@@ -30,6 +31,7 @@ Vue.config.productionTip = false;
   ['controls-view', ControlsView],
   ['convex-demo-view', ConvexDemoView],
   ['event-tracker-view', EventTrackerView],
+  ['icon-tool', IconTool],
   ['lorem-view', LoremView],
   ['movable-demo-view', MovableDemoView],
   ['movable-view', MovableView],

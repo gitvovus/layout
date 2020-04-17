@@ -3,6 +3,7 @@ import { action, observable, reaction } from 'mobx';
 import * as std from '@/lib/std';
 import * as svg from '@/lib/svg';
 import * as utils from '@/lib/utils';
+import { Disposable } from '@/lib/reactive';
 
 import { Camera } from '@/modules/svg/camera';
 
@@ -18,7 +19,7 @@ enum Gesture {
   ROTATE,
 }
 
-export class Controller {
+export class Controller extends Disposable {
   @observable public width = 2;
   @observable public height = 2;
   @observable public referenceWidth = 2;
@@ -29,6 +30,7 @@ export class Controller {
   private root: svg.Item;
   private scene: svg.Item;
   private camera: Camera;
+  private defaultCamera: Camera;
 
   private gesture = Gesture.NONE;
   private pickedOffset = { x: 0, y: 0 };
@@ -37,39 +39,39 @@ export class Controller {
   private pickedRotation = 0;
   private pickedTransform = new std.Matrix2x3(1, 0, 0, 1, 0, 0);
 
-  private readonly disposers: Array<() => void> = [];
-
   public constructor(root: svg.Item, camera: Camera) {
+    super();
     this.root = root;
     this.scene = root.findByClass('scene')!;
     this.camera = camera;
+    this.defaultCamera = new Camera();
+    this.defaultCamera.position = camera.position;
+    this.defaultCamera.rotation = camera.rotation;
+    this.defaultCamera.scale = camera.scale;
   }
 
   public mount(element: HTMLElement) {
     this.element = element;
-    this.disposers.push(
+    this.addDisposers(
       utils.onElementEvent(element, 'dblclick', () => this.reset()),
       utils.onElementEvent(element, 'pointerdown', this.pick),
       utils.onElementEvent(element, 'pointermove', this.drag),
       utils.onElementEvent(element, 'pointerup', this.drop),
       utils.onElementEvent(element, 'wheel', this.wheel, { passive: false }),
       utils.onAnimationFrame(this.updateViewBox),
-      reaction(() => this.camera.inverseTransform, this.updateSceneTransform, {
-        fireImmediately: true,
-      }),
+      reaction(() => this.camera.inverseTransform, this.updateSceneTransform, { fireImmediately: true }),
+      () => (this.element = undefined),
     );
   }
 
   public unmount() {
-    this.element = undefined!;
-    this.disposers.forEach(disposer => disposer());
-    this.disposers.length = 0;
+    this.dispose();
   }
 
   @action public reset() {
-    this.camera.position = new std.Vector2(0, 0);
-    this.camera.rotation = 0;
-    this.camera.scale = 1;
+    this.camera.position = this.defaultCamera.position;
+    this.camera.rotation = this.defaultCamera.rotation;
+    this.camera.scale = this.defaultCamera.scale;
   }
 
   @action public setReferenceSize(width: number, height: number) {
@@ -164,8 +166,8 @@ export class Controller {
     e.preventDefault();
 
     const k = e.deltaY < 0 ? 7 / 8 : 8 / 7;
-    const oldScale = this.camera.scale;
-    const newScale = std.clamp(oldScale * k, 0.25, 4);
+    const zoom = std.clamp(this.camera.scale.x * k, 0.25, 4) / this.camera.scale.x;
+    const newScale = new std.Vector2(this.camera.scale.x * zoom, this.camera.scale.y * zoom);
 
     const newCamera = new Camera();
     newCamera.position = this.camera.position;

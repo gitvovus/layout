@@ -15,7 +15,7 @@ export class Item {
   public parent?: Item;
 
   private el?: SVGElement;
-  private events = new Map<string, EventListener[]>();
+  private events = new Map<keyof SVGElementEventMap, ((this: SVGElement, e: any) => void)[]>();
 
   public constructor(tag: string, data?: Attributes | string) {
     this.tag = tag;
@@ -101,7 +101,10 @@ export class Item {
     return undefined;
   }
 
-  public on(event: string, listener: EventListener) {
+  public on<EventType extends keyof SVGElementEventMap>(
+    event: EventType,
+    listener: (this: SVGElement, e: SVGElementEventMap[EventType]) => void,
+  ) {
     if (!this.events.has(event)) {
       this.events.set(event, []);
     }
@@ -116,7 +119,10 @@ export class Item {
     }
   }
 
-  public off(event?: string, listener?: EventListener) {
+  public off<EventType extends keyof SVGElementEventMap>(
+    event?: EventType,
+    listener?: (this: SVGElement, e: SVGElementEventMap[EventType]) => void,
+  ) {
     if (!event) {
       if (this.el) {
         this.events.forEach((listeners, event) => listeners.forEach(listener => this.el!.removeEventListener(event, listener)));
