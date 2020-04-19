@@ -26,7 +26,10 @@
         <path
           id="current"
           class="svg-cursor"
-          d="M 1 1 L 24 24 C 25.25 25.25 24 27 22.5 27 L 15 27 L 19 35 C 20 37 14 40 13 38 L 8.75 29.5 L 3.75 34.5 C 3 35.25 1 35 1 33.5 z"
+          d="
+            M 9 39  L 1 28  L 1 27  L 6 27  A 22 22 0 0 1 41.2 9.4  L 37.6 14.2 A 16 16 0 0 0 12 27 L 17 27 L 17 28 z
+            M 47 15 L 55 26 L 55 27 L 50 27 A 22 22 0 0 1 14.8 44.6 L 18.4 39.8 A 16 16 0 0 0 44 27 L 39 27 L 39 26 z
+          "
         />
         <!-- prettier-ignore -->
         <path
@@ -42,12 +45,23 @@
         />
         <!-- prettier-ignore -->
         <path
+          id="rotate"
+          class="svg-cursor"
+          d="
+            M 9 39  L 1 28  L 1 27  L 6 27  A 22 22 0 0 1 41.2 9.4  L 37.6 14.2 A 16 16 0 0 0 12 27 L 17 27 L 17 28 z
+            M 47 15 L 55 26 L 55 27 L 50 27 A 22 22 0 0 1 14.8 44.6 L 18.4 39.8 A 16 16 0 0 0 44 27 L 39 27 L 39 26 z
+          "
+        />
+        <!-- prettier-ignore -->
+        <path
           id="vertical"
           class="svg-cursor"
           d="M 32 1 L 44 15 L 35 15 L 35 43 L 44 43 L 32 57 L 20 43 L 29 43 L 29 15 L 20 15 z"
         />
       </defs>
       <rect :x="x - 1" :y="y - 1" :width="w + 2" :height="h + 2" fill="url(#chess-pattern)" />
+      <!-- <circle cx="28" cy="27" r="23.1" fill="red" stroke="none" />
+      <circle cx="28" cy="27" r="14.9" fill="green" stroke="none" /> -->
       <use :href="cursor" />
     </svg>
     <div class="bg-check" :style="{ cursor: native }">
@@ -69,12 +83,46 @@
   </div>
 </template>
 
+<script lang="ts">
+import { Observer } from 'mobx-vue';
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
+
+import { SvgDrawing as Model } from '@/modules/svg-drawing';
+
+@Observer
+@Component
+export default class SvgDrawingView extends Vue {
+  @Prop() private model!: Model;
+  private x = 0;
+  private y = 0;
+  private w = 64;
+  private h = 64;
+  private cursors = [
+    { id: 'current', native: 'default' },
+    { id: 'default', native: 'default' },
+    { id: 'default-big', native: 'default' },
+    { id: 'rotate', native: 'move' },
+    { id: 'vertical', native: 'ns-resize' },
+  ];
+  private index = 0;
+
+  private get cursor() {
+    return `#${this.cursors[this.index].id}`;
+  }
+
+  private get native() {
+    return this.cursors[this.index].native;
+  }
+}
+</script>
+
 <style lang="scss">
 @import '@/style/_vars.scss';
 
 .app.svg-drawing-view {
   display: flex;
-  align-items: baseline;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -127,37 +175,3 @@
   }
 }
 </style>
-
-<script lang="ts">
-import { Observer } from 'mobx-vue';
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
-
-import { SvgDrawing as Model } from '@/modules/svg-drawing';
-
-@Observer
-@Component
-export default class SvgDrawingView extends Vue {
-  @Prop() private model!: Model;
-  private x = 0;
-  private y = 0;
-  private w = 64;
-  private h = 64;
-  private cursors = [
-    { id: 'current', native: 'default' },
-    { id: 'default', native: 'default' },
-    { id: 'default-big', native: 'default' },
-    { id: 'vertical', native: 'ns-resize' },
-  ];
-  private index = 0;
-
-  private get cursor() {
-    return `#${this.cursors[this.index].id}`;
-  }
-
-  private get native() {
-    return this.cursors[this.index].native;
-  }
-}
-</script>

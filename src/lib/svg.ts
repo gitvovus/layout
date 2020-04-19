@@ -1,10 +1,12 @@
 import { observable } from 'mobx';
 
-import { clamp } from '@/lib/std';
+import * as std from '@/lib/std';
 
 export interface Attributes {
   [key: string]: string | number | undefined;
 }
+
+export type ViewBox = { left: number; top: number; width: number; height: number };
 
 export class Item {
   public readonly key = Symbol();
@@ -68,7 +70,7 @@ export class Item {
     if (toIndex < 0) {
       toIndex += this.items.length;
     }
-    toIndex = clamp(toIndex, 0, this.items.length - 1);
+    toIndex = std.clamp(toIndex, 0, this.items.length - 1);
     if (index !== toIndex) {
       this.items.splice(index, 1);
       this.items.splice(toIndex, 0, item);
@@ -101,6 +103,7 @@ export class Item {
     return undefined;
   }
 
+  // TODO: add event listener options
   public on<EventType extends keyof SVGElementEventMap>(
     event: EventType,
     listener: (this: SVGElement, e: SVGElementEventMap[EventType]) => void,
@@ -114,7 +117,6 @@ export class Item {
     }
     listeners.push(listener);
     if (this.el) {
-      // TODO: handle { passive: false } in more intelligent way
       this.el.addEventListener(event, listener, { passive: false });
     }
   }
@@ -192,4 +194,12 @@ export function fromSource(text: string) {
   const parser = new DOMParser();
   const document = parser.parseFromString(text, 'image/svg+xml');
   return fromElement(document.documentElement);
+}
+
+export function toTransform(matrix: std.Matrix2x3) {
+  return `matrix(${matrix.elements.join(' ')})`;
+}
+
+export function toViewBox({ left, top, width, height }: ViewBox) {
+  return `${left} ${top} ${width} ${height}`;
 }

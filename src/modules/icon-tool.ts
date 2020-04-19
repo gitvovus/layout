@@ -16,8 +16,8 @@ export class IconTool extends Disposable implements ViewModel {
 
   private readonly root = svg.fromSource(source)!;
   private readonly scene = this.root.findByClass('scene')!;
-  private readonly camera: Camera;
-  private readonly controller: Controller;
+  private readonly camera = new Camera({ position: new std.Vector2(32, 32) });
+  private readonly controller = new Controller(this.root, this.camera);
 
   private readonly icons = new svg.Item('g');
   private readonly items = new List<svg.Item>(this.icons.items);
@@ -26,15 +26,10 @@ export class IconTool extends Disposable implements ViewModel {
 
   public constructor() {
     super();
-    this.camera = new Camera();
-    this.camera.position = new std.Vector2(32, 32);
-    this.camera.scale = new std.Vector2(1, -1);
-    this.controller = new Controller(this.root, this.camera);
     this.controller.setReferenceSize(66, 66);
     this.scene.add(this.icons);
     this.icons.add(new svg.Item('path', { id: this.generateId(), class: 'svg-cursor', d: 'M 1 1 L 51 21 L 21 51 z' }));
     this.items.selectedIndex = 0;
-    console.log(this.selectedItem!.attributes.id);
   }
 
   public mount(element: HTMLElement) {

@@ -23,7 +23,7 @@ export class SvgDemo extends Disposable implements ViewModel {
   private element?: HTMLElement;
   private readonly scene = this.root.findByClass('scene')!;
   private readonly contours = new svg.Item('g');
-  private readonly camera = new Camera();
+  private readonly camera = new Camera({ scale: new std.Vector2(1, -1) });
   private readonly controller = new Controller(this.root, this.camera);
 
   private pickableItems: Contour[] = [];
@@ -206,13 +206,13 @@ export class SvgDemo extends Disposable implements ViewModel {
     }
     e.stopPropagation();
     const k = e.deltaY > 0 ? 7 / 8 : 8 / 7;
-    const item = this.pickableItems.find(item => item.element === e.target) as Contour;
+    const item = this.pickableItems.find(item => item.element === e.target)!;
     item.scale = std.clamp(item.scale * k, 0.25, 4);
   };
 
   private readonly dblclick = (e: MouseEvent) => {
     e.stopPropagation();
-    const item = this.pickableItems.find(item => item.element === e.target) as Contour;
+    const item = this.pickableItems.find(item => item.element === e.target)!;
     item.position = new std.Vector2(0, 0);
   };
 }

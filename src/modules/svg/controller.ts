@@ -1,4 +1,4 @@
-import { action, observable, reaction } from 'mobx';
+import { action, autorun, observable } from 'mobx';
 
 import * as std from '@/lib/std';
 import * as svg from '@/lib/svg';
@@ -6,12 +6,6 @@ import * as utils from '@/lib/utils';
 import { Disposable } from '@/lib/reactive';
 
 import { Camera } from '@/modules/svg/camera';
-
-const scale = std.Matrix2x3.scale;
-
-function toSvg(matrix: std.Matrix2x3) {
-  return `matrix(${matrix.elements.join(' ')})`;
-}
 
 enum Gesture {
   NONE,
@@ -24,7 +18,7 @@ export class Controller extends Disposable {
   @observable public height = 2;
   @observable public referenceWidth = 2;
   @observable public referenceHeight = 2;
-  private viewBox = { left: -1, bottom: -1, width: 2, height: 2 };
+  private viewBox: svg.ViewBox = { left: -1, top: -1, width: 2, height: 2 };
 
   private element?: HTMLElement;
   private root: svg.Item;
@@ -44,10 +38,7 @@ export class Controller extends Disposable {
     this.root = root;
     this.scene = root.findByClass('scene')!;
     this.camera = camera;
-    this.defaultCamera = new Camera();
-    this.defaultCamera.position = camera.position;
-    this.defaultCamera.rotation = camera.rotation;
-    this.defaultCamera.scale = camera.scale;
+    this.defaultCamera = camera.clone();
   }
 
   public mount(element: HTMLElement) {
@@ -59,7 +50,7 @@ export class Controller extends Disposable {
       utils.onElementEvent(element, 'pointerup', this.drop),
       utils.onElementEvent(element, 'wheel', this.wheel, { passive: false }),
       utils.onAnimationFrame(this.updateViewBox),
-      reaction(() => this.camera.inverseTransform, this.updateSceneTransform, { fireImmediately: true }),
+      autorun(() => (this.scene.attributes.transform = svg.toTransform(this.camera.inverseTransform))),
       () => (this.element = undefined),
     );
   }
@@ -83,7 +74,7 @@ export class Controller extends Disposable {
     const { x, y } = utils.elementOffset(this.element!, e);
     return new std.Vector2(
       this.viewBox.left + (this.viewBox.width * x) / this.width,
-      this.viewBox.bottom + (this.viewBox.height * (this.height - y)) / this.height,
+      this.viewBox.top + (this.viewBox.height * y) / this.height,
     );
   }
 
@@ -110,17 +101,8 @@ export class Controller extends Disposable {
       w = (this.referenceWidth * widthScale) / heightScale;
       h = this.referenceHeight;
     }
-    this.viewBox = {
-      left: -w / 2,
-      bottom: -h / 2,
-      width: w,
-      height: h,
-    };
-    this.root.attributes.viewBox = `${-w / 2} ${-h / 2} ${w} ${h}`;
-  };
-
-  private readonly updateSceneTransform = (transform: std.Matrix2x3) => {
-    this.scene.attributes.transform = toSvg(scale(1, -1).multiply(transform));
+    this.viewBox = { left: -w / 2, top: -h / 2, width: w, height: h };
+    this.root.attributes.viewBox = svg.toViewBox(this.viewBox);
   };
 
   private readonly pick = (e: PointerEvent) => {
@@ -166,13 +148,10 @@ export class Controller extends Disposable {
     e.preventDefault();
 
     const k = e.deltaY < 0 ? 7 / 8 : 8 / 7;
-    const zoom = std.clamp(this.camera.scale.x * k, 0.25, 4) / this.camera.scale.x;
+    const zoom = std.clamp(Math.abs(this.camera.scale.x * k), 0.25, 4) / Math.abs(this.camera.scale.x);
     const newScale = new std.Vector2(this.camera.scale.x * zoom, this.camera.scale.y * zoom);
 
-    const newCamera = new Camera();
-    newCamera.position = this.camera.position;
-    newCamera.rotation = this.camera.rotation;
-    newCamera.scale = newScale;
+    const newCamera = new Camera({ position: this.camera.position, rotation: this.camera.rotation, scale: newScale });
 
     const cameraPos = this.toCamera(e);
     const oldPos = this.camera.transform.transform(cameraPos);

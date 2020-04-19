@@ -11,6 +11,22 @@ export class Camera {
   @observable private positionValue = new std.Vector2(0, 0);
   @observable private scaleValue = new std.Vector2(1, 1);
 
+  public constructor(options: { position?: std.Vector2; rotation?: number; scale?: std.Vector2 } = {}) {
+    if (options.position) {
+      this.position = options.position;
+    }
+    if (options.rotation) {
+      this.rotation = options.rotation;
+    }
+    if (options.scale) {
+      this.scale = options.scale;
+    }
+  }
+
+  public clone() {
+    return new Camera(this);
+  }
+
   @computed public get position() {
     return this.positionValue.clone();
   }

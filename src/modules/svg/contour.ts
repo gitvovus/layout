@@ -7,10 +7,6 @@ const rotation = std.Matrix2x3.rotation;
 const scale = std.Matrix2x3.scale;
 const translation = std.Matrix2x3.translation;
 
-function toSvg(matrix: std.Matrix2x3) {
-  return `matrix(${matrix.elements.join(' ')})`;
-}
-
 export class Contour extends svg.Item {
   public static createData(points: std.Point[], closed: boolean, precision: number) {
     if (points.length === 0) {
@@ -41,7 +37,7 @@ export class Contour extends svg.Item {
       this.points = points;
     }
 
-    this.disposers.push(autorun(() => (this.attributes.transform = toSvg(this.transform))));
+    this.disposers.push(autorun(() => (this.attributes.transform = svg.toTransform(this.transform))));
   }
 
   public dispose() {
