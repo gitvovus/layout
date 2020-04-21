@@ -23,7 +23,16 @@ import { ConvexDemo as Model } from '@/modules/convex-demo';
 
 @Observer
 @Component
-export default class ConvexDemoView extends Vue {
+export default class ConvexDemo extends Vue {
   @Prop() private model!: Model;
 }
 </script>
+
+<style lang="scss">
+.convex-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>

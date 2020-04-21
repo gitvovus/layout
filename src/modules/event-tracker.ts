@@ -6,7 +6,7 @@ import * as utils from '@/lib/utils';
 import { ViewModel } from '@/modules/view-model';
 
 export class EventTracker extends Disposable implements ViewModel {
-  public readonly template = 'event-tracker-view';
+  public readonly template = 'event-tracker';
 
   @observable public lastEvent = '';
   @observable public leftButton = false;

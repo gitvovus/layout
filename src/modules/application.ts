@@ -3,21 +3,21 @@ import Vue from 'vue';
 
 import AppView from '@/views/app-view.vue';
 
-import { Controls } from '@/modules/controls';
+import { ControlsView } from '@/modules/controls-view';
 import { ConvexDemo } from '@/modules/convex-demo';
 import { EventTracker } from '@/modules/event-tracker';
 import { IconTool } from '@/modules/icon-tool';
 import { MovableDemo } from '@/modules/movable-demo';
 import { SceneDemo } from '@/modules/scene-demo';
 import { SvgDemo } from '@/modules/svg-demo';
-import { SvgDrawing } from '@/modules/svg-drawing';
+import { SvgTool } from '@/modules/svg-tool';
 import { ViewModel } from '@/modules/view-model';
 
 enum Page {
   EMPTY,
   CONTROLS,
   EVENT_TRACKER,
-  SVG_DRAWING,
+  SVG_TOOL,
   ICON_TOOL,
   SVG_DEMO,
   SCENE_DEMO,
@@ -29,12 +29,12 @@ export class Application {
   @observable public dialog: number | undefined = undefined;
   public readonly convex = new ConvexDemo();
 
-  @observable public page = Page.SVG_DRAWING;
+  @observable public page = Page.SVG_TOOL;
   public readonly pages: (ViewModel | undefined)[] = [
     undefined,
-    new Controls(),
+    new ControlsView(),
     new EventTracker(),
-    new SvgDrawing(),
+    new SvgTool(),
     new IconTool(),
     new SvgDemo(),
     new SceneDemo(),

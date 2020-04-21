@@ -2,15 +2,15 @@ import Vue, { VueConstructor } from 'vue';
 import '@/style/main.scss';
 
 import ControlsView from '@/views/controls-view.vue';
-import ConvexDemoView from '@/views/convex-demo-view.vue';
-import EventTrackerView from '@/views/event-tracker-view.vue';
+import ConvexDemo from '@/views/convex-demo.vue';
+import EventTracker from '@/views/event-tracker.vue';
 import IconTool from '@/views/icon-tool.vue';
 import LoremView from '@/views/lorem-view.vue';
-import MovableDemoView from '@/views/movable-demo-view.vue';
+import MovableDemo from '@/views/movable-demo.vue';
 import MovableView from '@/views/movable-view.vue';
-import SceneDemoView from '@/views/scene-demo-view.vue';
-import SvgDemoView from '@/views/svg-demo-view.vue';
-import SvgDrawingView from '@/views/svg-drawing-view.vue';
+import SceneDemo from '@/views/scene-demo.vue';
+import SvgDemo from '@/views/svg-demo.vue';
+import SvgTool from '@/views/svg-tool.vue';
 
 import UiAccordion from '@/ui/accordion.vue';
 import UiButton from '@/ui/button.vue';
@@ -29,15 +29,15 @@ Vue.config.productionTip = false;
 
 ([
   ['controls-view', ControlsView],
-  ['convex-demo-view', ConvexDemoView],
-  ['event-tracker-view', EventTrackerView],
+  ['convex-demo', ConvexDemo],
+  ['event-tracker', EventTracker],
   ['icon-tool', IconTool],
   ['lorem-view', LoremView],
-  ['movable-demo-view', MovableDemoView],
+  ['movable-demo', MovableDemo],
   ['movable-view', MovableView],
-  ['scene-demo-view', SceneDemoView],
-  ['svg-demo-view', SvgDemoView],
-  ['svg-drawing-view', SvgDrawingView],
+  ['scene-demo', SceneDemo],
+  ['svg-demo', SvgDemo],
+  ['svg-tool', SvgTool],
 
   ['ui-accordion', UiAccordion],
   ['ui-button', UiButton],

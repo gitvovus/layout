@@ -2,7 +2,7 @@ import { observable } from 'mobx';
 
 import { ViewModel } from '@/modules/view-model';
 
-export class Movable {
+export class MovableView {
   public readonly content: ViewModel;
   @observable public classes: string[];
 

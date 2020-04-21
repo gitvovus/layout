@@ -1,5 +1,5 @@
 <template>
-  <div class="event-tracker-view">
+  <div class="event-tracker">
     <div class="event-tracker-info">
       <div>
         {{ model.leftButton ? 'L' : '-' }}
@@ -33,7 +33,7 @@ import { EventTracker as Model } from '@/modules/event-tracker';
 
 @Observer
 @Component
-export default class SvgView extends Vue {
+export default class EventTracker extends Vue {
   @Prop() private model!: Model;
 
   private mounted() {
@@ -49,7 +49,7 @@ export default class SvgView extends Vue {
 <style lang="scss">
 @import '@/style/_vars.scss';
 
-.event-tracker-view {
+.event-tracker {
   position: absolute;
   overflow: hidden;
   left: 0;

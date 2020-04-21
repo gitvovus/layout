@@ -1,6 +1,6 @@
 <template>
-  <div class="svg-demo-view">
-    <ui-svg-element class="overlay" :model="model.root" />
+  <div class="scene-demo" tabindex="0">
+    <canvas class="scene-viewport"></canvas>
     <slot />
   </div>
 </template>
@@ -11,15 +11,15 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 
-import { SvgDemo as Model } from '@/modules/svg-demo';
+import { SceneDemo as Model } from '@/modules/scene-demo';
 
 @Observer
 @Component
-export default class SvgDemoView extends Vue {
+export default class SceneDemo extends Vue {
   @Prop() private model!: Model;
 
   private mounted() {
-    this.model.mount(this.$el as HTMLElement);
+    this.model.mount(this.$el as HTMLElement, this.$el.getElementsByClassName('scene-viewport')[0] as HTMLCanvasElement);
   }
 
   private beforeDestroy() {
@@ -29,13 +29,16 @@ export default class SvgDemoView extends Vue {
 </script>
 
 <style lang="scss">
-.svg-demo-view {
+.scene-demo {
   position: absolute;
-  display: flex;
-  overflow: hidden;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  overflow: hidden;
+}
+.scene-viewport {
+  position: absolute;
+  background-color: #d0e0f0;
 }
 </style>

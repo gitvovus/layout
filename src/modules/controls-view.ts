@@ -12,7 +12,7 @@ class ListItem {
   }
 }
 
-export class Controls implements ViewModel {
+export class ControlsView implements ViewModel {
   public readonly template = 'controls-view';
   public readonly lorem = new Lorem(1);
   public paragraphs = [1, 2, 4, 8];

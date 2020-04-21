@@ -1,19 +1,18 @@
 import { action, observable } from 'mobx';
 
-import { Movable } from '@/modules/movable';
+import { MovableView } from '@/modules/movable-view';
 import { SceneDemo } from '@/modules/scene-demo';
 import { SvgDemo } from '@/modules/svg-demo';
 import { ViewModel } from '@/modules/view-model';
 
 export class MovableDemo implements ViewModel {
-  public readonly template = 'movable-demo-view';
+  public readonly template = 'movable-demo';
 
-  @observable public readonly movable: Movable[] = [
-    new Movable(new SceneDemo(), ['expanded']),
-    new Movable(new SvgDemo(), [`i0`]),
-    new Movable(new SvgDemo(), [`i1`]),
-    new Movable(new SvgDemo(), [`i2`]),
-    new Movable(new SvgDemo(), [`i3`]),
+  @observable public readonly movable: MovableView[] = [
+    new MovableView(new SceneDemo(), ['expanded']),
+    new MovableView(new SvgDemo(), [`i0`]),
+    new MovableView(new SvgDemo(), [`i1`]),
+    new MovableView(new SvgDemo(), [`i2`]),
   ];
   @observable public expanded = 0;
 

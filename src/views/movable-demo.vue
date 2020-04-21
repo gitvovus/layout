@@ -20,7 +20,7 @@ import { MovableDemo as Model } from '@/modules/movable-demo';
 
 @Observer
 @Component
-export default class MovableDemoView extends Vue {
+export default class MovableDemo extends Vue {
   @Prop() private model!: Model;
 }
 </script>
@@ -29,19 +29,16 @@ export default class MovableDemoView extends Vue {
 .movable {
   left: 0;
   width: 30%;
-  height: 25%;
+  height: (100% / 3);
   z-index: 1;
   &.i0 {
     top: 0;
   }
   &.i1 {
-    top: 25%;
+    top: (100% / 3);
   }
   &.i2 {
-    top: 50%;
-  }
-  &.i3 {
-    top: 75%;
+    top: (200% / 3);
   }
   &.expanded {
     left: 30%;

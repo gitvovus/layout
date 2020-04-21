@@ -1,5 +1,5 @@
 <template>
-  <div class="icon-tool" tabindex="0">
+  <div class="svg-tool" tabindex="0">
     <div class="container">
       <ui-svg-element class="overlay" :model="model.root" />
     </div>
@@ -16,40 +16,6 @@
     </div>
   </div>
 </template>
-
-<style lang="scss">
-@import '@/style/_vars.scss';
-
-.icon-tool {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background-color: grey;
-  & .container {
-    position: relative;
-    overflow: hidden;
-    width: calc(100vh - 200px);
-    height: calc(100vh - 200px);
-    margin: 50px 0 20px;
-    border-radius: $r;
-    box-shadow: $shadow;
-  }
-  & .preview {
-    display: flex;
-    overflow: hidden;
-    border: 1px solid orange;
-    border-radius: $r;
-    box-shadow: $shadow;
-  }
-}
-</style>
 
 <script lang="ts">
 import { Observer } from 'mobx-vue';

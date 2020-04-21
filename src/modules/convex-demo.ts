@@ -23,7 +23,7 @@ const sample: Point[] = [
 ];
 
 export class ConvexDemo extends Disposable implements ViewModel {
-  public readonly template = 'convex-demo-view';
+  public readonly template = 'convex-demo';
   public readonly root = svg.fromSource(source)!;
 
   @observable public points: Point[] = [];

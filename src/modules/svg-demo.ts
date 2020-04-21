@@ -17,7 +17,7 @@ enum Gesture {
 }
 
 export class SvgDemo extends Disposable implements ViewModel {
-  public readonly template = 'svg-demo-view';
+  public readonly template = 'svg-demo';
   public readonly root = svg.fromSource(source)!;
 
   private element?: HTMLElement;

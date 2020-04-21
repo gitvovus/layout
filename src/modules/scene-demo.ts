@@ -7,7 +7,7 @@ import { Mockup } from '@/modules/scene/mockup';
 import { ViewModel } from '@/modules/view-model';
 
 export class SceneDemo extends Disposable implements ViewModel {
-  public readonly template = 'scene-demo-view';
+  public readonly template = 'scene-demo';
 
   private readonly mockup: Mockup;
   private readonly scene: three.Scene;

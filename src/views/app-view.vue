@@ -13,7 +13,7 @@
       </div>
     </ui-dialog>
     <!-- convex hull demo dialog -->
-    <convex-demo-view :class="{ show: model.dialog === 1 }" :width="800" :height="500" :model="model.convex" />
+    <convex-demo :class="{ show: model.dialog === 1 }" :width="800" :height="500" :model="model.convex" />
     <!-- pages selection -->
     <div class="app-bar">
       <div :class="['spacer', { collapsed: model.align === -1 }]"></div>
@@ -68,24 +68,24 @@ export default class AppView extends Vue {
 @import '@/style/_vars.scss';
 
 .app {
-  & .svg-demo-view {
+  & .svg-demo {
     margin: 10vh 10vw;
     background-color: rgba(#ffffe0, 3/4);
     border-radius: $r;
     box-shadow: $w-shadow;
   }
-  & .scene-demo-view {
+  & .scene-demo {
     margin: 10vh 10vw;
     border-radius: $r;
     box-shadow: $w-shadow;
   }
-  & .movable {
-    & .svg-demo-view,
-    & .scene-demo-view {
+  & .movable-view {
+    & .svg-demo,
+    & .scene-demo {
       margin: 20px;
     }
   }
-  & .event-tracker-view {
+  & .event-tracker {
     margin: 10vh 10vw;
     border: 1px solid orange;
     border-radius: $r;
@@ -120,13 +120,6 @@ export default class AppView extends Vue {
   & .button.iconic {
     margin: 0 5px;
   }
-}
-
-.convex-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .button.iconic {

@@ -194,7 +194,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 
-import { Controls as Model } from '@/modules/controls';
+import { ControlsView as Model } from '@/modules/controls-view';
 
 @Observer
 @Component
