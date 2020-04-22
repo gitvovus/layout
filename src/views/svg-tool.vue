@@ -3,81 +3,118 @@
     <div class="container">
       <svg class="overlay" :viewBox="`${x - 1} ${y - 1} ${w + 2} ${h + 2}`">
         <defs>
-          <linearGradient id="svg-cursor-fill" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color: #ffffff;" />
-            <stop offset="100%" style="stop-color: #e0e0e0;" />
-          </linearGradient>
-          <filter id="svg-cursor-shadow" x="-1" y="-1" width="3" height="3">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
-            <feOffset dx="5" dy="2" result="shadow" />
-            <feFlood flood-color="black" flood-opacity="0.3" result="color" />
-            <feComposite in="color" operator="in" in2="shadow" />
-            <feMerge>
-              <feMergeNode />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <pattern id="svg-tool-pattern" viewBox="-1 -1 2 2" width="4" height="4" patternUnits="userSpaceOnUse">
-            <rect x="-1" y="-1" width="1" height="1" fill="#c0c0c0" />
-            <rect x="0" y="-1" width="1" height="1" fill="#a0a0a0" />
-            <rect x="-1" y="0" width="1" height="1" fill="#a0a0a0" />
-            <rect x="0" y="0" width="1" height="1" fill="#c0c0c0" />
-          </pattern>
+          <!-- prettier-ignore -->
+          <g id="current" class="tmp-cursor" opacity="1">
+            <path fill-rule="evenodd"
+              d="
+                M 1 19 A 18 18 0 1 1 33.4 29.8 L 36 31 L 44 39 A 3.5 3.5 0 0 1 39 44 L 31 36 L 29.8 33.4 A 18 18 0 0 1 1 19 z
+                M 6 19 A 13 13 0 0 0 32 19 A 13 13 0 0 0 6 19 z
+                M 11 17 h 16 v 4 h -16 z
+              "
+            />
+          </g>
           <!-- prettier-ignore -->
           <path
-          id="current"
-          class="svg-cursor"
-          d="M 1 1 L 25.1 25.1 L 23.2 27 22.5 27 L 15.5 27 L 19.6 35.2 C 20.7 37.4 14.7 40.4 13.7 38.4 L 9.25 29 L 3.25 35 L 1 35 z"
-        />
+            id="default"
+            class="svg-cursor"
+            d="M 1 1 L 25 25 L 23 27 22.5 27 L 15.5 27 L 19.6 35.2 C 20.7 37.4 14.7 40.4 13.7 38.4 L 9.25 29 L 3.25 35 L 1 35 z"
+          />
           <!-- prettier-ignore -->
-          <path
-          id="default"
-          class="svg-cursor"
-          d="M 1 1 L 25.1 25.1 L 23.2 27 22.5 27 L 15.5 27 L 19.6 35.2 C 20.7 37.4 14.7 40.4 13.7 38.4 L 9.25 29 L 3.25 35 L 1 35 z"
-        />
+          <path id="move" class="svg-cursor"
+            d="
+              M 23 23 L 31 23 L 31 31 L 23 31 z
+              M 1  27 L 11 17 L 13 17 L 13 23 L 19 23 L 19 31 L 13 31 L 13 37 L 11 37 z
+              M 53 27 L 43 37 L 41 37 L 41 31 L 35 31 L 35 23 L 41 23 L 41 17 L 43 17 z
+              M 27 1  L 37 11 L 37 13 L 31 13 L 31 19 L 23 19 L 23 13 L 17 13 L 17 11 z
+              M 27 53 L 17 43 L 17 41 L 23 41 L 23 35 L 31 35 L 31 41 L 37 41 L 37 43 z
+            "
+          />
           <!-- prettier-ignore -->
-          <path
-          id="default-big"
-          class="svg-cursor"
-          d="M 1 1 L 36 36 L 34 38 L 22 38 L 30 54 L 22 58 L 13.5 41 L 4 50.5 L 1 50.5 z"
-        />
+          <path id="horizontal" class="svg-cursor"
+            d="
+              M 23 23 L 31 23 L 31 31 L 23 31 z
+              M 1  27 L 11 17 L 13 17 L 13 23 L 19 23 L 19 31 L 13 31 L 13 37 L 11 37 z
+              M 53 27 L 43 37 L 41 37 L 41 31 L 35 31 L 35 23 L 41 23 L 41 17 L 43 17 z
+            "
+          />
           <!-- prettier-ignore -->
-          <path
-          id="rotate"
-          class="svg-cursor"
-          d="
-            M 9 39  L 1 28  L 1 27  L 6 27  A 22 22 0 0 1 41.2 9.4  L 37.6 14.2 A 16 16 0 0 0 12 27 L 17 27 L 17 28 z
-            M 47 15 L 55 26 L 55 27 L 50 27 A 22 22 0 0 1 14.8 44.6 L 18.4 39.8 A 16 16 0 0 0 44 27 L 39 27 L 39 26 z
-          "
-        />
+          <path id="vertical" class="svg-cursor"
+            d="
+              M 23 23 L 31 23 L 31 31 L 23 31 z
+              M 27 1  L 37 11 L 37 13 L 31 13 L 31 19 L 23 19 L 23 13 L 17 13 L 17 11 z
+              M 27 53 L 17 43 L 17 41 L 23 41 L 23 35 L 31 35 L 31 41 L 37 41 L 37 43 z
+            "
+          />
           <!-- prettier-ignore -->
-          <path
-          id="horizontal"
-          class="svg-cursor"
-          d="M 1 32 L 14 43 L 15 43 L 15 35 L 43 35 L 43 43 L 44 43 L 57 32 L 44 21 L 43 21 L 43 29 L 15 29 L 15 21 L 14 21 z"
-        />
+          <path  id="cross" class="svg-cursor"
+            d="
+              M 17 23 A 4 4 0 0 1 17 31 L 5 31  A 4 4 0 0 1 5 23 z
+              M 31 17 A 4 4 0 0 1 23 17 L 23 5  A 4 4 0 0 1 31 5 z
+              M 37 31 A 4 4 0 0 1 37 23 L 49 23 A 4 4 0 0 1 49 31 z
+              M 23 37 A 4 4 0 0 1 31 37 L 31 49 A 4 4 0 0 1 23 49 z
+            "
+          />
           <!-- prettier-ignore -->
-          <path
-          id="vertical"
-          class="svg-cursor"
-          d="M 32 1 L 43 14 L 43 15 L 35 15 L 35 43 L 43 43 L 43 44 L 32 57 L 21 44 L 21 43 L 29 43 L 29 15 L 21 15 L 21 14 z"
-        />
+          <path id="rotate-2d" class="svg-cursor"
+            d="
+              M 19 21 L 19 22 L 10 34 L 1 22  L 1  21 L 7  21 A 20 20 0 0 1 39 5  L 35.4 9.8  A 14 14 0 0 0 13 21 z
+              M 35 21 L 35 20 L 44 8  L 53 20 L 53 21 L 47 21 A 20 20 0 0 1 15 37 L 18.6 32.2 A 14 14 0 0 0 41 21 z
+            "
+          />
+          <!-- prettier-ignore -->
+          <g id="rotate-3d" class="svg-cursor">
+            <path d="M 1 17 A 24 16 0 0 1 49 17 L 49 25 A 24 16 0 0 0 1 25 z" />
+            <path d="M 49 25 A 24 16 0 0 1 39.4 37.8 L 39.4 29.8 A 24 16 0 0 0 49 17 z" />
+            <path d="M 1 17 A 24 16 0 0 0 10.6 29.8 L 10.6 22.8 A 96 64 0 0 0 29 36 A 96 64 0 0 1 10.6 44.8 L 10.6 37.8 A 24 16 0 0 1 1 25 z" />
+          </g>
+          <!-- prettier-ignore -->
+          <path id="zoom-in" class="svg-cursor" fill-rule="evenodd"
+            d="
+              M 1 19 A 18 18 0 1 1 33.4 29.8 L 36 31 L 44 39 A 3.5 3.5 0 0 1 39 44 L 31 36 L 29.8 33.4 A 18 18 0 0 1 1 19 z
+              M 6 19 A 13 13 0 0 0 32 19 A 13 13 0 0 0 6 19 z
+              M 17 17 v -6 h 4 v 6 h 6 v 4 h -6 v 6 h -4 v -6 h -6 v -4 z
+            "
+          />
+          <!-- prettier-ignore -->
+          <path id="zoom-out" class="svg-cursor" fill-rule="evenodd"
+            d="
+              M 1 19 A 18 18 0 1 1 33.4 29.8 L 36 31 L 44 39 A 3.5 3.5 0 0 1 39 44 L 31 36 L 29.8 33.4 A 18 18 0 0 1 1 19 z
+              M 6 19 A 13 13 0 0 0 32 19 A 13 13 0 0 0 6 19 z
+              M 11 17 h 16 v 4 h -16 z
+            "
+          />
         </defs>
-        <rect :x="x - 1" :y="y - 1" :width="w + 2" :height="h + 2" fill="url(#svg-tool-pattern)" />
-        <!-- <circle cx="28" cy="27" r="23.1" fill="red" stroke="none" />
-        <circle cx="28" cy="27" r="14.9" fill="green" stroke="none" /> -->
+        <rect :x="x - 1" :y="y - 1" :width="w + 2" :height="h + 2" fill="url(#svg-grid-fill)" />
+        <circle cx="19" cy="19" r="1" fill="red" />
         <use :href="cursor" />
       </svg>
     </div>
     <div class="preview" :style="{ cursor: native }">
       <template v-for="size in [64, 32]">
         <template v-for="color in ['white', 'grey', 'black']">
-          <div :class="['use-case', color]" :key="`${color}-${size}`">
+          <div :class="['case', color]" :key="`${color}-${size}`">
             <svg :width="size" :height="size" :viewBox="`${x} ${y} ${w} ${h}`">
               <use :href="cursor" />
             </svg>
           </div>
         </template>
+      </template>
+    </div>
+    <div class="cursor-preview">
+      <template
+        v-for="cursor in [
+          'default',
+          'move',
+          'horizontal',
+          'vertical',
+          'cross',
+          'rotate-2d',
+          'rotate-3d',
+          'zoom-in',
+          'zoom-out',
+        ]"
+      >
+        <div :class="['case', `cursor-${cursor}`]" :key="cursor">{{ cursor }}</div>
       </template>
     </div>
     <div class="select">
@@ -107,10 +144,14 @@ export default class SvgTool extends Vue {
   private cursors = [
     { id: 'current', native: 'default' },
     { id: 'default', native: 'default' },
-    { id: 'default-big', native: 'default' },
-    { id: 'rotate', native: 'move' },
+    { id: 'move', native: 'move' },
     { id: 'horizontal', native: 'ew-resize' },
     { id: 'vertical', native: 'ns-resize' },
+    { id: 'cross', native: 'crosshair' },
+    { id: 'rotate-2d', native: 'ew-resize' },
+    { id: 'rotate-3d', native: 'ew-resize' },
+    { id: 'zoom-in', native: 'move' },
+    { id: 'zoom-out', native: 'move' },
   ];
   private index = 0;
 
@@ -127,8 +168,17 @@ export default class SvgTool extends Vue {
 <style lang="scss">
 @import '@/style/_vars.scss';
 
+.tmp-cursor {
+  stroke: black;
+  stroke-width: 1.75;
+  stroke-linejoin: round;
+  fill: url(#svg-cursor-fill);
+  filter: url(#svg-cursor-shadow);
+}
+
 .svg-tool {
   position: absolute;
+  overflow: hidden;
   left: 0;
   top: 0;
   right: 0;
@@ -137,7 +187,6 @@ export default class SvgTool extends Vue {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   background-color: grey;
   & .container {
     position: relative;
@@ -151,17 +200,47 @@ export default class SvgTool extends Vue {
   & .preview {
     display: flex;
     overflow: hidden;
-    border: 1px solid orange;
-    border-radius: $r;
-    box-shadow: $shadow;
+    & .case {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: $r;
+      box-shadow: $shadow;
+      margin: 5px;
+    }
   }
 }
-.svg-cursor {
-  stroke: black;
-  stroke-width: 2;
-  stroke-linejoin: round;
-  fill: url(#svg-cursor-fill);
-  filter: url(#svg-cursor-shadow);
+.cursor-preview {
+  position: absolute;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 50%;
+  margin-left: 20px;
+  transform: translate(0, -50%);
+  background-color: white;
+  color: black;
+  & .case {
+    display: flex;
+    width: 150px;
+    height: 80px;
+    padding: 5px 10px;
+    border-bottom: 1px solid grey;
+  }
+}
+.white {
+  background-color: white;
+}
+.grey {
+  background-color: grey;
+}
+.black {
+  background-color: black;
 }
 .select {
   position: absolute;
@@ -173,37 +252,6 @@ export default class SvgTool extends Vue {
   & select {
     border: none;
     margin: 0;
-  }
-}
-.svg-drawing-cursor {
-  stroke: black;
-  stroke-width: 2;
-  stroke-linejoin: round;
-  fill: url(#svg-drawing-gradient);
-  filter: url(#svg-drawing-shadow);
-}
-.bg-check {
-  display: flex;
-  align-items: center;
-  border-radius: $r;
-  margin: 10px;
-  overflow: hidden;
-  box-shadow: $shadow;
-}
-.use-case {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  &.white {
-    background-color: white;
-  }
-  &.grey {
-    background-color: grey;
-  }
-  &.black {
-    background-color: black;
   }
 }
 </style>

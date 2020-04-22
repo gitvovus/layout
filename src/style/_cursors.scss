@@ -1,0 +1,27 @@
+.cursor-default {
+  cursor: url('~@/assets/cursors/default.svg') 0 0, default;
+}
+.cursor-move {
+  cursor: url('~@/assets/cursors/move.svg') 13 13, move;
+}
+.cursor-horizontal {
+  cursor: url('~@/assets/cursors/horizontal.svg') 13 13, ew-resize;
+}
+.cursor-vertical {
+  cursor: url('~@/assets/cursors/vertical.svg') 13 13, ns-resize;
+}
+.cursor-cross {
+  cursor: url('~@/assets/cursors/cross.svg') 13 13, crosshair;
+}
+.cursor-rotate-2d {
+  cursor: url('~@/assets/cursors/rotate-2d.svg') 13 10, ew-resize;
+}
+.cursor-rotate-3d {
+  cursor: url('~@/assets/cursors/rotate-3d.svg') 12 10, ew-resize;
+}
+.cursor-zoom-in {
+  cursor: url('~@/assets/cursors/zoom-in.svg') 9 9, move;
+}
+.cursor-zoom-out {
+  cursor: url('~@/assets/cursors/zoom-out.svg') 9 9, move;
+}

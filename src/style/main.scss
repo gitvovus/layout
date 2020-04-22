@@ -1,5 +1,6 @@
 @import '@/style/_vars.scss';
 @import '@/style/_icons.scss';
+@import '@/style/_cursors.scss';
 @import '@/style/_themes.scss';
 
 * {
@@ -29,13 +30,15 @@ svg {
   user-select: none;
 }
 
-.app {
+.app,
+.view,
+.overlay {
   position: absolute;
+  overflow: hidden;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
-  overflow: hidden;
 }
 
 // standard dialog content layout
@@ -73,15 +76,6 @@ svg {
   overflow: auto;
   pointer-events: auto;
   padding: 0 $w-margin;
-}
-
-.overlay {
-  position: absolute;
-  overflow: hidden;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
 }
 
 .spacer {

@@ -1,5 +1,6 @@
 <template>
   <div class="app" :style="{ backgroundImage: `url(${bg})` }">
+    <app-resources />
     <!-- pages -->
     <transition>
       <component v-if="model.activePage !== undefined" :is="model.activePage.template" :model="model.activePage" />

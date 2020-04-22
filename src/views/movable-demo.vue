@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="movable-demo">
     <movable-view v-for="(item, i) in model.movable" :key="i" :model="item" class="movable">
       <div class="anchor right bottom" v-if="i !== model.expanded">
         <ui-button no-focus tabindex="-1" class="iconic" @click="model.expand(i)">
@@ -26,6 +26,14 @@ export default class MovableDemo extends Vue {
 </script>
 
 <style lang="scss">
+.movable-demo {
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
 .movable {
   left: 0;
   width: 30%;
