@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="svg-cursor-fill" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color: #ff4040;" />
+      <stop offset="100%" style="stop-color: #e03838;" />
+    </linearGradient>
+    <filter id="svg-cursor-shadow" x="-1" y="-1" width="3" height="3">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
+      <feOffset dx="5" dy="2" result="shadow" />
+      <feFlood flood-color="black" flood-opacity="0.3" result="color" />
+      <feComposite in="color" operator="in" in2="shadow" />
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <path
+    id="not-allowed"
+    fill-rule="evenodd"
+    fill="url(#svg-cursor-fill)"
+    stroke="url(#svg-cursor-fill)"
+    stroke-width="1"
+    filter="url(#svg-cursor-shadow)"
+    d="
+      M 1 23 A 22 22 0 0 1 45 23 A 22 22 0 0 1 1 23 z
+      M 10.2 32.6 A 16 16 0 0 1 32.6 10.2 z
+      M 35.8 13.4 A 16 16 0 0 1 13.4 35.8 z
+    "
+  />
+</svg>

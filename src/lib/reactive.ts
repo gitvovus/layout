@@ -65,7 +65,7 @@ export class List<T> extends Disposable {
   public set selectedIndex(value: number | undefined) {
     if (value === undefined) {
       this.index = undefined;
-    } else if (value >= 0 && value < this.items.length && value === Math.round(value)) {
+    } else if (value >= 0 && value < this.items.length) {
       this.index = value;
     }
   }
@@ -122,14 +122,14 @@ export class Selection<T> extends Disposable {
     this.item = item !== this.item ? item : undefined;
   }
 
-  private onItemsChanged = (c: IObjectDidChange) => {
+  private readonly onItemsChanged = (c: IObjectDidChange) => {
     const change = (c as any) as ArrayChange<T>;
     switch (change.type) {
       case 'update':
         this.unselect(change.oldValue);
         break;
       case 'splice':
-        change.removed.forEach(this.unselect);
+        change.removed.forEach(item => this.unselect(item));
         break;
       default:
         assert(false);
@@ -192,7 +192,7 @@ export class MultiSelection<T> extends Disposable {
         this.unselect(change.oldValue);
         break;
       case 'splice':
-        change.removed.forEach(this.unselect);
+        change.removed.forEach(item => this.unselect(item));
         break;
       default:
         assert(false);

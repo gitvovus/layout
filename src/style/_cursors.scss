@@ -4,6 +4,9 @@
 .cursor-move {
   cursor: url('~@/assets/cursors/move.svg') 13 13, move;
 }
+.cursor-not-allowed {
+  cursor: url('~@/assets/cursors/not-allowed.svg') 11 11, not-allowed;
+}
 .cursor-horizontal {
   cursor: url('~@/assets/cursors/horizontal.svg') 13 13, ew-resize;
 }
