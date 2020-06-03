@@ -1,6 +1,6 @@
 <template>
   <component v-if="model.tag !== '#text'" :is="model.tag" v-bind="model.attributes">
-    <ui-svg-element v-for="(item, index) in model.items" :key="item.key" :model="model.items[index]" />
+    <ui-svg-element v-for="item in model.items" :key="item.key" :model="item" />
   </component>
   <ui-svg-text v-else :model="model" />
 </template>

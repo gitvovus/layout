@@ -7,6 +7,7 @@ import { ViewModel } from '@/modules/view-model';
 
 export class MovableDemo implements ViewModel {
   public readonly template = 'movable-demo';
+  public readonly key = Symbol();
 
   @observable public readonly movable: MovableView[] = [
     new MovableView(new SceneDemo(), ['expanded']),
