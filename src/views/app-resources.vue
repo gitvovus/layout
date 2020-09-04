@@ -3,8 +3,8 @@
     <svg>
       <defs>
         <linearGradient id="svg-cursor-fill" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style="stop-color: #ffffff;" />
-          <stop offset="100%" style="stop-color: #e0e0e0;" />
+          <stop offset="0%" style="stop-color: #ffffff" />
+          <stop offset="100%" style="stop-color: #e0e0e0" />
         </linearGradient>
         <filter id="svg-cursor-shadow" x="-1" y="-1" width="3" height="3">
           <feGaussianBlur in="SourceAlpha" stdDeviation="2" />

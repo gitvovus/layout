@@ -16,9 +16,7 @@
     </div>
     <div class="event-tracker-parent">
       parent
-      <div class="event-tracker-child">
-        child
-      </div>
+      <div class="event-tracker-child">child</div>
     </div>
   </div>
 </template>

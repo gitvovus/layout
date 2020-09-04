@@ -5,7 +5,7 @@
       <div class="w-content convex-wrapper">
         <ui-svg-element :model="model.root" />
         <div>
-          <ui-slider v-model="model.pointCount" :min="0" :max="model.points.length" style="width: 150px;" />
+          <ui-slider v-model="model.pointCount" :min="0" :max="model.points.length" style="width: 150px" />
         </div>
       </div>
       <div class="w-footer"></div>

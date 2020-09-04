@@ -24,7 +24,7 @@ export default class UiSlider extends Vue {
   @Prop() private min!: number;
   @Prop() private max!: number;
 
-  private scrollHandler!: EventListener;
+  private scrollHandler!: (e: Event) => void;
 
   private input(e: Event) {
     this.$emit('input', Number.parseFloat((e.target as HTMLInputElement).value));
