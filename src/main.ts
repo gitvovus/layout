@@ -5,6 +5,7 @@ import AppResources from '@/views/app-resources.vue';
 import ControlsView from '@/views/controls-view.vue';
 import ConvexDemo from '@/views/convex-demo.vue';
 import EventTracker from '@/views/event-tracker.vue';
+import HeroView from '@/views/hero-view.vue';
 import LoremView from '@/views/lorem-view.vue';
 import MovableDemo from '@/views/movable-demo.vue';
 import MovableView from '@/views/movable-view.vue';
@@ -32,6 +33,7 @@ Vue.config.productionTip = false;
   ['controls-view', ControlsView],
   ['convex-demo', ConvexDemo],
   ['event-tracker', EventTracker],
+  ['hero-view', HeroView],
   ['lorem-view', LoremView],
   ['movable-demo', MovableDemo],
   ['movable-view', MovableView],

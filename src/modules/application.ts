@@ -6,6 +6,7 @@ import AppView from '@/views/app-view.vue';
 import { ControlsView } from '@/modules/controls-view';
 import { ConvexDemo } from '@/modules/convex-demo';
 import { EventTracker } from '@/modules/event-tracker';
+import { Hero } from '@/modules/hero';
 import { MovableDemo } from '@/modules/movable-demo';
 import { SceneDemo } from '@/modules/scene-demo';
 import { SvgDemo } from '@/modules/svg-demo';
@@ -20,6 +21,7 @@ enum Page {
   SVG_DEMO,
   SCENE_DEMO,
   MOVABLE_DEMO,
+  HERO_VIEW,
 }
 
 export class Application {
@@ -36,6 +38,7 @@ export class Application {
     new SvgDemo(),
     new SceneDemo(),
     new MovableDemo(),
+    new Hero(),
   ];
 
   private readonly vue: Vue;
